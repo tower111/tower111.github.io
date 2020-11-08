@@ -484,7 +484,7 @@
             <div id="articleContent">
                 <h2 id="pwn2"><a href="#pwn2" class="headerlink" title="pwn2"></a>pwn2</h2><p>自己只做了pwn2，就从pwn2开始</p>
 <p>c++用于输入输出,主要逻辑是用c实现的。因为会调用c++的库，这里涉及到一些库的库的加载。</p>
-<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p><img src="./images/1604833021631.png" alt="add"></p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604836235597.png" alt="enter description here"></p>
 <p>当进行add的时候如果size为0将会成功申请空间</p>
 <p><img src="./images/1604833086741.png" alt="edit"></p>
 <p>在edit的时候如果size为0可以无限制的获取输入，造成了堆溢出。</p>
