@@ -484,18 +484,18 @@
             <div id="articleContent">
                 <h2 id="pwn2"><a href="#pwn2" class="headerlink" title="pwn2"></a>pwn2</h2><p>自己只做了pwn2，就从pwn2开始</p>
 <p>c++用于输入输出,主要逻辑是用c实现的。因为会调用c++的库，这里涉及到一些库的库的加载。</p>
-<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604836235597.png" alt="enter description here"></p>
+<h2 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h2><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604836235597.png" alt="add"></p>
 <p>当进行add的时候如果size为0将会成功申请空间</p>
-<p><img src="./images/1604833086741.png" alt="edit"></p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604836644128.png" alt="edit"></p>
 <p>在edit的时候如果size为0可以无限制的获取输入，造成了堆溢出。</p>
 <h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><ul>
 <li>1.libc2.27需要填满tcach然后泄露libc地址。但是这里泄露出来的libc如下图，泄露出来的是第二条线的地址，实际上需要的是第一条线的地址，实际上这几部分是同一个库，相对的偏移都是固定的。</li>
 </ul>
-<p><img src="./images/1604833342388.png" alt="enter description here"></p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604836598126.png" alt="加载"></p>
 <ul>
 <li>2.用fastbin attack劫持__malloc_hook，2.27使得可以申请到任何一段空间不需要size的限制。实际上__malloc_hook劫持成one_gatget这里不行。实际用system函数劫持__free_hook</li>
 </ul>
-<p><img src="./images/1604833945940.png" alt="free_hook的地址"></p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604836619586.png" alt="free_hook"></p>
 <p>这里有一个问题：__free_hook看到的地址是在data区域,但是pwntools的symbols还是获取到了正确的偏移。</p>
 <ul>
 <li>3.保存点小技巧：</li>
