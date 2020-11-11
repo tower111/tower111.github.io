@@ -430,16 +430,16 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/ctf/">
-                                <span class="chip bg-color">ctf</span>
-                            </a>
-                        
                             <a href="/tags/%E6%8A%80%E5%B7%A7/">
                                 <span class="chip bg-color">技巧</span>
                             </a>
                         
                             <a href="/tags/%E6%A8%A1%E6%9D%BF/">
                                 <span class="chip bg-color">模板</span>
+                            </a>
+                        
+                            <a href="/tags/ctf/">
+                                <span class="chip bg-color">ctf</span>
                             </a>
                         
                     </div>
@@ -461,21 +461,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-11-10
+                    2020-11-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    606
+                    962
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
 
@@ -490,7 +490,21 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><pre class=" language-python"><code class="language-python">file_path <span class="token operator">=</span> <span class="token string">"./blend_pwn"</span>
+                <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><pre><code>* [初始化](#初始化)
+    * [脚本的开始](#脚本的开始)
+* [调试方法](#调试方法)
+    * [用来调试开启PIE的程序](#用来调试开启pie的程序)
+* [泄露](#泄露)
+    * [用来泄露堆里面的地址(待改进为可以泄露两个)](#用来泄露堆里面的地址待改进为可以泄露两个)
+    * [泄露格式化字符串(可以同时泄露多个),因为里面直接用recv()会一下接收全部的回应可能会让下一次new阻塞](#泄露格式化字符串可以同时泄露多个因为里面直接用recv会一下接收全部的回应可能会让下一次new阻塞)
+* [常用payload](#常用payload)
+    * [常用rop(待添加如ret2dl的,栈迁移的等)](#常用rop待添加如ret2dl的栈迁移的等)
+        * [泄露puts函数got表](#泄露puts函数got表)
+        * [调用system(&quot;/bin/sh&quot;)](#调用systembinsh)
+* [计算方法](#计算方法)
+    * [计算偏移](#计算偏移)
+* [关注漏洞点](#关注漏洞点)</code></pre>
+<pre class=" language-python"><code class="language-python">file_path <span class="token operator">=</span> <span class="token string">"./blend_pwn"</span>
 context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
 context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
 <span class="token comment" spellcheck="true"># context.terminal = ['tmux', 'splitw', '-h']</span>
@@ -572,12 +586,23 @@ info<span class="token operator">=</span>get_int<span class="token punctuation">
 <pre class=" language-python"><code class="language-python">泄露libc地址<span class="token operator">-</span>vmmap得出来的libc基地址
 <span class="token operator">>></span><span class="token operator">></span> hex<span class="token punctuation">(</span><span class="token number">0x7f5f30f3d780</span><span class="token operator">-</span><span class="token number">0x7f5f30b77000</span><span class="token punctuation">)</span>
 <span class="token string">'0x3c6780'</span>
+
+
+
 写在脚本里的是
 libc<span class="token punctuation">.</span>address<span class="token operator">=</span>leak<span class="token number">-0x3c6780</span></code></pre>
 <p>libc上的地址也可以直接用vmmap 得出,但是栈的地址只能用上面的方法计算出来</p>
 <pre class=" language-python"><code class="language-python">pwndbg<span class="token operator">></span> vmmap <span class="token number">0x7f5f3086e000</span><span class="token operator">+</span><span class="token number">0x50</span>
 LEGEND<span class="token punctuation">:</span> STACK <span class="token operator">|</span> HEAP <span class="token operator">|</span> CODE <span class="token operator">|</span> DATA <span class="token operator">|</span> RWX <span class="token operator">|</span> RODATA
     <span class="token number">0x7f5f3086e000</span>     <span class="token number">0x7f5f30976000</span> r<span class="token operator">-</span>xp   <span class="token number">108000</span> <span class="token number">0</span>      <span class="token operator">/</span>lib<span class="token operator">/</span>x86_64<span class="token operator">-</span>linux<span class="token operator">-</span>gnu<span class="token operator">/</span>libm<span class="token number">-2.23</span><span class="token punctuation">.</span>so <span class="token operator">+</span><span class="token number">0x50</span></code></pre>
+<h2 id="关注漏洞点"><a href="#关注漏洞点" class="headerlink" title="关注漏洞点"></a>关注漏洞点</h2><ul>
+<li>索引越界，所有对连续内存元素的存取都要有限制</li>
+<li>如果索引为负数有没有限制,索引是否为无符号数</li>
+<li>释放后指针有没有清零</li>
+<li>定义的read函数有没有溢出，NULL byte溢出，一字节溢出，\n溢出</li>
+<li>如果size为0,malloc的结果和read的结果</li>
+<li>格式化字符串漏洞</li>
+</ul>
 
             </div>
             <hr/>
@@ -591,16 +616,16 @@ LEGEND<span class="token punctuation">:</span> STACK <span class="token operator
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/ctf/">
-                                    <span class="chip bg-color">ctf</span>
-                                </a>
-                            
                                 <a href="/tags/%E6%8A%80%E5%B7%A7/">
                                     <span class="chip bg-color">技巧</span>
                                 </a>
                             
                                 <a href="/tags/%E6%A8%A1%E6%9D%BF/">
                                     <span class="chip bg-color">模板</span>
+                                </a>
+                            
+                                <a href="/tags/ctf/">
+                                    <span class="chip bg-color">ctf</span>
                                 </a>
                             
                         </div>
@@ -669,55 +694,56 @@ LEGEND<span class="token punctuation">:</span> STACK <span class="token operator
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/10/pwn%E5%B8%B8%E7%94%A8%E5%88%A9%E7%94%A8%E6%8A%80%E5%B7%A7%E6%A8%A1%E6%9D%BF/">
+                <a href="/2020/11/11/vmpwn%E5%AD%A6%E4%B9%A0-2019CISCN-pwn-virtual/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="ctf脚本技巧">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="vmpwn学习-2019CISCN-pwn-virtual">
                         
-                        <span class="card-title">ctf脚本技巧</span>
+                        <span class="card-title">vmpwn学习-2019CISCN-pwn-virtual</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            初始化脚本的开始file_path = "./blend_pwn"
-context.arch = "amd64"
-context.log_level = "debug"
-# context.terminal = ['tmux', 'spli
+                            vmpwn解释器认识寄存器知识补充
+PC 指向执行的指令
+BP,SP 指向栈底和栈顶
+AX 通用寄存器,用来存放指令执行后的结果
+
+虚拟机定义的时候会定义一个全局变量的美剧类型,里面存放指令
+题目分析总体结构__int64 __fastca
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-11
+                        </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            九层台
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/" class="post-category">
+                                    学习过程
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/vm/">
+                        <span class="chip bg-color">vm</span>
                     </a>
                     
-                    <a href="/tags/%E6%8A%80%E5%B7%A7/">
-                        <span class="chip bg-color">技巧</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%A8%A1%E6%9D%BF/">
-                        <span class="chip bg-color">模板</span>
+                    <a href="/tags/pwn/">
+                        <span class="chip bg-color">pwn</span>
                     </a>
                     
                 </div>
@@ -924,7 +950,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">3.2k</span>&nbsp;字
+                class="white-color">4.7k</span>&nbsp;字
             
             
             
