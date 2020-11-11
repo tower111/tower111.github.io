@@ -468,14 +468,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    962
+                    706
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    3 分
                 </div>
                 
 
@@ -490,20 +490,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><pre><code>* [初始化](#初始化)
-    * [脚本的开始](#脚本的开始)
-* [调试方法](#调试方法)
-    * [用来调试开启PIE的程序](#用来调试开启pie的程序)
-* [泄露](#泄露)
-    * [用来泄露堆里面的地址(待改进为可以泄露两个)](#用来泄露堆里面的地址待改进为可以泄露两个)
-    * [泄露格式化字符串(可以同时泄露多个),因为里面直接用recv()会一下接收全部的回应可能会让下一次new阻塞](#泄露格式化字符串可以同时泄露多个因为里面直接用recv会一下接收全部的回应可能会让下一次new阻塞)
-* [常用payload](#常用payload)
-    * [常用rop(待添加如ret2dl的,栈迁移的等)](#常用rop待添加如ret2dl的栈迁移的等)
-        * [泄露puts函数got表](#泄露puts函数got表)
-        * [调用system(&quot;/bin/sh&quot;)](#调用systembinsh)
-* [计算方法](#计算方法)
-    * [计算偏移](#计算偏移)
-* [关注漏洞点](#关注漏洞点)</code></pre>
+                <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1605108280066.png" alt="大纲图"></p>
 <pre class=" language-python"><code class="language-python">file_path <span class="token operator">=</span> <span class="token string">"./blend_pwn"</span>
 context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
 context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
