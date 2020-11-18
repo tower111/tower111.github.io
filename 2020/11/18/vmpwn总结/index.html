@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="ctf脚本技巧, Tower">
+    <meta name="keywords" content="vmpwn总结, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>ctf脚本技巧 | Tower</title>
+    <title>vmpwn总结 | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">ctf脚本技巧</h1>
+                    <h1 class="description center-align post-title">vmpwn总结</h1>
                 </div>
             </div>
         </div>
@@ -434,18 +434,23 @@
                                 <span class="chip bg-color">ctf</span>
                             </a>
                         
-                            <a href="/tags/%E6%8A%80%E5%B7%A7/">
-                                <span class="chip bg-color">技巧</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%A8%A1%E6%9D%BF/">
-                                <span class="chip bg-color">模板</span>
+                            <a href="/tags/vmpwn/">
+                                <span class="chip bg-color">vmpwn</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                总结
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -454,7 +459,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-10
+                    2020-11-18
                 </div>
                 
 
@@ -468,14 +473,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    729
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    5 分
                 </div>
                 
 
@@ -490,52 +495,59 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><h3 id="脚本的开始"><a href="#脚本的开始" class="headerlink" title="脚本的开始"></a>脚本的开始</h3><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1605108280066.png" alt="大纲图"></p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-file_path <span class="token operator">=</span> <span class="token string">"./RHVM.bin"</span>
-context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
-context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
-<span class="token comment" spellcheck="true"># context.terminal = ['tmux', 'splitw', '-h']</span>
-elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
+                <h1 id="分析各种存储器格式"><a href="#分析各种存储器格式" class="headerlink" title="分析各种存储器格式"></a>分析各种存储器格式</h1><h2 id="初始化结构"><a href="#初始化结构" class="headerlink" title="初始化结构"></a>初始化结构</h2><pre class=" language-c"><code class="language-c">_DWORD <span class="token operator">*</span><span class="token function">sub_8049570</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">{</span>
+  _DWORD <span class="token operator">*</span>v0<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// eax</span>
+  _DWORD <span class="token operator">*</span>v1<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// ST1C_4</span>
 
-debug <span class="token operator">=</span> <span class="token number">1</span>
-<span class="token keyword">if</span> debug<span class="token punctuation">:</span>
-    p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token punctuation">[</span>file_path<span class="token punctuation">]</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true"># gdb.attach(p, "b *$rebase(0x121c)")</span>
-    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
-    one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
+  v0 <span class="token operator">=</span> <span class="token function">malloc</span><span class="token punctuation">(</span><span class="token number">0x2Cu</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  v1 <span class="token operator">=</span> v0<span class="token punctuation">;</span>
+  <span class="token operator">*</span>v0 <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  v0<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">calloc</span><span class="token punctuation">(</span><span class="token number">4u</span><span class="token punctuation">,</span> <span class="token number">0x40u</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//0x100</span>
+  v1<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span> <span class="token operator">=</span> v1<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">0xFC</span><span class="token punctuation">;</span>
+  v1<span class="token punctuation">[</span><span class="token number">7</span><span class="token punctuation">]</span> <span class="token operator">=</span> v1<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">252</span><span class="token punctuation">;</span>
+  v1<span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+  <span class="token keyword">return</span> v1<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>通过初始化结构定义结构体，每个字段的大小，类型</p>
+<h2 id="补充结构体字段命名"><a href="#补充结构体字段命名" class="headerlink" title="补充结构体字段命名"></a>补充结构体字段命名</h2><p>然后通过指令分析确定各个字段的含义</p>
+<p>像这种进行数学运算的肯定是寄存器</p>
+<pre class=" language-c"><code class="language-c"><span class="token function">sub_106C</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>REG_dword_203060<span class="token punctuation">[</span>op_info<span class="token operator">-></span>op_data1<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>REG_dword_203060<span class="token punctuation">[</span>op_info<span class="token operator">-></span>op_data2<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// *a1 += *a2;</span></code></pre>
+<p>包含加加减减操作，都是取指指令肯定是栈</p>
+<pre class=" language-c"><code class="language-c"><span class="token function">save_to_qword_203058</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>REG_dword_203060<span class="token punctuation">[</span>op_info<span class="token operator">-></span>op_data2<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//  *(_DWORD *)(qword_203058 + 4LL * ++esp_dword_203010) = *a1;</span></code></pre>
+<p>对某个内存的访问就是定义的内存</p>
+<pre class=" language-c"><code class="language-c"><span class="token function">load</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>REG_dword_203060<span class="token punctuation">[</span>op_info<span class="token operator">-></span>op_data1<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>REG_dword_203060<span class="token punctuation">[</span>op_info<span class="token operator">-></span>op_data2<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// dword_203060[*a1] = dword_203080[*a2]; 寄存器取出两个索引，从内存取值放入寄存器</span></code></pre>
+<h2 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h2><p>指针和值分开命名</p>
+<p>在命名的时候如果是指针需要在名字里体现出来</p>
+<pre class=" language-c"><code class="language-c"><span class="token function">get_opi_addr</span><span class="token punctuation">(</span>ptr<span class="token punctuation">,</span> <span class="token number">1u</span><span class="token punctuation">)</span>
+ptr<span class="token operator">-></span>buffer_ptr</code></pre>
+<h2 id="关注点"><a href="#关注点" class="headerlink" title="关注点"></a>关注点</h2><p>关注点主要是两个</p>
+<ul>
+<li>是指针还是实际的数，在命名上要有体现</li>
+<li>取的数据是一个字节还是四个字节</li>
+</ul>
+<pre class=" language-c"><code class="language-c"><span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> <span class="token operator">*</span>v20<span class="token punctuation">)</span> <span class="token operator">*</span><span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>_DWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>ptr<span class="token operator">-></span>buffer_ptr <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'47.111.104.169'</span><span class="token punctuation">,</span> <span class="token number">57404</span><span class="token punctuation">)</span>
-    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
-    one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
-</code></pre>
-<h2 id="调试方法"><a href="#调试方法" class="headerlink" title="调试方法"></a>调试方法</h2><h3 id="用来调试开启PIE的程序"><a href="#用来调试开启PIE的程序" class="headerlink" title="用来调试开启PIE的程序"></a>用来调试开启PIE的程序</h3><p>能得到pie的地址运行一些gdb命令</p>
-<pre class=" language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">debug_1</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    debug_str <span class="token operator">=</span> <span class="token string">""</span>
-    <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
-        text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
-    <span class="token keyword">else</span><span class="token punctuation">:</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            text_base<span class="token operator">=</span><span class="token number">0</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
-
-debug_1<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0x000000000000117C</span><span class="token punctuation">,</span><span class="token number">0x00000000000011B8</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<h2 id="字节转化"><a href="#字节转化" class="headerlink" title="字节转化"></a>字节转化</h2><h3 id="比特流转int-（0a-21-54–-gt-”0x54210a”）"><a href="#比特流转int-（0a-21-54–-gt-”0x54210a”）" class="headerlink" title="比特流转int （0a 21 54–&gt;”0x54210a”）"></a>比特流转int （0a 21 54–&gt;”0x54210a”）</h3><pre class=" language-python"><code class="language-python">p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token string">"\x00"</span><span class="token punctuation">)</span>  <span class="token comment" spellcheck="true">#比特流转int</span>
-result<span class="token operator">=</span>u64<span class="token punctuation">(</span>info<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak bit to int : "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
-result</code></pre>
-<h3 id="字符串转int（”0x5060a0”–-gt-0x5060a0）"><a href="#字符串转int（”0x5060a0”–-gt-0x5060a0）" class="headerlink" title="字符串转int（”0x5060a0”–&gt;0x5060a0）"></a>字符串转int（”0x5060a0”–&gt;0x5060a0）</h3><pre class=" language-python"><code class="language-python">p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"0x"</span><span class="token punctuation">,</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#12是64位libc地址的长度  16是64位canary的长度 (不算0x)</span>
-result<span class="token operator">=</span>int<span class="token punctuation">(</span>info<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak str to int : "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
-<h3 id="移位"><a href="#移位" class="headerlink" title="移位"></a>移位</h3><pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#从fro到to进行移位操作,索引从0开始</span>
+<span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> v19<span class="token punctuation">)</span> <span class="token operator">*</span><span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> __int8 <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">get_opi_addr</span><span class="token punctuation">(</span>ptr<span class="token punctuation">,</span> <span class="token number">2u</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>下面的语句表示一个具体值，表示ptr的某一位的值的某一位的值。</p>
+<pre class=" language-c"><code class="language-c">ptr<span class="token operator">-></span>bufer_ptr<span class="token operator">-></span>field_3
+和ptr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span>  一样的效果</code></pre>
+<p>下面语句表示ptr的某一位的值+3*(1)（这个值是个指针，1是因为char占一个字节）</p>
+<pre class=" language-c"><code class="language-c"><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">)</span>ptr<span class="token operator">-></span>bufer_ptr <span class="token operator">+</span> <span class="token number">3</span></code></pre>
+<h1 id="分析指令格式"><a href="#分析指令格式" class="headerlink" title="分析指令格式"></a>分析指令格式</h1><h2 id="是否被加密"><a href="#是否被加密" class="headerlink" title="是否被加密"></a>是否被加密</h2><ul>
+<li><p>在run的时候是输入的原始数据还是输入的数据进行了加密，一般是进行解密然后输入的数据需要先加密。</p>
+</li>
+<li><p>有些会进行位交换，取其中几位分别为指令和操作数</p>
+<p>这里写了移位的脚本</p>
+</li>
+</ul>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#从fro到to进行移位操作,索引从0开始</span>
 
 <span class="token keyword">def</span> <span class="token function">left</span><span class="token punctuation">(</span>item<span class="token punctuation">,</span>i<span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">return</span> <span class="token punctuation">(</span>item<span class="token operator">&lt;&lt;</span><span class="token punctuation">(</span>i<span class="token operator">*</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">&amp;</span><span class="token number">0xffffffffffffffff</span>
@@ -552,41 +564,42 @@ result<span class="token operator">=</span>int<span class="token punctuation">(<
         <span class="token keyword">return</span> <span class="token punctuation">(</span><span class="token number">0xff</span> <span class="token operator">&lt;&lt;</span> <span class="token punctuation">(</span>to <span class="token operator">*</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">&amp;</span> fro_bit_8  <span class="token comment" spellcheck="true"># 删除多余的</span>
 
 decoding<span class="token operator">=</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">|</span>yiwei<span class="token punctuation">(</span>item<span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span></code></pre>
-<h3 id="字符串和16进制数之间的转化"><a href="#字符串和16进制数之间的转化" class="headerlink" title="字符串和16进制数之间的转化"></a>字符串和16进制数之间的转化</h3><pre class=" language-c"><code class="language-c">import binascii
-def <span class="token function">hex2char</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
-   <span class="token macro property"># binascii.a2b_hex(hexstr)</span>
-    output <span class="token operator">=</span> binascii<span class="token punctuation">.</span><span class="token function">unhexlify</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
-    <span class="token function">print</span><span class="token punctuation">(</span>output<span class="token punctuation">)</span>
-
-def <span class="token function">char2hex</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    output<span class="token operator">=</span>binascii<span class="token punctuation">.</span><span class="token function">b2a_hex</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
-    <span class="token macro property"># output = binascii.hexlify(data)</span>
-    <span class="token function">print</span><span class="token punctuation">(</span>output<span class="token punctuation">)</span>
-<span class="token function">hex2char</span><span class="token punctuation">(</span><span class="token string">"2f62696e2f736800"</span><span class="token punctuation">)</span> #<span class="token operator">/</span>bin<span class="token operator">/</span>sh
-<span class="token function">char2hex</span><span class="token punctuation">(</span><span class="token string">"/bin"</span><span class="token operator">+</span><span class="token string">"/sh\x00"</span><span class="token punctuation">)</span>#2f62696e2f736800</code></pre>
-<h2 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h2><h3 id="常用rop-待添加如ret2dl的-栈迁移的等"><a href="#常用rop-待添加如ret2dl的-栈迁移的等" class="headerlink" title="常用rop(待添加如ret2dl的,栈迁移的等)"></a>常用rop(待添加如ret2dl的,栈迁移的等)</h3><h4 id="泄露puts函数got表"><a href="#泄露puts函数got表" class="headerlink" title="泄露puts函数got表"></a>泄露puts函数got表</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>got<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>elf<span class="token punctuation">.</span>plt<span class="token punctuation">[</span><span class="token string">"puts"</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>下一次返回的地址<span class="token punctuation">)</span></code></pre>
-<h4 id="调用system-“-bin-sh”"><a href="#调用system-“-bin-sh”" class="headerlink" title="调用system(“/bin/sh”)"></a>调用system(“/bin/sh”)</h4><pre class=" language-python"><code class="language-python">p64<span class="token punctuation">(</span>pop_rdi_ret<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>symbols<span class="token punctuation">[</span><span class="token string">"system"</span><span class="token punctuation">]</span><span class="token punctuation">)</span></code></pre>
-<h2 id="计算方法"><a href="#计算方法" class="headerlink" title="计算方法"></a>计算方法</h2><h3 id="计算偏移"><a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h3><p>泄露-目的=偏移——&gt;目的=泄露-偏移<br>例:</p>
-<pre class=" language-python"><code class="language-python">泄露libc地址<span class="token operator">-</span>vmmap得出来的libc基地址
-<span class="token operator">>></span><span class="token operator">></span> hex<span class="token punctuation">(</span><span class="token number">0x7f5f30f3d780</span><span class="token operator">-</span><span class="token number">0x7f5f30b77000</span><span class="token punctuation">)</span>
-<span class="token string">'0x3c6780'</span>
-
-
-
-写在脚本里的是
-libc<span class="token punctuation">.</span>address<span class="token operator">=</span>leak<span class="token number">-0x3c6780</span></code></pre>
-<p>libc上的地址也可以直接用vmmap 得出,但是栈的地址只能用上面的方法计算出来</p>
-<pre class=" language-python"><code class="language-python">pwndbg<span class="token operator">></span> vmmap <span class="token number">0x7f5f3086e000</span><span class="token operator">+</span><span class="token number">0x50</span>
-LEGEND<span class="token punctuation">:</span> STACK <span class="token operator">|</span> HEAP <span class="token operator">|</span> CODE <span class="token operator">|</span> DATA <span class="token operator">|</span> RWX <span class="token operator">|</span> RODATA
-    <span class="token number">0x7f5f3086e000</span>     <span class="token number">0x7f5f30976000</span> r<span class="token operator">-</span>xp   <span class="token number">108000</span> <span class="token number">0</span>      <span class="token operator">/</span>lib<span class="token operator">/</span>x86_64<span class="token operator">-</span>linux<span class="token operator">-</span>gnu<span class="token operator">/</span>libm<span class="token number">-2.23</span><span class="token punctuation">.</span>so <span class="token operator">+</span><span class="token number">0x50</span></code></pre>
-<h2 id="关注漏洞点"><a href="#关注漏洞点" class="headerlink" title="关注漏洞点"></a>关注漏洞点</h2><ul>
-<li>索引越界，所有对连续内存元素的存取都要有限制</li>
-<li>如果索引为负数有没有限制,索引是否为无符号数</li>
-<li>释放后指针有没有清零</li>
-<li>定义的read函数有没有溢出，NULL byte溢出，一字节溢出，\n溢出</li>
-<li>如果size为0,malloc的结果和read的结果</li>
-<li>格式化字符串漏洞</li>
+<p>注意这里实现的是解密，是什么样的输入经过二进制文件实现的加密之后变成想要的值。</p>
+<p>从脚本角度就是想要的输入进行解密，然后发送</p>
+<h2 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h2><ul>
+<li><p>指令的长度，可以是变成也可以是定长</p>
+</li>
+<li><p>操作数和操作码所在的位置</p>
+<h1 id="分析关键指令"><a href="#分析关键指令" class="headerlink" title="分析关键指令"></a>分析关键指令</h1><p>实际上实现的虚拟指令可能会很多，只需要下面指令类型中的一些即可</p>
+</li>
 </ul>
+<h2 id="寄存器拷贝"><a href="#寄存器拷贝" class="headerlink" title="寄存器拷贝"></a>寄存器拷贝</h2><p>  不同寄存器之间的拷贝，相当于move指令，有了它会很方便</p>
+<pre class=" language-c"><code class="language-c"> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> v2<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> __int8 <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">get_opi_addr</span><span class="token punctuation">(</span>ptr<span class="token punctuation">,</span> <span class="token number">2u</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// reg_op1=reg_op2</span></code></pre>
+<p>当然，实在不行可以用寄存器相加代替</p>
+<h2 id="寄存器和栈，内存交互"><a href="#寄存器和栈，内存交互" class="headerlink" title="寄存器和栈，内存交互"></a>寄存器和栈，内存交互</h2><p>一般情况下栈或者寄存器是整个结构下的一个指针，修改这个指针再修改指针指向的内容可以实现任意地址写</p>
+<pre class=" language-c"><code class="language-c"><span class="token operator">*</span><span class="token punctuation">(</span>_DWORD <span class="token operator">*</span><span class="token punctuation">)</span>ptr<span class="token operator">-></span>esp_addr <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> __int8 <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">get_opi_addr</span><span class="token punctuation">(</span>ptr<span class="token punctuation">,</span> <span class="token number">1u</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// *(esp-4)=reg_op1 指令长度为2   push reg_op1</span></code></pre>
+<p>这里需要精确地汇编指令，可能ida反编译结果不准确，汇编指令可能是段寻址</p>
+<pre class=" language-c"><code class="language-c"><span class="token punctuation">.</span>text<span class="token punctuation">:</span>00000000000011B5                 mov     rax<span class="token punctuation">,</span> cs<span class="token punctuation">:</span>EBP_qword_203058</code></pre>
+<p>需要动态调试</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1605697184140.png" alt="段寻址对应gdb调试"></p>
+<p>确定是放到一个地址处还是放到一个地址指向的内容</p>
+<h2 id="操作数读入寄存器"><a href="#操作数读入寄存器" class="headerlink" title="操作数读入寄存器"></a>操作数读入寄存器</h2><p>  实现交互</p>
+<pre class=" language-c"><code class="language-c"><span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>ptr<span class="token operator">-></span>reg_0 <span class="token operator">+</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">unsigned</span> __int8 <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">get_opi_addr</span><span class="token punctuation">(</span>ptr<span class="token punctuation">,</span> <span class="token number">1u</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token operator">*</span><span class="token punctuation">(</span>_DWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>ptr<span class="token operator">-></span>buffer_ptr <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">// reg_op1=(四字节)op2</span></code></pre>
+<h2 id="内容输出"><a href="#内容输出" class="headerlink" title="内容输出"></a>内容输出</h2><p>用来计算地址，但是不常见，如果有多次输入可能会有这个指令</p>
+<pre class=" language-c"><code class="language-c"><span class="token function">putchar</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">)</span>ptr<span class="token operator">-></span>reg3<span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// put_reg3</span></code></pre>
+<h2 id="算数指令"><a href="#算数指令" class="headerlink" title="算数指令"></a>算数指令</h2><p>加载数据之后可以计算出相对的偏移得到想要的地址，不需要输出到显示器</p>
+<h1 id="获取shell"><a href="#获取shell" class="headerlink" title="获取shell"></a>获取shell</h1><p>  劫持执行流主要有两种方式</p>
+<ul>
+<li>1、基地址加偏移量，修改偏移量就可以实现任意地址写，一般libc加载地址是变的，这个偏移量也会变，计算起来比较麻烦。</li>
+<li>2、向一个地址处写入地址，再向这个地址写入值。这种方式简单但是需要程序里面提供这种两层地址的寻址方式。可以重点观察bss段写入的指针。</li>
+</ul>
+<h2 id="泄露"><a href="#泄露" class="headerlink" title="泄露"></a>泄露</h2><ul>
+<li>puts指令输出地址指向的内容</li>
+<li>load指令加载地址指向的内容</li>
+</ul>
+<p>两个需要一个，但是需要load指令得到地址指向内容的值</p>
+<p>用寄存器数学运算计算出实际system地址的偏移，libc的基地址等</p>
+<h2 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h2><p>修改寄存器的方式在内存中写入一个地址（puts_got），向地址处写数据实现任意地址写(system)</p>
 
             </div>
             <hr/>
@@ -604,12 +617,8 @@ LEGEND<span class="token punctuation">:</span> STACK <span class="token operator
                                     <span class="chip bg-color">ctf</span>
                                 </a>
                             
-                                <a href="/tags/%E6%8A%80%E5%B7%A7/">
-                                    <span class="chip bg-color">技巧</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%A8%A1%E6%9D%BF/">
-                                    <span class="chip bg-color">模板</span>
+                                <a href="/tags/vmpwn/">
+                                    <span class="chip bg-color">vmpwn</span>
                                 </a>
                             
                         </div>
@@ -654,7 +663,7 @@ LEGEND<span class="token punctuation">:</span> STACK <span class="token operator
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-11-10T21-26-06',
+        id: '2020-11-18T16-35-13',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -678,56 +687,59 @@ LEGEND<span class="token punctuation">:</span> STACK <span class="token operator
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/11/11/vmpwn%E5%AD%A6%E4%B9%A0-2019CISCN-pwn-virtual/">
+                <a href="/2020/11/18/vmpwn%E6%80%BB%E7%BB%93/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="vmpwn学习-2019CISCN-pwn-virtual">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="vmpwn总结">
                         
-                        <span class="card-title">vmpwn学习-2019CISCN-pwn-virtual</span>
+                        <span class="card-title">vmpwn总结</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            vmpwn解释器认识寄存器知识补充
-PC 指向执行的指令
-BP,SP 指向栈底和栈顶
-AX 通用寄存器,用来存放指令执行后的结果
+                            分析各种存储器格式初始化结构_DWORD *sub_8049570()
+{
+  _DWORD *v0; // eax
+  _DWORD *v1; // ST1C_4
 
-虚拟机定义的时候会定义一个全局变量的美剧类型,里面存放指令
-题目分析总体结构__int64 __fastca
+  v0 = malloc(0x2Cu);
+  v1 = v0;
+  *
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-11
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-18
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/vmpwn/" class="post-category">
-                                    vmpwn
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                    总结
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/wp/">
-                        <span class="chip bg-color">wp</span>
-                    </a>
-                    
                     <a href="/tags/ctf/">
                         <span class="chip bg-color">ctf</span>
+                    </a>
+                    
+                    <a href="/tags/vmpwn/">
+                        <span class="chip bg-color">vmpwn</span>
                     </a>
                     
                 </div>
@@ -741,34 +753,33 @@ AX 通用寄存器,用来存放指令执行后的结果
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/10/2020%E5%85%A8%E5%9B%BD%E7%94%B5%E4%BF%A1%E5%92%8C%E4%BA%92%E8%81%94%E7%BD%91%E8%A1%8C%E4%B8%9A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E8%81%8C%E4%B8%9A%E6%8A%80%E8%83%BD%E7%AB%9E%E8%B5%9Bpwn-WP/">
+                <a href="/2020/11/18/PVP%20GAME%20%20%E7%B2%A4%E6%B9%BE%E8%AF%81%E5%88%B8/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="2020全国电信和互联网行业网络安全管理职业技能竞赛pwn-WP">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="PVP GAME  粤湾证券">
                         
-                        <span class="card-title">2020全国电信和互联网行业网络安全管理职业技能竞赛pwn-WP</span>
+                        <span class="card-title">PVP GAME  粤湾证券</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            pwn2自己只做了pwn2，就从pwn2开始
-c++用于输入输出,主要逻辑是用c实现的。因为会调用c++的库，这里涉及到一些库的库的加载。
-漏洞分析
-当进行add的时候如果size为0将会成功申请空间
-
-在edit的时候如果size为0可以
+                            关键函数_QWORD *__fastcall sub_F7D(__int64 a1, __int64 a2, __int64 a3, __int64 a4, __int64 a5, __int64 a6, unsigned __int64 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-18
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            九层台
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/vmpwn/" class="post-category">
+                                    vmpwn
+                                </a>
+                            
                             
                         </span>
                     </div>
