@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="分类: 学习过程, Tower">
+    <meta name="keywords" content="分类: vmpwn, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>分类: 学习过程 | Tower</title>
+    <title>分类: vmpwn | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -349,10 +349,19 @@
                 
                 
                 
-                <a href="/categories/%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/" title="学习过程: 1">
+                <a href="/categories/vmpwn/" title="vmpwn: 3">
                     <span class="chip center-align waves-effect waves-light
                              chip-active "
-                            style="background-color: #F9EBEA;">学习过程
+                            style="background-color: #F9EBEA;">vmpwn
+                        <span class="tag-length">3</span>
+                    </span>
+                </a>
+                
+                
+                <a href="/categories/%E6%80%BB%E7%BB%93/" title="总结: 1">
+                    <span class="chip center-align waves-effect waves-light
+                             chip-default "
+                            style="background-color: #F5EEF8;">总结
                         <span class="tag-length">1</span>
                     </span>
                 </a>
@@ -368,6 +377,64 @@
 
     <article id="articles" class="container articles">
         <div class="row tags-posts">
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/11/14/%E7%B2%A4%E6%B9%BE%E9%93%B6%E8%A1%8C%20(vm2)%20/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="粤湾银行 (vm2)">
+                            
+                            <span class="card-title">粤湾银行 (vm2)</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                结构分析ptr指针的结构
+_DWORD *sub_8049570()
+{
+  _DWORD *v0; // eax
+  _DWORD *v1; // ST1C_4
+
+  v0 = malloc(0x2Cu);
+  v1 = v0;
+  *v
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-14
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/vmpwn/" class="post-category">
+                                    vmpwn
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/wp/">
+                            <span class="chip bg-color">wp</span>
+                        </a>
+                        
+                        <a href="/tags/ctf/">
+                            <span class="chip bg-color">ctf</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
@@ -400,8 +467,8 @@ AX 通用寄存器,用来存放指令执行后的结果
                                 
                                 <i class="fas fa-bookmark fa-fw icon-category"></i>
                                 
-                                <a href="/categories/%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B/" class="post-category">
-                                    学习过程
+                                <a href="/categories/vmpwn/" class="post-category">
+                                    vmpwn
                                 </a>
                                 
                                 
@@ -412,12 +479,68 @@ AX 通用寄存器,用来存放指令执行后的结果
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/vm/">
-                            <span class="chip bg-color">vm</span>
+                        <a href="/tags/wp/">
+                            <span class="chip bg-color">wp</span>
                         </a>
                         
-                        <a href="/tags/pwn/">
-                            <span class="chip bg-color">pwn</span>
+                        <a href="/tags/ctf/">
+                            <span class="chip bg-color">ctf</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/1970/01/01/2019%E7%BA%A2%E5%B8%BD%E6%9D%AF%20%E7%B2%A4%E6%B9%BE%E4%B8%AD%E5%BF%83%20(RHVM)/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="2019红帽杯 粤湾中心 (RHVM)">
+                            
+                            <span class="card-title">2019红帽杯 粤湾中心 (RHVM)</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                code结构code结构
+输入
+0x0706050403020100
+得到的测试结果为
+0x000105040302
+实际对应关系是0x050403020100变为0x000105040302
+0位置被移动到5位置想要处理后得到想要的值应该
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>1970-01-01
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/vmpwn/" class="post-category">
+                                    vmpwn
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/wp/">
+                            <span class="chip bg-color">wp</span>
+                        </a>
+                        
+                        <a href="/tags/ctf/">
+                            <span class="chip bg-color">ctf</span>
                         </a>
                         
                     </div>
