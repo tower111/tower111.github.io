@@ -687,50 +687,45 @@ decoding<span class="token operator">=</span>yiwei<span class="token punctuation
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/11/18/vmpwn%E6%80%BB%E7%BB%93/">
+                <a href="/2020/11/29/how2heap%E6%B3%A8%E6%84%8F%E7%82%B9%E6%80%BB%E7%BB%93-%E4%B8%8A/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="vmpwn总结">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="how2heap注意点总结-上">
                         
-                        <span class="card-title">vmpwn总结</span>
+                        <span class="card-title">how2heap注意点总结-上</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            分析各种存储器格式初始化结构_DWORD *sub_8049570()
-{
-  _DWORD *v0; // eax
-  _DWORD *v1; // ST1C_4
-
-  v0 = malloc(0x2Cu);
-  v1 = v0;
-  *
+                            first-fit我的理解是分割unsortedbin里面第一个大于要分配的chunk，但是实际上并不是这样
+测试程序
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include 
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-18
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
-                                    总结
+                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
+                                    整理
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -738,8 +733,8 @@ decoding<span class="token operator">=</span>yiwei<span class="token punctuation
                         <span class="chip bg-color">ctf</span>
                     </a>
                     
-                    <a href="/tags/vmpwn/">
-                        <span class="chip bg-color">vmpwn</span>
+                    <a href="/tags/pwn/">
+                        <span class="chip bg-color">pwn</span>
                     </a>
                     
                 </div>
@@ -787,12 +782,12 @@ decoding<span class="token operator">=</span>yiwei<span class="token punctuation
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/wp/">
-                        <span class="chip bg-color">wp</span>
-                    </a>
-                    
                     <a href="/tags/ctf/">
                         <span class="chip bg-color">ctf</span>
+                    </a>
+                    
+                    <a href="/tags/wp/">
+                        <span class="chip bg-color">wp</span>
                     </a>
                     
                 </div>
@@ -945,7 +940,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">9.2k</span>&nbsp;字
+                class="white-color">12.2k</span>&nbsp;字
             
             
             
