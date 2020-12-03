@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>漏洞整理iot</title>
+      <link href="2020/12/03/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot/"/>
+      <url>2020/12/03/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot/</url>
+      
+        <content type="html"><![CDATA[<h2 id="查找方法"><a href="#查找方法" class="headerlink" title="查找方法"></a>查找方法</h2><p>在cve list查找cemara（router也行，但是路由器通常是mips架构的）<br><a href="https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera">https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera</a></p><p>或者查找开源库</p><h2 id="定位到感兴趣的条目"><a href="#定位到感兴趣的条目" class="headerlink" title="定位到感兴趣的条目"></a>定位到感兴趣的条目</h2><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606975606345.png" alt="感兴趣的条目"></p><p>对它感兴趣是因为它的漏洞描述：固件为0x20x之前的VIVOTEK IP摄像机设备通过精心设计的HTTP标头具有基于堆栈的缓冲区溢出。</p><ul><li>影响范围比较广（固件可能容易获得，一次可以找到影响的固件比较多）</li><li>栈溢出明显的二进制漏洞</li></ul><p>但是这个条目的解释非常少，我对这个条目进行搜索</p><h2 id="搜索更多信息"><a href="#搜索更多信息" class="headerlink" title="搜索更多信息"></a>搜索更多信息</h2><p>最关键的有两个点：</p><ul><li>说明文档，对漏洞位置的说明</li><li>固件下载，能够下载到固件并且能够解压</li></ul><p>接下来将会解决这两个问题</p><h3 id="说明文档查找"><a href="#说明文档查找" class="headerlink" title="说明文档查找"></a>说明文档查找</h3><p>直接搜索cve编号或cve编号+“poc” 关键字</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976197899.png" alt="搜索方法"></p><p>这里面很多都是对漏洞的报告，需要多打开几个</p><p>我这里找到了一个报告多包含了一点信息</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976114478.png" alt="得到稍微多一点的信息"></p><p>告诉了我关键漏洞函数位置以及cwe编号</p><p>介绍：cwe是收集的漏洞类型，是对一个漏洞关键代码的摘要</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976396336.png" alt="cwe"></p><p>从cwe可以帮助理解这是什么漏洞</p><h3 id="固件下载和解压"><a href="#固件下载和解压" class="headerlink" title="固件下载和解压"></a>固件下载和解压</h3><p>可以从查找道德信息里面确定漏洞存在于那些版本的固件，从官网下载固件，有些分析文章会直接给出固件下载链接</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976577686.png" alt="固件版本"></p><p>找到固件上面说0x20a以前的版本，就随便找之前的版本下载（字母尽量跟前面的VVTK匹配，匹配不了也没办法先下载一个试试）</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976787784.png" alt="官网找到固件"></p><p>下载之后查询签名并解压（一般是.bin文件但是有时候是其他后缀名）</p><p><code>binwalk -Y AB6117-VVTK-0101f.flash.pkg</code><br>命令可以查询签名得到架构的信息（一般是x86，x86_64，i386，amd64，mips，arm）架构信息查不到无所谓</p><p>然后解压<code>binwalk -Me AB6117-VVTK-0101f.flash.pkg</code>  解压完成会多出一个下划线开头的文件夹，可能内容很多也可能很少</p><p>接下来要确定一些信息，解压是否成功，漏洞程序是哪一个</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606977157042.png" alt="查找命令"></p><ul><li>find 命令是递归输出指定目录下的所有文件、文件夹</li><li>.表示目录（可以指定为要搜索的目录）</li><li>|grep是用来过滤字符串的</li><li>busybox就是要过滤的字符串，只输出包含busybox的字符串，其他的都不会输出</li></ul><p>上面的结果表示搜索到了busybox这个文件（或者文件夹）<br>busybox是嵌入式设备常用（基本上都要用）的工具，它里面集成了很多linux常用命令并且文件本身比较小。这里搜索到了这个文件说明解压成功了（也可以通过tree命令查看目录里面文件多少判断是否解压成功）</p><p>还可以通过这个文件得到系统的架构</p><pre class=" language-bash"><code class="language-bash"><span class="token punctuation">(</span>base<span class="token punctuation">)</span> ➜  _AB6117-VVTK-0101f.flash.pkg.extracted git:<span class="token punctuation">(</span>master<span class="token punctuation">)</span> ✗ <span class="token function">file</span> ./_31.extracted/_rootfs.img.extracted/squashfs-root/bin/busybox./_31.extracted/_rootfs.img.extracted/squashfs-root/bin/busybox: ELF 32-bit LSB executable, ARM, EABI5 version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib/ld-uClibc.so.0, stripped</code></pre><p>file命令打印出了这个文件的架构是arm，LSB表示小段字节序，32-bit表示32位</p><h2 id="分析漏洞"><a href="#分析漏洞" class="headerlink" title="分析漏洞"></a>分析漏洞</h2><h3 id="找到漏洞文件"><a href="#找到漏洞文件" class="headerlink" title="找到漏洞文件"></a>找到漏洞文件</h3><p>可以根据分析的文章找到具体是哪个文件。但是有时候没有给出是哪个文件</p><p>一般是httpd文件(如果是http服务的漏洞)</p><p>同样的方法可以查找到httpd所在的目录</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978141110.png" alt="httpd"></p><h3 id="分析httpd文件"><a href="#分析httpd文件" class="headerlink" title="分析httpd文件"></a>分析httpd文件</h3><p>需要用到的工具：ghidra，ida安装包在硬盘里（漏洞收集目录）</p><p>搜索漏洞函数定位</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978452382.png" alt="漏洞函数"></p><p>本函数没有意义查找谁调用了这个函数</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978564442.png" alt="定位函数"></p><p>发现只有一个地方调用了这个函数</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978601748.png" alt="向上"></p><p>可以看出一些问题搜索了这些参数的含义可以知道这里三个参数只是限制日志等级进程之类的东西，没有限制字符串长度<br>这是我用c把这段代码摘出来做的测试</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978882585.png" alt="测试"></p><p>对字符串的限制在上一层函数</p><p>找到了很多函数，但是只有一个函数的参数是变量，这里应该是一个有漏洞的函数</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978967466.png" alt="继续查找上一层函数"></p><p>但是需要动态调试来验证，比较麻烦先放在这里。（因为poc部分实在不行可以是一段文字描述）</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 整理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 漏洞 </tag>
+            
+            <tag> iot </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>linux库说明以及如何修改动态链接库</title>
       <link href="2020/11/30/linux%E5%BA%93%E8%AF%B4%E6%98%8E%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/"/>
       <url>2020/11/30/linux%E5%BA%93%E8%AF%B4%E6%98%8E%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/</url>
@@ -128,9 +155,9 @@
       
         <tags>
             
-            <tag> wp </tag>
-            
             <tag> ctf </tag>
+            
+            <tag> wp </tag>
             
         </tags>
       
@@ -155,9 +182,9 @@
       
         <tags>
             
-            <tag> wp </tag>
-            
             <tag> ctf </tag>
+            
+            <tag> wp </tag>
             
         </tags>
       
@@ -182,9 +209,9 @@
       
         <tags>
             
-            <tag> wp </tag>
-            
             <tag> ctf </tag>
+            
+            <tag> wp </tag>
             
         </tags>
       
@@ -226,9 +253,9 @@
       
         <tags>
             
-            <tag> wp </tag>
-            
             <tag> ctf </tag>
+            
+            <tag> wp </tag>
             
         </tags>
       
@@ -247,9 +274,9 @@
       
         <tags>
             
-            <tag> wp </tag>
-            
             <tag> ctf </tag>
+            
+            <tag> wp </tag>
             
         </tags>
       
@@ -274,9 +301,9 @@
       
         <tags>
             
-            <tag> wp </tag>
-            
             <tag> ctf </tag>
+            
+            <tag> wp </tag>
             
         </tags>
       
