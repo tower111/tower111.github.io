@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="漏洞整理iot, Tower">
+    <meta name="keywords" content="iot工具使用, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>漏洞整理iot | Tower</title>
+    <title>iot工具使用 | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">漏洞整理iot</h1>
+                    <h1 class="description center-align post-title">iot工具使用</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/iot/">
-                                <span class="chip bg-color">iot</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                                <span class="chip bg-color">漏洞</span>
+                            <a href="/tags/%E6%96%B0%E5%BB%BA-%E6%A8%A1%E6%9D%BF-%E5%B0%8F%E4%B9%A6%E5%8C%A0/">
+                                <span class="chip bg-color">新建,模板,小书匠</span>
                             </a>
                         
                     </div>
@@ -446,8 +442,12 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                整理
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                总结
+                            </a>
+                        
+                            <a href="/categories/%E6%80%BB%E7%BB%93/vmpwn/" class="post-category">
+                                vmpwn
                             </a>
                         
                     </div>
@@ -459,28 +459,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-03
+                    2020-12-06
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-12-03
+                    2020-12-06
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    620
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    2 分
                 </div>
                 
 
@@ -495,68 +495,48 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="查找方法"><a href="#查找方法" class="headerlink" title="查找方法"></a>查找方法</h2><p>在cve list查找cemara（router也行，但是路由器通常是mips架构的）<br><a target="_blank" rel="noopener" href="https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera">https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=camera</a></p>
-<p>或者查找开源库</p>
-<h2 id="定位到感兴趣的条目"><a href="#定位到感兴趣的条目" class="headerlink" title="定位到感兴趣的条目"></a>定位到感兴趣的条目</h2><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606975606345.png" alt="感兴趣的条目"></p>
-<p>对它感兴趣是因为它的漏洞描述：固件为0x20x之前的VIVOTEK IP摄像机设备通过精心设计的HTTP标头具有基于堆栈的缓冲区溢出。</p>
+                <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><strong>注：以项目为主线，完成任务并且有时间可以深入分析，之后会补充详细的工具使用</strong></p>
+<p>这里对常用工具进行说明。</p>
+<p>下载或提取到的固件是包含整个操作系统和文件系统的。包括boot-loader（一般是uboot，用来引导系统启动），linux内核，文件系统。需要的是文件系统，厂商自己定义的代码一般在文件系统里主要分析的也是文件系统里的文件</p>
 <ul>
-<li>影响范围比较广（固件可能容易获得，一次可以找到影响的固件比较多）</li>
-<li>栈溢出明显的二进制漏洞</li>
+<li>binwalk可以用来解压，把一个固件解压找到它的文件系统分析单个文件。</li>
+<li>ghidra可以用来反编译，iot固件一般不用x86架构用的arm和mips比较多。ghidra是一个比较好的其他架构语言反编译工具</li>
+<li>qemu 动态调试工具。调试起来比较麻烦，从项目角度动态调试一般用不到</li>
 </ul>
-<p>但是这个条目的解释非常少，我对这个条目进行搜索</p>
-<h2 id="搜索更多信息"><a href="#搜索更多信息" class="headerlink" title="搜索更多信息"></a>搜索更多信息</h2><p>最关键的有两个点：</p>
+<h2 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>官方的安装文档，注意需要把上面的工具都安装了（不安装也能用但是会有一些文件系统解压不出来）</p>
+<p><a href="https://github.com/ReFirmLabs/binwalk/blob/master/INSTALL.md">https://github.com/ReFirmLabs/binwalk/blob/master/INSTALL.md</a></p>
+<p>比较坑的是上面写了一堆下面说官方准备好了一键安装脚本</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607247168490.png" alt="一键安装脚本"></p>
+<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><pre class=" language-bash"><code class="language-bash">E: 无法定位软件包 cramfsprogs</code></pre>
+<p>可以取官网下载这个包<a target="_blank" rel="noopener" href="https://packages.ubuntu.com/xenial/amd64/cramfsprogs/download">https://packages.ubuntu.com/xenial/amd64/cramfsprogs/download</a><br>然后安装<code>dpkg -i xxxx.deb</code></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><pre class=" language-bash"><code class="language-bash">
+binwalk -Me xxxx.bin</code></pre>
 <ul>
-<li>说明文档，对漏洞位置的说明</li>
-<li>固件下载，能够下载到固件并且能够解压</li>
+<li>M表示递归（镜像可能会进行很多层压缩）</li>
+<li>e表示解压，会生成一个文件夹</li>
 </ul>
-<p>接下来将会解决这两个问题</p>
-<h3 id="说明文档查找"><a href="#说明文档查找" class="headerlink" title="说明文档查找"></a>说明文档查找</h3><p>直接搜索cve编号或cve编号+“poc” 关键字</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976197899.png" alt="搜索方法"></p>
-<p>这里面很多都是对漏洞的报告，需要多打开几个</p>
-<p>我这里找到了一个报告多包含了一点信息</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976114478.png" alt="得到稍微多一点的信息"></p>
-<p>告诉了我关键漏洞函数位置以及cwe编号</p>
-<p>介绍：cwe是收集的漏洞类型，是对一个漏洞关键代码的摘要</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976396336.png" alt="cwe"></p>
-<p>从cwe可以帮助理解这是什么漏洞</p>
-<h3 id="固件下载和解压"><a href="#固件下载和解压" class="headerlink" title="固件下载和解压"></a>固件下载和解压</h3><p>可以从查找道德信息里面确定漏洞存在于那些版本的固件，从官网下载固件，有些分析文章会直接给出固件下载链接</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976577686.png" alt="固件版本"></p>
-<p>找到固件上面说0x20a以前的版本，就随便找之前的版本下载（字母尽量跟前面的VVTK匹配，匹配不了也没办法先下载一个试试）</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606976787784.png" alt="官网找到固件"></p>
-<p>下载之后查询签名并解压（一般是.bin文件但是有时候是其他后缀名）</p>
-<p><code>binwalk -Y AB6117-VVTK-0101f.flash.pkg</code><br>命令可以查询签名得到架构的信息（一般是x86，x86_64，i386，amd64，mips，arm）架构信息查不到无所谓</p>
-<p>然后解压<code>binwalk -Me AB6117-VVTK-0101f.flash.pkg</code>  解压完成会多出一个下划线开头的文件夹，可能内容很多也可能很少</p>
-<p>接下来要确定一些信息，解压是否成功，漏洞程序是哪一个</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606977157042.png" alt="查找命令"></p>
+<p>用<code>find . |grep httpd</code>可以找到httpd文件所在的目录</p>
 <ul>
-<li>find 命令是递归输出指定目录下的所有文件、文件夹</li>
-<li>.表示目录（可以指定为要搜索的目录）</li>
-<li>|grep是用来过滤字符串的</li>
-<li>busybox就是要过滤的字符串，只输出包含busybox的字符串，其他的都不会输出</li>
+<li>find是搜索一个路径，递归底下所有的文件夹，文件</li>
+<li>|grep表示过滤，只在显示器上显示包含httpd的目录</li>
 </ul>
-<p>上面的结果表示搜索到了busybox这个文件（或者文件夹）<br>busybox是嵌入式设备常用（基本上都要用）的工具，它里面集成了很多linux常用命令并且文件本身比较小。这里搜索到了这个文件说明解压成功了（也可以通过tree命令查看目录里面文件多少判断是否解压成功）</p>
-<p>还可以通过这个文件得到系统的架构</p>
-<pre class=" language-bash"><code class="language-bash"><span class="token punctuation">(</span>base<span class="token punctuation">)</span> ➜  _AB6117-VVTK-0101f.flash.pkg.extracted git:<span class="token punctuation">(</span>master<span class="token punctuation">)</span> ✗ <span class="token function">file</span> ./_31.extracted/_rootfs.img.extracted/squashfs-root/bin/busybox
-./_31.extracted/_rootfs.img.extracted/squashfs-root/bin/busybox: ELF 32-bit LSB executable, ARM, EABI5 version 1 <span class="token punctuation">(</span>SYSV<span class="token punctuation">)</span>, dynamically linked, interpreter /lib/ld-uClibc.so.0, stripped
-</code></pre>
-<p>file命令打印出了这个文件的架构是arm，LSB表示小段字节序，32-bit表示32位</p>
-<h2 id="分析漏洞"><a href="#分析漏洞" class="headerlink" title="分析漏洞"></a>分析漏洞</h2><h3 id="找到漏洞文件"><a href="#找到漏洞文件" class="headerlink" title="找到漏洞文件"></a>找到漏洞文件</h3><p>可以根据分析的文章找到具体是哪个文件。但是有时候没有给出是哪个文件</p>
-<p>一般是httpd文件(如果是http服务的漏洞)</p>
-<p>同样的方法可以查找到httpd所在的目录</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978141110.png" alt="httpd"></p>
-<h3 id="分析httpd文件"><a href="#分析httpd文件" class="headerlink" title="分析httpd文件"></a>分析httpd文件</h3><p>需要用到的工具：ghidra，ida安装包在硬盘里（漏洞收集目录）</p>
-<p>搜索漏洞函数定位</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978452382.png" alt="漏洞函数"></p>
-<p>本函数没有意义查找谁调用了这个函数</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978564442.png" alt="定位函数"></p>
-<p>发现只有一个地方调用了这个函数</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978601748.png" alt="向上"></p>
-<p>可以看出一些问题搜索了这些参数的含义可以知道这里三个参数只是限制日志等级进程之类的东西，没有限制字符串长度<br>这是我用c把这段代码摘出来做的测试</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978882585.png" alt="测试"></p>
-<p>对字符串的限制在上一层函数</p>
-<p>找到了很多函数，但是只有一个函数的参数是变量，这里应该是一个有漏洞的函数</p>
-<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1606978967466.png" alt="继续查找上一层函数"></p>
-<p>但是需要动态调试来验证，比较麻烦先放在这里。（因为poc部分实在不行可以是一段文字描述）</p>
+<p><code>file xxx</code>命令可以查看二进制文件的信息</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607247595325.png" alt="file命令"></p>
+<ul>
+<li>LSB表示小端字节序</li>
+<li>ARM是cpu架构</li>
+</ul>
+<h2 id="ghidra"><a href="#ghidra" class="headerlink" title="ghidra"></a>ghidra</h2><p>ghidra 用于反编译mips架构（一种cpu架构，路由器比较常用，跟arm，x86，amd一类）的程序。ida只能看到mips架构程序的汇编，这个工具可以反编译。结合ida使用。</p>
+<p>效果如图 </p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/ghidra_usage.png" alt="ghidra_usage"></p>
+<p>下载 <a target="_blank" rel="noopener" href="https://ghidra-sre.org/">https://ghidra-sre.org/</a> （暂时不能用，在其他地方找资源吧）</p>
+<h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><ul>
+<li>g：跳转到某个地址或函数</li>
+<li>ctrl+shift+e 搜索字符串</li>
+<li>查找交叉引用如下</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/ghidra_usage.png" alt="ghidra_usage"></p>
+<h2 id="其他工具参考"><a href="#其他工具参考" class="headerlink" title="其他工具参考"></a>其他工具参考</h2><p><a href="https://github.com/tower111/iot/blob/master/%E6%95%B4%E7%90%86/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%A2%B3%E7%90%86.md">https://github.com/tower111/iot/blob/master/%E6%95%B4%E7%90%86/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%A2%B3%E7%90%86.md</a></p>
 
             </div>
             <hr/>
@@ -570,12 +550,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/iot/">
-                                    <span class="chip bg-color">iot</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                                    <span class="chip bg-color">漏洞</span>
+                                <a href="/tags/%E6%96%B0%E5%BB%BA-%E6%A8%A1%E6%9D%BF-%E5%B0%8F%E4%B9%A6%E5%8C%A0/">
+                                    <span class="chip bg-color">新建,模板,小书匠</span>
                                 </a>
                             
                         </div>
@@ -620,7 +596,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-12-03T14-03-28',
+        id: '2020-12-06T17-19-38',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -644,9 +620,66 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/12/06/iot%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iot工具使用">
+                        
+                        <span class="card-title">iot工具使用</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            说明注：以项目为主线，完成任务并且有时间可以深入分析，之后会补充详细的工具使用
+这里对常用工具进行说明。
+下载或提取到的固件是包含整个操作系统和文件系统的。包括boot-loader（一般是uboot，用来引导系统启动），linux内核，文
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E6%80%BB%E7%BB%93/" class="post-category">
+                                    总结
+                                </a>
+                            
+                            <a href="/categories/%E6%80%BB%E7%BB%93/vmpwn/" class="post-category">
+                                    vmpwn
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E6%96%B0%E5%BB%BA-%E6%A8%A1%E6%9D%BF-%E5%B0%8F%E4%B9%A6%E5%8C%A0/">
+                        <span class="chip bg-color">新建,模板,小书匠</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2020/12/06/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot-2/">
                     <div class="card-image">
@@ -666,9 +699,9 @@ https://payatu.com/blog/munawwar/trendNet-wireless-camera-buffer-overflow-vulner
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -690,60 +723,6 @@ https://payatu.com/blog/munawwar/trendNet-wireless-camera-buffer-overflow-vulner
                     
                     <a href="/tags/%E6%BC%8F%E6%B4%9E/">
                         <span class="chip bg-color">漏洞</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/11/30/linux%E5%BA%93%E8%AF%B4%E6%98%8E%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E4%BF%AE%E6%94%B9%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%BA%93/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="linux库说明以及如何修改动态链接库">
-                        
-                        <span class="card-title">linux库说明以及如何修改动态链接库</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            说明在ctf中共享库的问题一直是一个非常非常非常恶心的问题，这里将会介绍动态链接库的命名以及如何修改一个程序依赖的动态链接库
-命名0x7f387805e000     0x7f3878091000 r-xp    33000 0      
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-11-30
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                    整理
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E4%BB%8B%E7%BB%8D/">
-                        <span class="chip bg-color">介绍</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%8E%AF%E5%A2%83/">
-                        <span class="chip bg-color">环境</span>
                     </a>
                     
                 </div>

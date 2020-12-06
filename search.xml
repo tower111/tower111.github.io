@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>iot工具使用</title>
+      <link href="2020/12/06/iot%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/"/>
+      <url>2020/12/06/iot%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p><strong>注：以项目为主线，完成任务并且有时间可以深入分析，之后会补充详细的工具使用</strong></p><p>这里对常用工具进行说明。</p><p>下载或提取到的固件是包含整个操作系统和文件系统的。包括boot-loader（一般是uboot，用来引导系统启动），linux内核，文件系统。需要的是文件系统，厂商自己定义的代码一般在文件系统里主要分析的也是文件系统里的文件</p><ul><li>binwalk可以用来解压，把一个固件解压找到它的文件系统分析单个文件。</li><li>ghidra可以用来反编译，iot固件一般不用x86架构用的arm和mips比较多。ghidra是一个比较好的其他架构语言反编译工具</li><li>qemu 动态调试工具。调试起来比较麻烦，从项目角度动态调试一般用不到</li></ul><h2 id="binwalk"><a href="#binwalk" class="headerlink" title="binwalk"></a>binwalk</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>官方的安装文档，注意需要把上面的工具都安装了（不安装也能用但是会有一些文件系统解压不出来）</p><p><a href="https://github.com/ReFirmLabs/binwalk/blob/master/INSTALL.md">https://github.com/ReFirmLabs/binwalk/blob/master/INSTALL.md</a></p><p>比较坑的是上面写了一堆下面说官方准备好了一键安装脚本</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607247168490.png" alt="一键安装脚本"></p><h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><pre class=" language-bash"><code class="language-bash">E: 无法定位软件包 cramfsprogs</code></pre><p>可以取官网下载这个包<a href="https://packages.ubuntu.com/xenial/amd64/cramfsprogs/download">https://packages.ubuntu.com/xenial/amd64/cramfsprogs/download</a><br>然后安装<code>dpkg -i xxxx.deb</code></p><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><pre class=" language-bash"><code class="language-bash">binwalk -Me xxxx.bin</code></pre><ul><li>M表示递归（镜像可能会进行很多层压缩）</li><li>e表示解压，会生成一个文件夹</li></ul><p>用<code>find . |grep httpd</code>可以找到httpd文件所在的目录</p><ul><li>find是搜索一个路径，递归底下所有的文件夹，文件</li><li>|grep表示过滤，只在显示器上显示包含httpd的目录</li></ul><p><code>file xxx</code>命令可以查看二进制文件的信息</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607247595325.png" alt="file命令"></p><ul><li>LSB表示小端字节序</li><li>ARM是cpu架构</li></ul><h2 id="ghidra"><a href="#ghidra" class="headerlink" title="ghidra"></a>ghidra</h2><p>ghidra 用于反编译mips架构（一种cpu架构，路由器比较常用，跟arm，x86，amd一类）的程序。ida只能看到mips架构程序的汇编，这个工具可以反编译。结合ida使用。</p><p>效果如图 </p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/ghidra_usage.png" alt="ghidra_usage"></p><p>下载 <a href="https://ghidra-sre.org/">https://ghidra-sre.org/</a> （暂时不能用，在其他地方找资源吧）</p><h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><ul><li>g：跳转到某个地址或函数</li><li>ctrl+shift+e 搜索字符串</li><li>查找交叉引用如下</li></ul><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/ghidra_usage.png" alt="ghidra_usage"></p><h2 id="其他工具参考"><a href="#其他工具参考" class="headerlink" title="其他工具参考"></a>其他工具参考</h2><p><a href="https://github.com/tower111/iot/blob/master/%E6%95%B4%E7%90%86/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%A2%B3%E7%90%86.md">https://github.com/tower111/iot/blob/master/%E6%95%B4%E7%90%86/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%A2%B3%E7%90%86.md</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 总结 </category>
+          
+          <category> vmpwn </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 新建,模板,小书匠 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>漏洞整理iot-2</title>
+      <link href="2020/12/06/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot-2/"/>
+      <url>2020/12/06/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot-2/</url>
+      
+        <content type="html"><![CDATA[<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>这次比较幸运找到了一个比较完整的分析文档。以及用到的固件。</p><p><a href="https://payatu.com/blog/munawwar/trendNet-wireless-camera-buffer-overflow-vulnerability">https://payatu.com/blog/munawwar/trendNet-wireless-camera-buffer-overflow-vulnerability</a></p><h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>遇到的第一个问题：解压失败，给文章作者发了邮件，他说没有问题（给作者发邮件询问是很好的解决方案思路）</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607246143216.png" alt="邮件回应"></p><p>作者说没问题，应该是我的binwalk的问题，按照官网的过程重新安装了一下binwalk，安装成功。</p><h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>按照文章的描述g跳转到对应位置</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607248898144.png" alt="漏洞点"></p><p>在21行拷贝的时候没有检查字符串的大小</p><h2 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h2><h2 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h2><p>之后补充</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 整理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> iot </tag>
+            
+            <tag> 漏洞 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>漏洞整理iot</title>
       <link href="2020/12/03/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot/"/>
       <url>2020/12/03/%E6%BC%8F%E6%B4%9E%E6%95%B4%E7%90%86iot/</url>
@@ -20,9 +74,9 @@
       
         <tags>
             
-            <tag> 漏洞 </tag>
-            
             <tag> iot </tag>
+            
+            <tag> 漏洞 </tag>
             
         </tags>
       
@@ -155,9 +209,9 @@
       
         <tags>
             
-            <tag> ctf </tag>
-            
             <tag> wp </tag>
+            
+            <tag> ctf </tag>
             
         </tags>
       
@@ -182,9 +236,9 @@
       
         <tags>
             
-            <tag> ctf </tag>
-            
             <tag> wp </tag>
+            
+            <tag> ctf </tag>
             
         </tags>
       
@@ -209,9 +263,9 @@
       
         <tags>
             
-            <tag> ctf </tag>
-            
             <tag> wp </tag>
+            
+            <tag> ctf </tag>
             
         </tags>
       
@@ -253,9 +307,9 @@
       
         <tags>
             
-            <tag> ctf </tag>
-            
             <tag> wp </tag>
+            
+            <tag> ctf </tag>
             
         </tags>
       
@@ -274,9 +328,9 @@
       
         <tags>
             
-            <tag> ctf </tag>
-            
             <tag> wp </tag>
+            
+            <tag> ctf </tag>
             
         </tags>
       
@@ -301,9 +355,9 @@
       
         <tags>
             
-            <tag> ctf </tag>
-            
             <tag> wp </tag>
+            
+            <tag> ctf </tag>
             
         </tags>
       
