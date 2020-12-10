@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>漏洞查找之比较补丁</title>
+      <link href="2020/12/10/%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE%E4%B9%8B%E6%AF%94%E8%BE%83%E8%A1%A5%E4%B8%81/"/>
+      <url>2020/12/10/%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE%E4%B9%8B%E6%AF%94%E8%BE%83%E8%A1%A5%E4%B8%81/</url>
+      
+        <content type="html"><![CDATA[<p>搜索camara找到一个类似二进制漏洞文件（缓冲区溢出）</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_001.png" alt="搜索cve"></p><p>双击进来之后有一些简单的描述</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_002.png" alt="漏洞描述"></p><p>下载到了有和没有漏洞的固件，用bindiff比较了一下，发现区别最大的函数</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_003.png" alt="区别函数"></p><p>ghidra打开跳转到对应地址（L快捷键可以重命名变量，;（英文的分号）可以下注释）</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_004.png" alt="两个文件的对应位置"></p><p>可以看到，左边的补丁添加了一个local_414变量，最多拷贝7次，多了就会造成溢出</p><h2 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h2><p>进一步向上追踪，发现程序在这里调用漏洞函数。</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_005.png" alt="调用漏洞函数"></p><p>FUN_00403804函数很简单，仅仅是判断字符串<code>&quot;public/getSysteminfo.cgi“</code>后面还有其他东西或者是只有”\0”或”?”也就是没有东西了。<br>应该是url的一部分</p><p>到这里已经知道了访问哪个url会调用漏洞函数。</p><p>接下来确定哪个字段的溢出</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_006.png" alt="漏洞点"></p><p>想要确定一个变量是什么就找什么地方用到了这个变量或者是什么时候定义了这个变量。在本层函数里没有找到有意义的对param_6的引用。</p><p>继续向上查找找到了param_6字段的值cgiQueryString</p><p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607602382108.png" alt="字段来源"></p><p>在URL后面紧跟着”?”的部分就叫cgiQueryString</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>也就是说访问 <a href="http://127.0.0.1/public/getSysteminfo.cgi?a_b_c">http://127.0.0.1/public/getSysteminfo.cgi?a_b_c</a>_……   很多下划线就会造成溢出</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 整理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 漏洞 </tag>
+            
+            <tag> iot </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>qemu-system启动命令</title>
+      <link href="2020/12/08/qemu-system%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4/"/>
+      <url>2020/12/08/qemu-system%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在调试iot系统的时候只运行一个服务软件会运行失败，这是需要用到系统模式，运行起来一个系统，这样程序运行的环境更充足，成功的概率也更大。</p><p>之前调试mips架构程序，用这个可以满足，现在改成arm的，启动的时候仅仅换磁盘镜像，内核这些东西还是会启动失败，这里介绍一下这些命令都是干嘛的。</p><pre class=" language-bash"><code class="language-bash">qemu-system-mips -M malta -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_squeeze_mips_standard.qcow2 -nographic -append <span class="token string">"root=/dev/sda1 rw console=tty0 init=/linuxrc ignore_loglevel"</span> -net nic,vlan<span class="token operator">=</span>0 -net tap,vlan<span class="token operator">=</span>0,ifname<span class="token operator">=</span>tap0 -redir tcp:2333::2333 -redir tcp:8080::80</code></pre><h2 id="命令介绍"><a href="#命令介绍" class="headerlink" title="命令介绍"></a>命令介绍</h2><h3 id="qemu-system-mips"><a href="#qemu-system-mips" class="headerlink" title="qemu-system-mips"></a>qemu-system-mips</h3><p>qemu分好几个版本</p><ul><li>qemu-mips 是运行mips架构程序的qemu</li><li>static  这个是静态链接的版本，一般用来chroot ./ ./qemu-mips-static /bin/busybox (chroot ./ 是把本目录当做根目录运行程序)</li><li>qemu-system 是系统模式版本，可以开启一个虚拟系统。</li></ul><h3 id="M-malta"><a href="#M-malta" class="headerlink" title="-M malta"></a>-M malta</h3><p>-M参数是指示仿真的硬件</p><h3 id="kernel"><a href="#kernel" class="headerlink" title="-kernel"></a>-kernel</h3><p>指定内核镜像，最好使用比较新的内核镜像</p><h3 id="hda"><a href="#hda" class="headerlink" title="-hda"></a>-hda</h3><p>设置虚拟硬盘驱动并为其使用指定的映像文件，更高级的使用 -driver</p><p>参考<a href="https://wiki.gentoo.org/wiki/QEMU/Options">https://wiki.gentoo.org/wiki/QEMU/Options</a></p><h3 id="nographic"><a href="#nographic" class="headerlink" title="-nographic"></a>-nographic</h3><p>没有图形化界面</p><h3 id="append"><a href="#append" class="headerlink" title="-append"></a>-append</h3><p>传入linux内核的参数</p><h4 id="root-dev-sda1"><a href="#root-dev-sda1" class="headerlink" title="root=/dev/sda1"></a>root=/dev/sda1</h4><p> 内核认为的根文件系统的位置，sda、hda等是由内核进行逻辑命名的和硬件无关。如果boot分区就是根分区就是/dev/sda1（注：grep显示的root(hd0,0)和这个指令的含义是一样的）</p><p>参考<a href="https://blog.51cto.com/fuwenchao/1337471">https://blog.51cto.com/fuwenchao/1337471</a></p><h4 id="console-tty0"><a href="#console-tty0" class="headerlink" title="console=tty0"></a>console=tty0</h4><p> console即控制台，linux内核通过consle参数来选择控制台，console=tty0 console=lp0 console=ttyS0同时存在是可以工作的（console=ttyS0 console=ttyS1这样是不行的），输出传递给每个consle，输入只从最后一个获取。ttyS表示串口，tty表示虚拟终端，lp表示平行端口(咱也不懂)，ttyUSB表示usb端口</p><p>参考<a href="https://tldp.org/HOWTO/Remote-Serial-Console-HOWTO/configure-kernel.html">https://tldp.org/HOWTO/Remote-Serial-Console-HOWTO/configure-kernel.html</a></p><h4 id="init-linuxrc"><a href="#init-linuxrc" class="headerlink" title="init=/linuxrc"></a>init=/linuxrc</h4><p>linuxrc所做的事情</p><ul><li>/linuxrc文件决定在挂载真正的文件系统之前所需完成的事情(譬如加载必要的网络驱动或者加载ext3文件系统).</li><li>/linuxrc加载必要的模块.</li><li>/linuxrc挂载根文件系统</li><li>/linuxrc调用pivot_root来改变根目录</li></ul><p>主要是加载木块用的，如果内核没有动态模块是不需要加此选项的，在linux操作系统里可以加入noinitrd告诉boot loader不使用initrd<br>参考<a href="https://blog.csdn.net/s651665496/article/details/50773073">https://blog.csdn.net/s651665496/article/details/50773073</a></p><h3 id="net，-netdev"><a href="#net，-netdev" class="headerlink" title="-net，-netdev"></a>-net，-netdev</h3><p>默认是Pass-through<br> <strong>这种方法只适用于TCP和UDP链接，ping是ICMP不行</strong></p><ul><li> <code>-netdev user</code> qemu进程将会为VM中的每个进程创建TCP和UDP连接，虚拟机没有可以从外界访问的地址</li><li> <code>-device virtio-net,netdev=vmnic -netdev user,id=vmnic</code> (被推荐)，带有VirtIO支持的Pass-Through</li><li> <code>-netdev user,id=vmnic,hostfwd=tcp:127.0.0.1:9001-:22</code> 让qemu监听9001端口，该端口将会被转发到端口22的VM。ssh -p 9001能够登录到VM  只能实现向虚拟机中拷贝文件，不能从虚拟机拷出来文件</li><li> <code>-device virtio-net,netdev=vmnic -netdev tap,id=vmnic,ifname=vnet0,script=no,downscript=no</code>虚拟网络(TAP) 在qemu主机上创建一个新设备(vnet0),’cable’的另一端在vm上</li></ul><p>上面那种写法是要是使用网桥的方式，配置网桥比较麻烦</p><p>参考<a href="https://wiki.gentoo.org/wiki/QEMU/Options">https://wiki.gentoo.org/wiki/QEMU/Options</a></p><p><strong>注：谷歌上搜索qemu -net是直接搜不到的（谷歌会过滤）   应该搜索 qemu ‘-net’</strong></p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一般没有输出的问题都是<code>-append</code>里面传递的参数有问题，按照官方镜像的说明即可</p><p><a href="https://people.debian.org/~aurel32/qemu/">这里提供了编译好的镜像</a></p><p>一个一个手动下载比较麻烦，这里整理了一个简单的脚本</p><p><a href="https://github.com/tower111/iot/blob/master/%E6%95%B4%E7%90%86/qemu%E4%BD%BF%E7%94%A8.md">https://github.com/tower111/iot/blob/master/%E6%95%B4%E7%90%86/qemu%E4%BD%BF%E7%94%A8.md</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 整理 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> iot </tag>
+            
+            <tag> 工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CVE-2017-11882分析</title>
       <link href="2020/12/07/%20CVE-2017-11882%E5%88%86%E6%9E%90/"/>
       <url>2020/12/07/%20CVE-2017-11882%E5%88%86%E6%9E%90/</url>

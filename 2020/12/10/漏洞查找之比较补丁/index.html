@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="windows漏洞复现环境搭建, Tower">
+    <meta name="keywords" content="漏洞查找之比较补丁, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>windows漏洞复现环境搭建 | Tower</title>
+    <title>漏洞查找之比较补丁 | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">windows漏洞复现环境搭建</h1>
+                    <h1 class="description center-align post-title">漏洞查找之比较补丁</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/windows/">
-                                <span class="chip bg-color">windows</span>
-                            </a>
-                        
                             <a href="/tags/%E6%BC%8F%E6%B4%9E/">
                                 <span class="chip bg-color">漏洞</span>
+                            </a>
+                        
+                            <a href="/tags/iot/">
+                                <span class="chip bg-color">iot</span>
                             </a>
                         
                     </div>
@@ -459,21 +459,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-07
+                    2020-12-10
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-12-08
+                    2020-12-10
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    129
+                    343
                 </div>
                 
 
@@ -495,14 +495,26 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="进程查看工具"><a href="#进程查看工具" class="headerlink" title="进程查看工具"></a>进程查看工具</h2><p>process hacker 可以在看雪上下载</p>
-<p><a target="_blank" rel="noopener" href="https://tool.pediy.com/index-detail-106.htm">https://tool.pediy.com/index-detail-106.htm</a></p>
-<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><p>ollydbg 吾爱破解的一个比较强大的工具（9年前的版本现在依然好用）</p>
-<p>试了一下windbg调试，命令一大堆，用起来极其不友好，果断放弃</p>
-<p><a target="_blank" rel="noopener" href="https://down.52pojie.cn/?query=ollydbg">https://down.52pojie.cn/?query=ollydbg</a></p>
-<p>如果对windbg感兴趣参考，配置起来也不是十分麻烦。建议用ollydbg</p>
-<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/205867">https://www.anquanke.com/post/id/205867</a></p>
-<p><strong>具体使用参见cve-2017-11882分析</strong></p>
+                <p>搜索camara找到一个类似二进制漏洞文件（缓冲区溢出）</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_001.png" alt="搜索cve"></p>
+<p>双击进来之后有一些简单的描述</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_002.png" alt="漏洞描述"></p>
+<p>下载到了有和没有漏洞的固件，用bindiff比较了一下，发现区别最大的函数</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_003.png" alt="区别函数"></p>
+<p>ghidra打开跳转到对应地址（L快捷键可以重命名变量，;（英文的分号）可以下注释）</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_004.png" alt="两个文件的对应位置"></p>
+<p>可以看到，左边的补丁添加了一个local_414变量，最多拷贝7次，多了就会造成溢出</p>
+<h2 id="更多信息"><a href="#更多信息" class="headerlink" title="更多信息"></a>更多信息</h2><p>进一步向上追踪，发现程序在这里调用漏洞函数。</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_005.png" alt="调用漏洞函数"></p>
+<p>FUN_00403804函数很简单，仅仅是判断字符串<code>&quot;public/getSysteminfo.cgi“</code>后面还有其他东西或者是只有”\0”或”?”也就是没有东西了。<br>应该是url的一部分</p>
+<p>到这里已经知道了访问哪个url会调用漏洞函数。</p>
+<p>接下来确定哪个字段的溢出</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/%E9%80%89%E5%8C%BA_006.png" alt="漏洞点"></p>
+<p>想要确定一个变量是什么就找什么地方用到了这个变量或者是什么时候定义了这个变量。在本层函数里没有找到有意义的对param_6的引用。</p>
+<p>继续向上查找找到了param_6字段的值cgiQueryString</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1607602382108.png" alt="字段来源"></p>
+<p>在URL后面紧跟着”?”的部分就叫cgiQueryString</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>也就是说访问 <a target="_blank" rel="noopener" href="http://127.0.0.1/public/getSysteminfo.cgi?a_b_c">http://127.0.0.1/public/getSysteminfo.cgi?a_b_c</a>_……   很多下划线就会造成溢出</p>
 
             </div>
             <hr/>
@@ -516,12 +528,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/windows/">
-                                    <span class="chip bg-color">windows</span>
-                                </a>
-                            
                                 <a href="/tags/%E6%BC%8F%E6%B4%9E/">
                                     <span class="chip bg-color">漏洞</span>
+                                </a>
+                            
+                                <a href="/tags/iot/">
+                                    <span class="chip bg-color">iot</span>
                                 </a>
                             
                         </div>
@@ -566,7 +578,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-12-07T23-06-06',
+        id: '2020-12-10T19-29-16',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -590,29 +602,36 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/12/07/%20CVE-2017-11882%E5%88%86%E6%9E%90/">
+                <a href="/2020/12/10/%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE%E4%B9%8B%E6%AF%94%E8%BE%83%E8%A1%A5%E4%B8%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="CVE-2017-11882分析">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="漏洞查找之比较补丁">
                         
-                        <span class="card-title">CVE-2017-11882分析</span>
+                        <span class="card-title">漏洞查找之比较补丁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            参考文档https://github.com/houjingyi233/office-exploit-case-study/tree/master/CVE-2017-11882%26CVE-2018-0802%26CVE-2018-0798
+                            搜索camara找到一个类似二进制漏洞文件（缓冲区溢出）
+
+双击进来之后有一些简单的描述
+
+下载到了有和没有漏洞的固件，用bindiff比较了一下，发现区别最大的函数
+
+ghidra打开跳转到对应地址（L快捷键可以重命名变量，;（英文的分号
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-10
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -625,15 +644,16 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/windows/">
-                        <span class="chip bg-color">windows</span>
-                    </a>
-                    
                     <a href="/tags/%E6%BC%8F%E6%B4%9E/">
                         <span class="chip bg-color">漏洞</span>
+                    </a>
+                    
+                    <a href="/tags/iot/">
+                        <span class="chip bg-color">iot</span>
                     </a>
                     
                 </div>
@@ -647,26 +667,25 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/06/iot%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">
+                <a href="/2020/12/08/qemu-system%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iot工具使用">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="qemu-system启动命令">
                         
-                        <span class="card-title">iot工具使用</span>
+                        <span class="card-title">qemu-system启动命令</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            说明注：以项目为主线，完成任务并且有时间可以深入分析，之后会补充详细的工具使用
-这里对常用工具进行说明。
-下载或提取到的固件是包含整个操作系统和文件系统的。包括boot-loader（一般是uboot，用来引导系统启动），linux内核，文
+                            背景在调试iot系统的时候只运行一个服务软件会运行失败，这是需要用到系统模式，运行起来一个系统，这样程序运行的环境更充足，成功的概率也更大。
+之前调试mips架构程序，用这个可以满足，现在改成arm的，启动的时候仅仅换磁盘镜像，内核这些东西
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-08
                             </span>
                         <span class="publish-author">
                             
@@ -683,12 +702,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                        <span class="chip bg-color">漏洞</span>
-                    </a>
-                    
                     <a href="/tags/iot/">
                         <span class="chip bg-color">iot</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%B7%A5%E5%85%B7/">
+                        <span class="chip bg-color">工具</span>
                     </a>
                     
                 </div>
