@@ -508,7 +508,7 @@
 <h3 id="安全补丁模式"><a href="#安全补丁模式" class="headerlink" title="安全补丁模式"></a>安全补丁模式</h3><p>别人对补丁分析的研究[37, 41, 46, 65, 68] 提供了补丁数据库。  [72] 补丁分析</p>
 <p>[45, 66]。这两篇文章定义了补丁模式，作者对这个进行改进</p>
 <p>[8, 50]  1day exp生成技术</p>
-<p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210309084931781.png" alt="image-20210309084931781"></p>
+<p><img src="image/image-20210309084931781.png" alt="image-20210309084931781"></p>
 <p>从上图可以看到</p>
 <ul>
 <li>使用最多的方式是添加对输入的安全检查</li>
@@ -550,7 +550,7 @@ to deal with complicated patches involving library function calls
 <li>2.局部变量用栈帧指针以及这个正在调用函数的上下文。比较特殊的是寄存器存储局部变量，用寄存器来表示它</li>
 <li>3.堆的动态变量，用申请堆的地址和调用malloc的地址表示（用hook malloc实现）</li>
 </ul>
-<p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210309214731999.png" alt="image-20210309214731999"></p>
+<p><img src="image/image-20210309214731999.png" alt="image-20210309214731999"></p>
 <p>如图上面的例子中a图中temp的mobj的alloc会写函数调用的上下文（作者也没有说清楚），main-serveconnection-Log，栈帧指针的偏移。</p>
 <h3 id="Memory-Object-Access"><a href="#Memory-Object-Access" class="headerlink" title="Memory Object Access"></a>Memory Object Access</h3><p>A(mobj) = (mobj, cc, op, optype, α)</p>
 <ul>
@@ -568,7 +568,7 @@ to deal with complicated patches involving library function calls
 <h3 id="内存访问对象的比较"><a href="#内存访问对象的比较" class="headerlink" title="内存访问对象的比较"></a>内存访问对象的比较</h3><p>临时内存对象沿着执行路径形成一个内存访问序列memory object access sequence (MOAS)</p>
 <p>用相同的Poc运行修补过的和原始文件，动态收集内存访问对象序列比较他们的不同</p>
 <p>MOAS会存储内存对象分配，内存对象操作，内存对象与输入字段的关联关系信息</p>
-<p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210312165716598.png" alt="image-20210312165716598"></p>
+<p><img src="image/image-20210312165716598.png" alt="image-20210312165716598"></p>
 <p>上图是分析结果，只有6个不同点，与之相比bindiff有30个</p>
 <p>a1，b2为申请的内存对象。a2，b2为内存对象在运行期间被怎样引用。</p>
 <p>a2，b2展示了上下文<code>&lt;main-serveconnection-Log&gt;</code> operations <code>0x804acd5: call sprintf </code> operation types <code>W/R</code> correlated inputs（相关输入） (间隔  [0x4, 0x15d]). </p>
@@ -589,7 +589,7 @@ to deal with complicated patches involving library function calls
 <p>使用 iCi [17]检测基于jmp的调用。（iCi的检测原理是检测跳转的位置是不是在函数内，检测跳转到的地方是不是函数的开始）。</p>
 <p>对于内联函数的处理是直接不管，对于补丁使用内联原始文件没使用的情况这里的内存对象的上下文部分将会不同。</p>
 <h3 id="挖掘数据结构与输入字段"><a href="#挖掘数据结构与输入字段" class="headerlink" title="挖掘数据结构与输入字段"></a>挖掘数据结构与输入字段</h3><p>基于Howard [57]的识别，但是作者的内存对象只是识别和输入字段相关的内存对象而不是所有。</p>
-<h4 id="根指针的提取"><a href="#根指针的提取" class="headerlink" title="根指针的提取"></a>根指针的提取</h4><p><img src="/Users/tower/Documents/%E6%96%87%E7%AB%A0/image/image-20210313102904140.png" alt="image-20210313102904140"></p>
+<h4 id="根指针的提取"><a href="#根指针的提取" class="headerlink" title="根指针的提取"></a>根指针的提取</h4><p><img src="image/image-20210313102904140.png" alt="image-20210313102904140"></p>
 <p>申请一个内存对象通常返回一个指针我们定义这个指针为根指针。内存对象和根指针是一对一关系我们通过根指针提取内存对象。</p>
 <ul>
 <li>对于一个静态变量我们直接使用这个内存地址表示根指针</li>
